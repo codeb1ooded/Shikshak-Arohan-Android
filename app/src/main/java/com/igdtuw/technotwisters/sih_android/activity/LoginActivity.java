@@ -1,4 +1,4 @@
-package com.igdtuw.technotwisters.sih_android;
+package com.igdtuw.technotwisters.sih_android.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -28,6 +28,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.igdtuw.technotwisters.sih_android.R;
 
 import java.util.ArrayList;
 import java.util.List;
