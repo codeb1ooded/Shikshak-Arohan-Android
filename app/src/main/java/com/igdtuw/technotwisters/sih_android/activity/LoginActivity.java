@@ -55,7 +55,9 @@ public class LoginActivity extends AppCompatActivity{
 
                 @Override
                 public void onClick(View v) {
-                    login();
+                    Intent intent=new Intent(LoginActivity.this,HomePageAfterLogin.class);
+                    startActivity(intent);
+                    //login();
                 }
             });
 
@@ -89,6 +91,7 @@ public class LoginActivity extends AppCompatActivity{
             String password = _passwordText.getText().toString();
 
             // TODO: Implement your own authentication logic here.
+            Log.i(TAG, "login: ");
 
             new android.os.Handler().postDelayed(
                     new Runnable() {

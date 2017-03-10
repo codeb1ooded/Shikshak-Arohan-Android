@@ -25,6 +25,18 @@
         <activity
             android:name=".activity.SignupActivity"
             android:label="@string/title_activity_signup"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.HomePageAfterLogin"
+            android:label="@string/title_activity_home_page_after_login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.AboutUs"
+            android:label="@string/title_activity_about_us"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.PrivacyPolicy"
+            android:label="@string/title_activity_privacy_policy"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
