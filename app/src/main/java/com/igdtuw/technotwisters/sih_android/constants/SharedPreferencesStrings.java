@@ -13,7 +13,9 @@ public interface SharedPreferencesStrings {
 
     String SP_NAME = "SIKSHAK_AROHAN";
 
-    String SP_USERNAME = "USERNAME";
-    String SP_PASSWORD = "PASSWORD";
+    String SP_USER_NAME = "USER_NAME";
+    String SP_USER_EMAIL = "EMAIL";
+    String SP_USER_ACCESS_TOKEN = "ACCESS_TOKEN";
+    String SP_USER_TOKEN_GRANTED = "ACCESS_TOKEN_GRANTED";
 
 }

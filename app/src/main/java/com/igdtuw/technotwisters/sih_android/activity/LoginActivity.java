@@ -1,16 +1,18 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 
 import com.igdtuw.technotwisters.sih_android.R;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.igdtuw.technotwisters.sih_android.api.ApiClient;
+import com.igdtuw.technotwisters.sih_android.constants.ActivityTitles;
+import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
+import com.igdtuw.technotwisters.sih_android.model.AccountDetails;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import android.content.Intent;
@@ -21,24 +23,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity implements ActivityTitles{
 
     private EditText _emailText;
     private EditText _passwordText;
     private Button _loginButton;
     private TextView _signupLink;
+    ProgressDialog progressDialog;
 
+    Call<AccountDetails> authenticateUser;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = TITLE_LOGIN_ACTIVITY;
         private static final int REQUEST_SIGNUP = 0;
-
-
-
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -49,18 +56,17 @@ public class LoginActivity extends AppCompatActivity{
             _loginButton=(Button)findViewById(R.id.btn_login) ;
             _signupLink=(TextView)findViewById(R.id.link_signup);
 
-
-
             _loginButton.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
-                    login();
+                    // TODO: after adding url for login remove below three lines and put instead: login();
+                    Intent i = new Intent();
+                    i.setClass(LoginActivity.this, HomeActivity.class);
+                    startActivity(i);
                 }
             });
 
             _signupLink.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
                     // Start the Signup activity
@@ -68,6 +74,9 @@ public class LoginActivity extends AppCompatActivity{
                     startActivityForResult(intent, REQUEST_SIGNUP);
                 }
             });
+
+            sharedPreferences = getSharedPreferences(SharedPreferencesStrings.SP_NAME, Context.MODE_PRIVATE);
+            editor = sharedPreferences.edit();
         }
 
         public void login() {
@@ -80,7 +89,7 @@ public class LoginActivity extends AppCompatActivity{
 
             _loginButton.setEnabled(false);
 
-            final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+            progressDialog = new ProgressDialog(LoginActivity.this);
             progressDialog.setIndeterminate(true);
             progressDialog.setMessage("Authenticating...");
             progressDialog.show();
@@ -88,17 +97,35 @@ public class LoginActivity extends AppCompatActivity{
             String email = _emailText.getText().toString();
             String password = _passwordText.getText().toString();
 
-            // TODO: Implement your own authentication logic here.
+            authenticateUser = ApiClient.getInterface().getAuthenticalToken(email, password);
+            authenticateUser.enqueue(new Callback<AccountDetails>() {
+                @Override
+                public void onResponse(Call<AccountDetails> call, Response<AccountDetails> response) {
+                    if (response.isSuccessful()) {
+                        AccountDetails accountDetails = response.body();
+                        editor.putString(SharedPreferencesStrings.SP_USER_ACCESS_TOKEN, accountDetails.access_token);
+                        editor.commit();
+                        editor.putString(SharedPreferencesStrings.SP_USER_NAME, accountDetails.name);
+                        editor.commit();
+                        editor.putString(SharedPreferencesStrings.SP_USER_EMAIL, accountDetails.email);
+                        editor.commit();
+                        editor.putBoolean(SharedPreferencesStrings.SP_USER_TOKEN_GRANTED, true);
+                        editor.commit();
+                        Log.i("AccessToken: ", accountDetails.name);
+                        onLoginSuccess();
+                    } else {
+                        Log.i("AccessToken: ", "not granted " + response.errorBody());
+                        onLoginFailed();
+                    }
+                }
 
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            // On complete call either onLoginSuccess or onLoginFailed
-                            onLoginSuccess();
-                            // onLoginFailed();
-                            progressDialog.dismiss();
-                        }
-                    }, 3000);
+                @Override
+                public void onFailure(Call<AccountDetails> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.i("AccessToken: ", "not granted " + t);
+                    onLoginFailed();
+                }
+            });
         }
 
 
@@ -121,13 +148,18 @@ public class LoginActivity extends AppCompatActivity{
         }
 
         public void onLoginSuccess() {
+            progressDialog.dismiss();
             _loginButton.setEnabled(true);
+            editor.putBoolean(SharedPreferencesStrings.SP_USER_TOKEN_GRANTED, false);
+            editor.commit();
             finish();
+            Intent i = new Intent();
+            i.setClass(LoginActivity.this, HomeActivity.class);
+            startActivity(i);
         }
 
         public void onLoginFailed() {
             Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
             _loginButton.setEnabled(true);
         }
 
