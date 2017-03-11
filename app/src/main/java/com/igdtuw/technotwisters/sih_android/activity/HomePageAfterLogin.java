@@ -1,6 +1,7 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -29,7 +30,7 @@ import com.igdtuw.technotwisters.sih_android.DrawerFragments.SettingFragment;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.CircleTransform;
 import com.igdtuw.technotwisters.sih_android.R;
 
-public class HomePageAfterLogin extends AppCompatActivity {
+public class HomePageAfterLogin extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -49,8 +50,7 @@ public class HomePageAfterLogin extends AppCompatActivity {
 
     // tags used to attach the fragments
     private static final String TAG_HOME = "home";
-    private static final String TAG_PHOTOS = "photos";
-    private static final String TAG_MOVIES = "movies";
+    private static final String TAG_MYCOURSES = "mycourses";
     private static final String TAG_NOTIFICATIONS = "notifications";
     private static final String TAG_SETTINGS = "settings";
     public static String CURRENT_TAG = TAG_HOME;
@@ -238,9 +238,8 @@ public class HomePageAfterLogin extends AppCompatActivity {
                         break;
                     case R.id.nav_courses:
                         navItemIndex = 1;
-                        CURRENT_TAG = TAG_PHOTOS;
+                        CURRENT_TAG = TAG_MYCOURSES;
                         break;
-
                     case R.id.nav_notifications:
                         navItemIndex = 3;
                         CURRENT_TAG = TAG_NOTIFICATIONS;
@@ -373,5 +372,10 @@ public class HomePageAfterLogin extends AppCompatActivity {
             fab.show();
         else
             fab.hide();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

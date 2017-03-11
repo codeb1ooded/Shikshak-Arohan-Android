@@ -9,11 +9,11 @@
         <item
             android:id="@+id/nav_courses"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/nav_photos" />
+            android:title="@string/nav_courses" />
         <item
             android:id="@+id/nav_feed"
             android:icon="@drawable/ic_feedback_black_24dp"
-            android:title="@string/nav_movies" />
+            android:title="@string/nav_feed" />
 
         <item
             android:id="@+id/nav_notifications"
