@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xmnls="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:name="Add Color"
+        android:visible="true"
+        app:showAsAction="always"
+        android:title="+"
+        android:icon="@android:drawable/btn_star"
+        android:id="@+id/addColor">
+        <menu>
+            <item
+                android:id="@+id/action_dropdown_default"
+                android:title="Default" />
+            <item
+                android:id="@+id/action_dropdown_red"
+                android:title="RED" />
+            <item
+                android:id="@+id/action_dropdown_green"
+                android:title="GREEN" />
+            <item
+                android:id="@+id/action_dropdown_blue"
+                android:title="BLUE" />
+            <item
+                android:id="@+id/action_dropdown_yellow"
+                android:title="YELLOW" />
+            <item
+                android:id="@+id/action_dropdown_brown"
+                android:title="BROWN" />
+        </menu>
+    </item>
+</menu>

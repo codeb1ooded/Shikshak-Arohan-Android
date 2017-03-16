@@ -7,4 +7,10 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="profile_width">75dp</dimen>
     <dimen name="profile_height">75dp</dimen>
+
+    <dimen name="title_list">25dp</dimen>
+    <dimen name="title_todo">35dp</dimen>
+    <dimen name="text_todo">25dp</dimen>
+    <dimen name="date_todo">20dp</dimen>
+    <dimen name="button_todo">30dp</dimen>
 </resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xmnls="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:name="Add Item"
+        android:visible="true"
+        app:showAsAction="always"
+        android:title="+"
+        android:icon="@android:drawable/btn_star_big_off"
+        android:id="@+id/addItem"></item>
+    <item android:name="Delete Item"
+        android:visible="true"
+        android:title="*"
+        app:showAsAction="always"
+        android:icon="@android:drawable/presence_offline"
+        android:id="@+id/deleteAllItem"></item>
+    <!--<item android:name="Search Item" android:title="Search" app:showasaction="never" android:id="@+id/searchItem"></item>-->
+</menu>

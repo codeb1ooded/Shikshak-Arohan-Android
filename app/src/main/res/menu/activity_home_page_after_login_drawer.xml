@@ -7,9 +7,9 @@
             android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/nav_home" />
         <item
-            android:id="@+id/nav_courses"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/nav_courses" />
+            android:id="@+id/nav_to_do"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/nav_to_do" />
         <item
             android:id="@+id/nav_feed"
             android:icon="@drawable/ic_feedback_black_24dp"

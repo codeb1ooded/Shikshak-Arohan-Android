@@ -28,6 +28,7 @@
             android:label="@string/app_name"/>
         <activity
             android:name=".activity.DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_dashboard"/>
         <activity
             android:name=".activity.SignupActivity"
@@ -40,7 +41,11 @@
         <activity
             android:name=".activity.PrivacyPolicy"
             android:label="@string/title_activity_privacy_policy"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SeperateToDoActivity"
+            android:label="@string/title_activity_to_do"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

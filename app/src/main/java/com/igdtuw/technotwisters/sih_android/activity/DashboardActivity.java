@@ -27,6 +27,7 @@ import com.igdtuw.technotwisters.sih_android.DrawerFragments.HomeFragment;
 import com.igdtuw.technotwisters.sih_android.DrawerFragments.MyCoursesFragment;
 import com.igdtuw.technotwisters.sih_android.DrawerFragments.NotificationFragment;
 import com.igdtuw.technotwisters.sih_android.DrawerFragments.SettingFragment;
+import com.igdtuw.technotwisters.sih_android.DrawerFragments.ToDoFragment;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.CircleTransform;
 import com.igdtuw.technotwisters.sih_android.R;
 
@@ -50,7 +51,7 @@ public class DashboardActivity extends AppCompatActivity implements HomeFragment
 
     // tags used to attach the fragments
     private static final String TAG_HOME = "home";
-    private static final String TAG_MYCOURSES = "mycourses";
+    private static final String TAG_TODO = "TODO";
     private static final String TAG_NOTIFICATIONS = "notifications";
     private static final String TAG_SETTINGS = "settings";
     public static String CURRENT_TAG = TAG_HOME;
@@ -68,7 +69,7 @@ public class DashboardActivity extends AppCompatActivity implements HomeFragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        // setSupportActionBar(toolbar);
 
         mHandler = new Handler();
 
@@ -144,7 +145,7 @@ public class DashboardActivity extends AppCompatActivity implements HomeFragment
         selectNavMenu();
 
         // set toolbar title
-        setToolbarTitle();
+        // setToolbarTitle();
 
         // if user select the current navigation menu again, don't do anything
         // just close the navigation drawer
@@ -196,8 +197,8 @@ public class DashboardActivity extends AppCompatActivity implements HomeFragment
                 return homeFragment;
             case 1:
                 // photos
-                MyCoursesFragment coursesFragment = new MyCoursesFragment();
-                return coursesFragment;
+                ToDoFragment toDoFragment = new ToDoFragment();
+                return toDoFragment;
             case 2:
                 // notifications fragment
                 NotificationFragment notificationsFragment = new NotificationFragment();
@@ -214,7 +215,7 @@ public class DashboardActivity extends AppCompatActivity implements HomeFragment
     }
 
     private void setToolbarTitle() {
-        getSupportActionBar().setTitle(activityTitles[navItemIndex]);
+        // getSupportActionBar().setTitle(activityTitles[navItemIndex]);
     }
 
     private void selectNavMenu() {
@@ -236,9 +237,10 @@ public class DashboardActivity extends AppCompatActivity implements HomeFragment
                         navItemIndex = 0;
                         CURRENT_TAG = TAG_HOME;
                         break;
-                    case R.id.nav_courses:
+                    case R.id.nav_to_do:
                         navItemIndex = 1;
-                        CURRENT_TAG = TAG_MYCOURSES;
+                        CURRENT_TAG = TAG_TODO;
+                        Toast.makeText(DashboardActivity.this, "To do", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.nav_notifications:
                         navItemIndex = 3;
@@ -377,5 +379,10 @@ public class DashboardActivity extends AppCompatActivity implements HomeFragment
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
