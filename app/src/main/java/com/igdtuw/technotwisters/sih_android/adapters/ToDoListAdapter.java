@@ -24,7 +24,7 @@ public class ToDoListAdapter extends ArrayAdapter<ToDoListContents> {
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
         if(convertView == null){
-            convertView = View.inflate(context, R.layout.to_do_list_layout , null);
+            convertView = View.inflate(context, R.layout.dashboard_to_do_list_layout, null);
         }
         TextView titleView = (TextView) convertView.findViewById(R.id.titleTextView);
         TextView dateView = (TextView) convertView.findViewById(R.id.dateTextView);

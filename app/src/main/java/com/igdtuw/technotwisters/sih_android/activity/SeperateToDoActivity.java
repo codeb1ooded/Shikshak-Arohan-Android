@@ -33,7 +33,7 @@ public class SeperateToDoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seperate_to_do);
+        setContentView(R.layout.dashboard_activity_seperate_to_do);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("To Do");
@@ -68,7 +68,7 @@ public class SeperateToDoActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.seperate_to_do_menu, menu);
+        getMenuInflater().inflate(R.menu.dashboard_seperate_to_do_menu, menu);
         return true;
     }
 

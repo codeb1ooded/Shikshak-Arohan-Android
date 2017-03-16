@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/nav_home" />
+        <item
+            android:id="@+id/nav_today_attendance"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/nav_today_attendance" />
+        <item android:title="@string/nav_self_track">
+            <menu>
+                <item
+                    android:id="@+id/nav_track_day"
+                    android:title="@string/nav_self_track_day" />
+                <item
+                    android:id="@+id/nav_track_week"
+                    android:title="@string/nav_self_track_weekly" />
+                <item
+                    android:id="@+id/nav_track_month"
+                    android:title="@string/nav_self_track_monthly" />
+                <item
+                    android:id="@+id/nav_track_year"
+                    android:title="@string/nav_self_track_yearly" />
+            </menu>
+        </item>
+        <item
+            android:id="@+id/nav_to_do"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/nav_to_do" />
+        <item
+            android:id="@+id/nav_notifications"
+            android:icon="@drawable/ic_notifications_black_24dp"
+            android:title="@string/nav_notifications" />
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/nav_settings" />
+    </group>
+</menu>

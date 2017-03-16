@@ -1,4 +1,4 @@
-package com.igdtuw.technotwisters.sih_android.DrawerFragments;
+package com.igdtuw.technotwisters.sih_android.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
  * Created by megha on 16/03/17.
  */
 
-public class ToDoFragment extends Fragment {
+public class Dashboard_ToDoFragment extends Fragment {
     ArrayList<ToDoListContents> listToDos;
     ToDoListAdapter adapter;
     final static int REQUEST_CODE = 1;
@@ -42,7 +42,7 @@ public class ToDoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_todo, container, false);
+        view = inflater.inflate(R.layout.dashboard_fragment_todo, container, false);
         setHasOptionsMenu(true);
         listToDos = getToDos();
         adapter = new ToDoListAdapter(getActivity(), listToDos);
@@ -111,7 +111,7 @@ public class ToDoFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.to_do_menu, menu);
+        inflater.inflate(R.menu.dashboard_to_do_menu, menu);
     }
 
     @Override
