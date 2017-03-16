@@ -30,7 +30,7 @@ import com.igdtuw.technotwisters.sih_android.DrawerFragments.SettingFragment;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.CircleTransform;
 import com.igdtuw.technotwisters.sih_android.R;
 
-public class HomePageAfterLogin extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
+public class DashboardActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -66,7 +66,7 @@ public class HomePageAfterLogin extends AppCompatActivity implements HomeFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page_after_login);
+        setContentView(R.layout.activity_dashboard);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -250,12 +250,12 @@ public class HomePageAfterLogin extends AppCompatActivity implements HomeFragmen
                         break;
                     case R.id.nav_about_us:
                         // launch new intent instead of loading fragment
-                        startActivity(new Intent(HomePageAfterLogin.this, AboutUs.class));
+                        startActivity(new Intent(DashboardActivity.this, AboutUs.class));
                         drawer.closeDrawers();
                         return true;
                     case R.id.nav_privacy_policy:
                         // launch new intent instead of loading fragment
-                        startActivity(new Intent(HomePageAfterLogin.this, PrivacyPolicy.class));
+                        startActivity(new Intent(DashboardActivity.this, PrivacyPolicy.class));
                         drawer.closeDrawers();
                         return true;
                     default:

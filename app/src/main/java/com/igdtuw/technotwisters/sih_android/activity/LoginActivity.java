@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
                 @Override
                 public void onClick(View v) {
                     // TODO: after adding url for login remove below three lines and put instead: login();
-                    Intent intent=new Intent(LoginActivity.this, HomePageAfterLogin.class);
+                    Intent intent=new Intent(LoginActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     // login();
                 }
@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
             editor.commit();
             finish();
             Intent i = new Intent();
-            i.setClass(LoginActivity.this, HomePageAfterLogin.class);
+            i.setClass(LoginActivity.this, DashboardActivity.class);
             startActivity(i);
         }
 

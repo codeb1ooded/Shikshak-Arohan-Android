@@ -14,20 +14,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.LoginActivity"
-            android:label="@string/app_name">
+            android:name=".activity.MainActivity"
+            android:label="@string/title_activity_main"
+
+        android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+    </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/app_name"/>
+        <activity
+            android:name=".activity.DashboardActivity"
+            android:label="@string/title_activity_dashboard"/>
         <activity
             android:name=".activity.SignupActivity"
             android:label="@string/title_activity_signup"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.HomePageAfterLogin"
-            android:label="@string/title_activity_home_page_after_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.AboutUs"
