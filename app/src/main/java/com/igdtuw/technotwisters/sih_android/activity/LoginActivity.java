@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,9 +59,9 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
                 @Override
                 public void onClick(View v) {
                     // TODO: after adding url for login remove below three lines and put instead: login();
-                    Intent i = new Intent();
-                    i.setClass(LoginActivity.this, HomeActivity.class);
-                    startActivity(i);
+                    Intent intent=new Intent(LoginActivity.this, HomePageAfterLogin.class);
+                    startActivity(intent);
+                    // login();
                 }
             });
 
@@ -154,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
             editor.commit();
             finish();
             Intent i = new Intent();
-            i.setClass(LoginActivity.this, HomeActivity.class);
+            i.setClass(LoginActivity.this, HomePageAfterLogin.class);
             startActivity(i);
         }
 
