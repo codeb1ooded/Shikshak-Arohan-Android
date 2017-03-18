@@ -1,14 +1,22 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,14 +26,21 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.igdtuw.technotwisters.sih_android.api.ApiClient;
+import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_HomeFragment;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_NotificationFragment;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_SettingFragment;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_ToDoFragment;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.CircleTransform;
 import com.igdtuw.technotwisters.sih_android.R;
+import com.igdtuw.technotwisters.sih_android.model.Result;
 
-public class DashboardActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class DashboardActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener, SharedPreferencesStrings {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -33,6 +48,8 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
     private ImageView imgNavHeaderBg, imgProfile;
     private TextView txtName, txtWebsite;
     private Toolbar toolbar;
+
+    SharedPreferences sharedPreferences;
 
     // urls to load navigation header background image
     // and profile image
@@ -49,13 +66,9 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
     private static final String TAG_SETTINGS = "settings";
     public static String CURRENT_TAG = TAG_HOME;
 
-    // toolbar titles respected to selected nav dashboard_toolbar_menu item
-    private String[] activityTitles;
+    Call<Result> logoutUser;
 
-    // flag to load home fragment when user presses back key
-    private boolean shouldLoadHomeFragOnBackPress = true;
-    private Handler mHandler;
-
+    String username, accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +76,6 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
         setContentView(R.layout.dashboard_activity);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        mHandler = new Handler();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -78,8 +89,9 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        // load toolbar titles from string resources
-        activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
+        sharedPreferences = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(SP_USER_USERNAME, null);
+        accessToken = sharedPreferences.getString(SP_USER_ACCESS_TOKEN, null);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -188,7 +200,52 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
         int id = item.getItemId();
 
         if (id == R.id.action_logout) {
-            Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
+            builder.setTitle ("Confirm");
+            builder.setMessage ("Are you sure you want to logout?");
+            LayoutInflater inflater = getLayoutInflater();
+            View v = inflater.inflate(R.layout.dialog_confirm_logout, null);
+            builder.setView(v);
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    logoutUser = ApiClient.getInterface().logoutUser(username, accessToken);
+                    logoutUser.enqueue(new Callback<Result>() {
+                        @Override
+                        public void onResponse(Call<Result> call, Response<Result> response) {
+                            if (response.isSuccessful()) {
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean(SP_USER_TOKEN_GRANTED, false);
+                                editor.commit();
+                                editor.putString(SP_USER_ACCESS_TOKEN, "N/A");
+                                editor.commit();
+                                editor.putString(SP_USER_USERNAME, "N/A");
+                                editor.commit();
+                                editor.putString(SP_NAME, "N/A");
+                                editor.commit();
+                                Intent i = new Intent(DashboardActivity.this, LoginActivity.class);
+                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(i);
+                                ActivityCompat.finishAffinity(DashboardActivity.this);
+                            } else {
+                                Toast.makeText(DashboardActivity.this, "Logout failed: "+response.errorBody(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Result> call, Throwable t) {
+                            Toast.makeText(DashboardActivity.this, "Logout failed: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            builder.create().show();
             return true;
         }
 

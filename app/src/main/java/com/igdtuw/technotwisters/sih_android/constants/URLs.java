@@ -8,9 +8,11 @@ public interface URLs {
 
     String BASE_URL = "http://shikshakarohan.herokuapp.com";
 
-    String LOGIN_URL = "";
+    String LOGIN_URL = "/api/login/";
+    String LOGOUT_URL = "/api/logout/";
 
-    String PARAM_EMAIL = "email";
+    String PARAM_USERNAME = "username";
     String PARAM_PASSWORD = "password";
+    String PARAM_ACCESS_TOKEN = "access_token";
 
 }

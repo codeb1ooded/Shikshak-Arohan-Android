@@ -7,7 +7,7 @@ package com.igdtuw.technotwisters.sih_android.model;
 public class AccountDetails {
 
     public String name;
-    public String email;
+    public String username;
     public String access_token;
 
 }

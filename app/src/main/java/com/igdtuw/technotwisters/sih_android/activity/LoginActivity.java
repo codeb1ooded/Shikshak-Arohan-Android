@@ -33,7 +33,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements ActivityTitles{
 
-    private EditText _emailText;
+    private EditText _usernameText;
     private EditText _passwordText;
     private Button _loginButton;
     private TextView _signupLink;
@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
-            _emailText = (EditText)findViewById(R.id.input_email);
+            _usernameText = (EditText)findViewById(R.id.input_username);
             _passwordText=(EditText)findViewById(R.id.input_password);
             _loginButton=(Button)findViewById(R.id.btn_login) ;
             _signupLink=(TextView)findViewById(R.id.link_signup);
@@ -58,10 +58,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
             _loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: after adding url for login remove below three lines and put instead: login();
-                    Intent intent=new Intent(LoginActivity.this, DashboardActivity.class);
-                    startActivity(intent);
-                    // login();
+                    login();
                 }
             });
 
@@ -81,10 +78,10 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
         public void login() {
             Log.d(TAG, "Login");
 
-            if (!validate()) {
+            /*if (!validate()) {
                 onLoginFailed();
                 return;
-            }
+            }*/
 
             _loginButton.setEnabled(false);
 
@@ -93,10 +90,10 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
             progressDialog.setMessage("Authenticating...");
             progressDialog.show();
 
-            String email = _emailText.getText().toString();
+            String username = _usernameText.getText().toString();
             String password = _passwordText.getText().toString();
 
-            authenticateUser = ApiClient.getInterface().getAuthenticalToken(email, password);
+            authenticateUser = ApiClient.getInterface().getAuthenticalToken(username, password);
             authenticateUser.enqueue(new Callback<AccountDetails>() {
                 @Override
                 public void onResponse(Call<AccountDetails> call, Response<AccountDetails> response) {
@@ -106,9 +103,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
                         editor.commit();
                         editor.putString(SharedPreferencesStrings.SP_USER_NAME, accountDetails.name);
                         editor.commit();
-                        editor.putString(SharedPreferencesStrings.SP_USER_EMAIL, accountDetails.email);
-                        editor.commit();
-                        editor.putBoolean(SharedPreferencesStrings.SP_USER_TOKEN_GRANTED, true);
+                        editor.putString(SharedPreferencesStrings.SP_USER_USERNAME, accountDetails.username);
                         editor.commit();
                         Log.i("AccessToken: ", accountDetails.name);
                         onLoginSuccess();
@@ -149,7 +144,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
         public void onLoginSuccess() {
             progressDialog.dismiss();
             _loginButton.setEnabled(true);
-            editor.putBoolean(SharedPreferencesStrings.SP_USER_TOKEN_GRANTED, false);
+            editor.putBoolean(SharedPreferencesStrings.SP_USER_TOKEN_GRANTED, true);
             editor.commit();
             finish();
             Intent i = new Intent();
@@ -165,14 +160,14 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
         public boolean validate() {
             boolean valid = true;
 
-            String email = _emailText.getText().toString();
+            String email = _usernameText.getText().toString();
             String password = _passwordText.getText().toString();
 
             if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                _emailText.setError("enter a valid email address");
+                _usernameText.setError("enter a valid email address");
                 valid = false;
             } else {
-                _emailText.setError(null);
+                _usernameText.setError(null);
             }
 
             if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
