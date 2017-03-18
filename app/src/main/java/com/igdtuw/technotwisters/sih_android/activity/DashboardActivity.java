@@ -1,6 +1,8 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,6 +31,7 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.NotificationReceiver;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
 import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_HomeFragment;
@@ -40,6 +43,7 @@ import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.model.Result;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,7 +87,7 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
         setContentView(R.layout.dashboard_activity);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toggleButton1=(ToggleButton)findViewById(R.id.toggleButton1);
+        toggleButton1 = (ToggleButton) findViewById(R.id.toggleButton1);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
@@ -105,18 +109,23 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        // load nav dashboard_toolbar_menu header data
-        // loadNavHeader();
-        toggleButton1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Dialog dialog = onCreateDialogSingleChoice();
-                    dialog.show();
-                } else {
-                    // The toggle is disabled
-                }
-            }
-        });
+        //***********NOTIFICATION GENERATOR************
+        AlarmManager alarmMgr;
+        PendingIntent alarmIntent;
+
+        alarmMgr = (AlarmManager) DashboardActivity.this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(DashboardActivity.this, 0, intent, 0);
+
+// Set the alarm to start at 8:30 a.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 1);
+        calendar.set(Calendar.MINUTE, 50);
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmIntent);
+        //*********END OF THE CODE************
+
 
         if (savedInstanceState == null) {
             navItemIndex = 0;
@@ -158,34 +167,26 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.nav_home){
+        if (id == R.id.nav_home) {
             Dashboard_HomeFragment homeFragment = new Dashboard_HomeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, homeFragment).commit();
-        }
-        else if(id == R.id.nav_today_attendance){
+        } else if (id == R.id.nav_today_attendance) {
 
-        }
-        else if(id == R.id.nav_track_day){
+        } else if (id == R.id.nav_track_day) {
 
-        }
-        else if(id == R.id.nav_track_week){
+        } else if (id == R.id.nav_track_week) {
 
-        }
-        else if(id == R.id.nav_track_month){
+        } else if (id == R.id.nav_track_month) {
 
-        }
-        else if(id == R.id.nav_track_year){
+        } else if (id == R.id.nav_track_year) {
 
-        }
-        else if(id == R.id.nav_to_do){
+        } else if (id == R.id.nav_to_do) {
             Dashboard_ToDoFragment toDoFragment = new Dashboard_ToDoFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, toDoFragment).commit();
-        }
-        else if(id == R.id.nav_notifications){
+        } else if (id == R.id.nav_notifications) {
             Dashboard_NotificationFragment notificationFragment = new Dashboard_NotificationFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, notificationFragment).commit();
-        }
-        else if(id == R.id.nav_settings){
+        } else if (id == R.id.nav_settings) {
             Dashboard_SettingFragment settingFragment = new Dashboard_SettingFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, settingFragment).commit();
         }
@@ -218,8 +219,8 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
 
         if (id == R.id.action_logout) {
             AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
-            builder.setTitle ("Confirm");
-            builder.setMessage ("Are you sure you want to logout?");
+            builder.setTitle("Confirm");
+            builder.setMessage("Are you sure you want to logout?");
             LayoutInflater inflater = getLayoutInflater();
             View v = inflater.inflate(R.layout.dialog_confirm_logout, null);
             builder.setView(v);
@@ -246,13 +247,13 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
                                 startActivity(i);
                                 ActivityCompat.finishAffinity(DashboardActivity.this);
                             } else {
-                                Toast.makeText(DashboardActivity.this, "Logout failed: "+response.errorBody(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DashboardActivity.this, "Logout failed: " + response.errorBody(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<Result> call, Throwable t) {
-                            Toast.makeText(DashboardActivity.this, "Logout failed: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashboardActivity.this, "Logout failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -273,6 +274,7 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     public Dialog onCreateDialogSingleChoice() {
 
 //Initialize the Alert Dialog
@@ -312,3 +314,23 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
         return builder.create();
     }
 }
+       /* Calendar calendar =  Calendar.getInstance();
+        //calendar.set(2014,Calendar.getInstance().get(Calendar.MONTH),Calendar.SUNDAY , 8, 00, 00);
+        calendar.set(2017,5,1,19,55,00);
+        long when = calendar.getTimeInMillis();         // notification time
+
+
+        Log.d("time", when+" ");
+
+        Intent intentAlarm = new Intent(DashboardActivity.this, NotificationReceiver.class);
+
+// create the object
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+
+        //set the alarm for particular time
+        alarmManager.set(AlarmManager.RTC_WAKEUP,when, PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
+        alarmManager.setRepeating(AlarmManager.RTC, when, AlarmManager.INTERVAL_DAY * 7, PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));}
+}*/
+        // Set the alarm to start at approximately 2:00 p.m.
+
+

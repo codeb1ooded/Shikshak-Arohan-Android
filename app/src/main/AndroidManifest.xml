@@ -53,6 +53,9 @@
             android:name=".activity.SeperateToDoActivity"
             android:label="@string/title_activity_to_do"
             android:theme="@style/AppTheme.NoActionBar" />
+        <receiver
+            android:name="com.igdtuw.technotwisters.sih_android.OtherFiles.NotificationReceiver"
+            />
     </application>
 
 </manifest>
