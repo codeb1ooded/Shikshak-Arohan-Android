@@ -5,7 +5,7 @@
 
     <!-- Navigation Drawer dashboard_toolbar_menu labels -->
     <string name="nav_home">Home</string>
-    <string name="nav_today_attendance">Mark Today\'s</string>
+    <string name="nav_today_attendance">Mark Attendance</string>
     <string name="nav_self_track">Self Track</string>
     <string name="nav_self_track_day">Day</string>
     <string name="nav_self_track_weekly">Weekly</string>

@@ -20,9 +20,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -69,6 +71,7 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
     Call<Result> logoutUser;
 
     String username, accessToken;
+    private ToggleButton toggleButton1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
         setContentView(R.layout.dashboard_activity);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        toggleButton1=(ToggleButton)findViewById(R.id.toggleButton1);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
@@ -100,6 +103,15 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
 
         // load nav dashboard_toolbar_menu header data
         // loadNavHeader();
+        toggleButton1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                } else {
+                    // The toggle is disabled
+                }
+            }
+        });
 
         if (savedInstanceState == null) {
             navItemIndex = 0;

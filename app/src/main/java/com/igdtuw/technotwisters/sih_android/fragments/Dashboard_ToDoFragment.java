@@ -29,9 +29,6 @@ import com.igdtuw.technotwisters.sih_android.model.ToDoListContents;
 
 import java.util.ArrayList;
 
-/**
- * Created by megha on 16/03/17.
- */
 
 public class Dashboard_ToDoFragment extends Fragment {
     ArrayList<ToDoListContents> listToDos;

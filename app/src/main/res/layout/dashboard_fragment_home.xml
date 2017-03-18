@@ -5,9 +5,17 @@
     tools:context="com.igdtuw.technotwisters.sih_android.fragments.Dashboard_HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <!--<ToggleButton
+
+        android:id="@+id/toggleButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/toggle_selector"
+        android:checked="false"
+        android:text="On"
+        android:textOff=""
+        android:textOn="" />-->
 
 </FrameLayout>
