@@ -1,5 +1,6 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -38,6 +39,8 @@ import com.igdtuw.technotwisters.sih_android.OtherFiles.CircleTransform;
 import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.model.Result;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,6 +75,7 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
 
     String username, accessToken;
     private ToggleButton toggleButton1;
+    private ArrayList mSelectedItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +110,8 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
         toggleButton1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // The toggle is enabled
+                    Dialog dialog = onCreateDialogSingleChoice();
+                    dialog.show();
                 } else {
                     // The toggle is disabled
                 }
@@ -267,5 +272,43 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+    public Dialog onCreateDialogSingleChoice() {
+
+//Initialize the Alert Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//Source of the data in the DIalog
+        CharSequence[] array = {"Present", "Absent", "Holiday"};
+
+// Set the dialog title
+        builder.setTitle("Mark your Attendance")
+// Specify the list array, the items to be selected by default (null for none),
+// and the listener through which to receive callbacks when items are selected
+                .setSingleChoiceItems(array, 1, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+// TODO Auto-generated method stub
+
+                    }
+                })
+
+// Set the action buttons
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+// User clicked OK, so save the result somewhere
+// or return them to the component that opened the dialog
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+        return builder.create();
     }
 }
