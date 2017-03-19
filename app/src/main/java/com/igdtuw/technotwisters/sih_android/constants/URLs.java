@@ -10,9 +10,12 @@ public interface URLs {
 
     String LOGIN_URL = "/api/login/";
     String LOGOUT_URL = "/api/logout/";
+    String SIGN_UP_URL = "/api/signup/";
 
     String PARAM_USERNAME = "username";
     String PARAM_PASSWORD = "password";
     String PARAM_ACCESS_TOKEN = "access_token";
+    String PARAM_NAME = "name";
+    String PARAM_EMAIL = "email";
 
 }

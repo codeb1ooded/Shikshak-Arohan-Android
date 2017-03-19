@@ -19,7 +19,6 @@ public class SplashActivity extends AppCompatActivity implements SharedPreferenc
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
@@ -50,13 +49,6 @@ public class SplashActivity extends AppCompatActivity implements SharedPreferenc
             }
         };
         timerThread.start();
-    }
-
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        finish();
     }
 }
 

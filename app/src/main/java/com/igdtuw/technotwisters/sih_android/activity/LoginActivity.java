@@ -44,142 +44,127 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
     SharedPreferences.Editor editor;
 
     private static final String TAG = TITLE_LOGIN_ACTIVITY;
-        private static final int REQUEST_SIGNUP = 0;
 
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_login);
-            _usernameText = (EditText)findViewById(R.id.input_username);
-            _passwordText=(EditText)findViewById(R.id.input_password);
-            _loginButton=(Button)findViewById(R.id.btn_login) ;
-            _signupLink=(TextView)findViewById(R.id.link_signup);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        _usernameText = (EditText)findViewById(R.id.input_username);
+        _passwordText=(EditText)findViewById(R.id.input_password);
+        _loginButton=(Button)findViewById(R.id.btn_login) ;
+        _signupLink=(TextView)findViewById(R.id.link_signup);
 
-            _loginButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    login();
-                }
-            });
+        _loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });
 
-            _signupLink.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Start the Signup activity
-                    Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                    startActivityForResult(intent, REQUEST_SIGNUP);
-                }
-            });
+        _signupLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start the Signup activity
+                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                startActivity(intent);
+            }
+        });
 
-            sharedPreferences = getSharedPreferences(SharedPreferencesStrings.SP_NAME, Context.MODE_PRIVATE);
-            editor = sharedPreferences.edit();
-        }
+        sharedPreferences = getSharedPreferences(SharedPreferencesStrings.SP_NAME, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+    }
 
-        public void login() {
-            Log.d(TAG, "Login");
+    public void login() {
+        Log.d(TAG, "Login");
 
             /*if (!validate()) {
                 onLoginFailed();
                 return;
             }*/
 
-            _loginButton.setEnabled(false);
+        _loginButton.setEnabled(false);
 
-            progressDialog = new ProgressDialog(LoginActivity.this);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Authenticating...");
-            progressDialog.show();
+        progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Authenticating...");
+        progressDialog.show();
 
-            String username = _usernameText.getText().toString();
-            String password = _passwordText.getText().toString();
+        String username = _usernameText.getText().toString();
+        String password = _passwordText.getText().toString();
 
-            authenticateUser = ApiClient.getInterface().getAuthenticalToken(username, password);
-            authenticateUser.enqueue(new Callback<AccountDetails>() {
-                @Override
-                public void onResponse(Call<AccountDetails> call, Response<AccountDetails> response) {
-                    if (response.isSuccessful()) {
-                        AccountDetails accountDetails = response.body();
-                        editor.putString(SharedPreferencesStrings.SP_USER_ACCESS_TOKEN, accountDetails.access_token);
-                        editor.commit();
-                        editor.putString(SharedPreferencesStrings.SP_USER_NAME, accountDetails.name);
-                        editor.commit();
-                        editor.putString(SharedPreferencesStrings.SP_USER_USERNAME, accountDetails.username);
-                        editor.commit();
-                        Log.i("AccessToken: ", accountDetails.name);
-                        onLoginSuccess();
-                    } else {
-                        Log.i("AccessToken: ", "not granted " + response.errorBody());
-                        onLoginFailed();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<AccountDetails> call, Throwable t) {
-                    progressDialog.dismiss();
-                    Log.i("AccessToken: ", "not granted " + t);
+        authenticateUser = ApiClient.getInterface().getAuthenticalToken(username, password);
+        authenticateUser.enqueue(new Callback<AccountDetails>() {
+            @Override
+            public void onResponse(Call<AccountDetails> call, Response<AccountDetails> response) {
+                if (response.isSuccessful()) {
+                    onLoginSuccess(response.body());
+                } else {
+                    Log.i("AccessToken: ", "not granted " + response.errorBody());
                     onLoginFailed();
                 }
-            });
-        }
-
-
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (requestCode == REQUEST_SIGNUP) {
-                if (resultCode == RESULT_OK) {
-
-                    // TODO: Implement successful signup logic here
-                    // By default we just finish the Activity and log them in automatically
-                    this.finish();
-                }
-            }
-        }
-
-        @Override
-        public void onBackPressed() {
-            // disable going back to the MainActivity
-            moveTaskToBack(true);
-        }
-
-        public void onLoginSuccess() {
-            progressDialog.dismiss();
-            _loginButton.setEnabled(true);
-            editor.putBoolean(SharedPreferencesStrings.SP_USER_TOKEN_GRANTED, true);
-            editor.commit();
-            finish();
-            Intent i = new Intent();
-            i.setClass(LoginActivity.this, DashboardActivity.class);
-            startActivity(i);
-        }
-
-        public void onLoginFailed() {
-            Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-            _loginButton.setEnabled(true);
-        }
-
-        public boolean validate() {
-            boolean valid = true;
-
-            String email = _usernameText.getText().toString();
-            String password = _passwordText.getText().toString();
-
-            if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                _usernameText.setError("enter a valid email address");
-                valid = false;
-            } else {
-                _usernameText.setError(null);
             }
 
-            if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-                _passwordText.setError("between 4 and 10 alphanumeric characters");
-                valid = false;
-            } else {
-                _passwordText.setError(null);
+            @Override
+            public void onFailure(Call<AccountDetails> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.i("AccessToken: ", "not granted " + t);
+                onLoginFailed();
             }
-
-            return valid;
-        }
+        });
     }
+
+    @Override
+    public void onBackPressed() {
+        // disable going back to the MainActivity
+        moveTaskToBack(true);
+    }
+
+    public void onLoginSuccess(AccountDetails accountDetails) {
+        editor.putString(SharedPreferencesStrings.SP_USER_ACCESS_TOKEN, accountDetails.access_token);
+        editor.commit();
+        editor.putString(SharedPreferencesStrings.SP_USER_NAME, accountDetails.name);
+        editor.commit();
+        editor.putString(SharedPreferencesStrings.SP_USER_USERNAME, accountDetails.username);
+        editor.commit();
+        editor.putBoolean(SharedPreferencesStrings.SP_USER_TOKEN_GRANTED, true);
+        editor.commit();
+        Log.i("AccessToken: ", accountDetails.name);
+        progressDialog.dismiss();
+        _loginButton.setEnabled(true);
+        finish();
+        Intent i = new Intent();
+        i.setClass(LoginActivity.this, DashboardActivity.class);
+        startActivity(i);
+    }
+
+    public void onLoginFailed() {
+        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        _loginButton.setEnabled(true);
+    }
+
+    public boolean validate() {
+        boolean valid = true;
+
+        String email = _usernameText.getText().toString();
+        String password = _passwordText.getText().toString();
+
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            _usernameText.setError("enter a valid email address");
+            valid = false;
+        } else {
+            _usernameText.setError(null);
+        }
+
+        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            valid = false;
+        } else {
+            _passwordText.setError(null);
+        }
+
+        return valid;
+    }
+}
 
 
 

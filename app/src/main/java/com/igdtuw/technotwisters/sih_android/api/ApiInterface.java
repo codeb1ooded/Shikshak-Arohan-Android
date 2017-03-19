@@ -20,4 +20,8 @@ public interface ApiInterface  {
     @GET(URLs.LOGOUT_URL)
     Call<Result> logoutUser(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_ACCESS_TOKEN) String accessToken);
 
+    @GET(URLs.SIGN_UP_URL)
+    Call<AccountDetails> signupUser(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_PASSWORD) String password,
+                            @Query(URLs.PARAM_NAME) String name, @Query(URLs.PARAM_EMAIL) String email);
+
 }
