@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,53 +7,108 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical"
     tools:context="com.igdtuw.technotwisters.sih_android.activity.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/app_bar_main"
+    android:weightSum="1">
+   <ImageView
+       android:layout_width="match_parent"
+       android:layout_height="60dp"
+       android:src="@drawable/ncpcr_header"
+       android:scaleType="fitXY"
+
+       />
     <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="495dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/login"
-            android:text="LOGIN"
-            android:layout_margin="20dp"
-            android:background="@color/colorPrimary"
-
-            />
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingTop="20dp">
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
         <ImageView
-            android:layout_width="368dp"
-            android:layout_height="0dp"
-            android:layout_weight="5"
-            android:src="@drawable/teachers"
 
-            />
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
-            android:orientation="horizontal">
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="LATEST VACANCIES"
-                android:background="#b3e5fc"
-                android:layout_margin="10dp"/>
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text=" LATEST COURSES"
-                android:background="#b3e5fc"
-                android:layout_margin="10dp"/>
+            android:layout_height="50dp"
+            android:src="@drawable/camera"
+             />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Photo Gallery"
+        android:padding="3dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:gravity="center"/>
+</LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
 
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/flag"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="RTI"
+                android:padding="3dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
 
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/feedback"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="FeedBack"
+                android:padding="3dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
 
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/sitemap"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="Sitemap"
+                android:padding="3dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center"/>
+        </LinearLayout>
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:text="Welcome to National Commission for Protection of Child Rights"
+        android:layout_marginTop="7dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:background="@drawable/gradient1"
+        android:textSize="13dp"
+        android:textColor="@color/colorBlack"
+         />
 
-</android.support.constraint.ConstraintLayout>
+
+
+</LinearLayout>

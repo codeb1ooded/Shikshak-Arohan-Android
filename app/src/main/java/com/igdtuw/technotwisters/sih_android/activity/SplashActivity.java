@@ -43,7 +43,7 @@ public class SplashActivity extends AppCompatActivity implements SharedPreferenc
                     else{
                         // set the new task and clear flags
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        intent.setClass(SplashActivity.this, LoginActivity.class);
+                        intent.setClass(SplashActivity.this, MainActivity.class);
                     }
                     startActivity(intent);
                 }
