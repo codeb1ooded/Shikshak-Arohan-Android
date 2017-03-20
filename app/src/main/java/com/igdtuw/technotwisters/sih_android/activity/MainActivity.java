@@ -14,12 +14,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.igdtuw.technotwisters.sih_android.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Button login;
+    TextView t_photo,t_rti,t_feedback,t_sitemap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,42 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        t_photo=(TextView)findViewById(R.id.photo_gallery);
+        t_photo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i=new Intent();
+                i.setClass(MainActivity.this,PhotoGallery_Activity.class);
+                startActivity(i);
+            }
+        });
+        t_rti=(TextView)findViewById(R.id.rti);
+        t_rti.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i=new Intent();
+                i.setClass(MainActivity.this,Rti_Activity.class);
+                startActivity(i);
+            }
+        });
+        t_feedback=(TextView)findViewById(R.id.feedback);
+        t_feedback.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i=new Intent();
+                i.setClass(MainActivity.this,Feedback_Activity.class);
+                startActivity(i);
+            }
+        });
+        t_sitemap=(TextView)findViewById(R.id.sitemap);
+        t_sitemap.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i=new Intent();
+                i.setClass(MainActivity.this,Sitemap_Activity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override

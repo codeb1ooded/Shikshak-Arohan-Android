@@ -39,7 +39,8 @@
         android:text="Photo Gallery"
         android:padding="3dp"
         android:textColor="@color/colorPrimaryDark"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:id="@+id/photo_gallery"/>
 </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -57,7 +58,8 @@
                 android:text="RTI"
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:id="@+id/rti"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -76,7 +78,8 @@
                 android:text="FeedBack"
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:id="@+id/feedback"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -94,7 +97,8 @@
                 android:text="Sitemap"
                 android:padding="3dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:id="@+id/sitemap"/>
         </LinearLayout>
     </LinearLayout>
     <TextView
