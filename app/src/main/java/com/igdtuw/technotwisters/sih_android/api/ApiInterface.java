@@ -22,6 +22,11 @@ public interface ApiInterface  {
 
     @GET(URLs.SIGN_UP_URL)
     Call<AccountDetails> signupUser(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_PASSWORD) String password,
-                            @Query(URLs.PARAM_NAME) String name, @Query(URLs.PARAM_EMAIL) String email);
+                                    @Query(URLs.PARAM_NAME) String name, @Query(URLs.PARAM_EMAIL) String email);
+
+    @GET(URLs.MARK_ATTENDANCE_URL)
+    Call<Result> markAttendance(@Query(URLs.PARAM_TEACHER_USERNAME) String teacherUsername, @Query(URLs.PARAM_DATE) String date,
+                                @Query(URLs.PARAM_LATITUDE) float latitude, @Query(URLs.PARAM_LONGITUDE) float longitude,
+                                @Query(URLs.PARAM_ACCURACY) float accuracy, @Query(URLs.PARAM_PRESENCE) int presence);
 
 }

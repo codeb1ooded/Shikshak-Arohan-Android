@@ -1,15 +1,18 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -23,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,7 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.GPSTracker;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.NotificationReceiver;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
 import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
@@ -42,15 +45,19 @@ import com.igdtuw.technotwisters.sih_android.OtherFiles.CircleTransform;
 import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.model.Result;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DashboardActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener, SharedPreferencesStrings {
-
+public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferencesStrings {
+ int mark;
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private View navHeader;
@@ -120,8 +127,8 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
 // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 1);
-        calendar.set(Calendar.MINUTE, 50);
+        calendar.set(Calendar.HOUR_OF_DAY,8);
+        calendar.set(Calendar.MINUTE, 30);
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, alarmIntent);
         //*********END OF THE CODE************
@@ -171,7 +178,7 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
             Dashboard_HomeFragment homeFragment = new Dashboard_HomeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, homeFragment).commit();
         } else if (id == R.id.nav_today_attendance) {
-
+            onCreateDialogSingleChoice().show();
         } else if (id == R.id.nav_track_day) {
 
         } else if (id == R.id.nav_track_week) {
@@ -276,40 +283,94 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
     }
 
     public Dialog onCreateDialogSingleChoice() {
+        mark=1;
+        String present = "Present";
+        String absent = "Absent";
+        String holiday = "Holiday";
+        AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
+        CharSequence[] array = {present, absent, holiday};
+        builder.setTitle("Mark your Attendance");
 
-//Initialize the Alert Dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//Source of the data in the DIalog
-        CharSequence[] array = {"Present", "Absent", "Holiday"};
+        builder.setSingleChoiceItems(array, 1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {     // present
+                    mark=0;
+                    /*LocationManager locationManager = (LocationManager) DashboardActivity.this.getSystemService(Context.LOCATION_SERVICE);
 
-// Set the dialog title
-        builder.setTitle("Mark your Attendance")
-// Specify the list array, the items to be selected by default (null for none),
-// and the listener through which to receive callbacks when items are selected
-                .setSingleChoiceItems(array, 1, new DialogInterface.OnClickListener() {
+                    LocationListener locationListener = new LocationListener() {
+                        public void onLocationChanged(Location location) {
+                            location.getLatitude();
+                            location.getLongitude();
+                            location.getAccuracy();
+                            DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+                            Date date = new Date();
+                            Log.i("DashboardActivity", sdf.format(date));
+                        }
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-// TODO Auto-generated method stub
+                        public void onStatusChanged(String provider, int status, Bundle extras) {
+                        }
 
+                        public void onProviderEnabled(String provider) {
+                        }
+
+                        public void onProviderDisabled(String provider) {
+                        }
+                    };
+                    if (ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
                     }
-                })
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);*/
+                }
+                else if(which == 1){
+                    // absent
+                mark=1;
+                }
+                else{           // holiday
+                mark=2;
+                }
+            }
+        });
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                if(mark==0)
+                {
 
-// Set the action buttons
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-// User clicked OK, so save the result somewhere
-// or return them to the component that opened the dialog
-
+                    GPSTracker gps = new GPSTracker(DashboardActivity.this);
+                    if(gps.canGetLocation())
+                    {
+                        double latitude = gps.getLatitude();
+                        double longitude = gps.getLongitude();
+                        Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                     }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-
+                    else{
+                        // can't get location
+                        // GPS or Network is not enabled
+                        // Ask user to enable GPS/network in settings
+                        gps.showSettingsAlert();
                     }
-                });
+
+
+                }
+
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
 
         return builder.create();
     }
@@ -331,6 +392,6 @@ public class DashboardActivity extends AppCompatActivity  implements NavigationV
         alarmManager.set(AlarmManager.RTC_WAKEUP,when, PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
         alarmManager.setRepeating(AlarmManager.RTC, when, AlarmManager.INTERVAL_DAY * 7, PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));}
 }*/
-        // Set the alarm to start at approximately 2:00 p.m.
+// Set the alarm to start at approximately 2:00 p.m.
 
 
