@@ -12,10 +12,19 @@ public interface URLs {
     String LOGOUT_URL = "/api/logout/";
     String SIGN_UP_URL = "/api/signup/";
 
+    String MARK_ATTENDANCE_URL = "/api/markattendance/";
+
     String PARAM_USERNAME = "username";
     String PARAM_PASSWORD = "password";
     String PARAM_ACCESS_TOKEN = "access_token";
     String PARAM_NAME = "name";
     String PARAM_EMAIL = "email";
+
+    String PARAM_TEACHER_USERNAME = "teacher_username";
+    String PARAM_DATE = "date";
+    String PARAM_LATITUDE = "latitude";
+    String PARAM_LONGITUDE = "longitude";
+    String PARAM_ACCURACY = "accuracy";
+    String PARAM_PRESENCE = "presence";
 
 }
