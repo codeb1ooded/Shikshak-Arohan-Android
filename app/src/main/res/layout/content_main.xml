@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,6 +9,10 @@
     tools:context="com.igdtuw.technotwisters.sih_android.activity.MainActivity"
     tools:showIn="@layout/app_bar_main"
     android:weightSum="1">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
    <ImageView
        android:layout_width="match_parent"
        android:layout_height="60dp"
@@ -112,7 +116,205 @@
         android:textSize="13dp"
         android:textColor="@color/colorBlack"
          />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:text="ACTIVITIES:"
+        android:textColor="@color/colorPrimaryDark"
+        android:padding="5dp"/>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/custom_background"
+        >
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="130dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:text="Child Education"
+                android:textColor="@color/colorBlack"
+                android:textSize="15dp"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="150dp"
+                android:layout_height="95dp"
+                android:text="Education is and always will be very important in buuilding a strong foundation in one's life.As a community, we must provide them protection,security and knowledge."
+                android:textColor="@color/colorPrimary"
+                android:textSize="10dp"
+                android:paddingLeft="3dp"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/education" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/custom_background"
+        >
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="130dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:text="Juvenile Justice"
+                android:textColor="@color/colorBlack"
+                android:textSize="15dp"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+
+                android:layout_width="150dp"
+                android:layout_height="95dp"
+                android:text="The Juvenile Justice Act, which allows children aged 16 to 18 years and in conflict with law to be tried as adults in cases of heinous offences."
+                android:textColor="@color/colorPrimary"
+                android:textSize="10dp"
+                android:paddingLeft="3dp"/>
+        </LinearLayout>
+
+        <ImageView
+
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/juvenile" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/custom_background"
+        >
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="130dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:text="Child Labour"
+                android:textColor="@color/colorBlack"
+                android:textSize="15dp"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+
+                android:layout_width="150dp"
+                android:layout_height="95dp"
+                android:text="Child Labour is the practice of having children engage in economic activity, on a part- or full-time basis. The practice deprives children of their childhood, and is harmful to their physical and mental development. "
+                android:textColor="@color/colorPrimary"
+                android:textSize="10dp"
+                android:paddingLeft="3dp"/>
+        </LinearLayout>
+
+        <ImageView
+
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/labour" />
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="120dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_background"
+            >
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="130dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:text="Child Health and Care"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15dp"
+                    android:gravity="center_horizontal"/>
+
+                <TextView
+
+                    android:layout_width="150dp"
+                    android:layout_height="95dp"
+                    android:text="Exercise and proper nutrition are the key to having a health child. Nutrition and exercise are important because it keeps child's bodies - and minds – healthy. "
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="10dp"
+                    android:paddingLeft="3dp"/>
+            </LinearLayout>
+
+            <ImageView
+
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/child_health" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="120dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_background"
+            >
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="130dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:text="North East Cell"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15dp"
+                    android:gravity="center_horizontal"/>
+
+                <TextView
+
+                    android:layout_width="150dp"
+                    android:layout_height="95dp"
+                    android:text=" To address the issues relating to children in a more effectively and efficiently manner, NE Cell was created in the Commission on 1.12.2011 for the promotion and protection of child rights in all the 8 States of North East. "
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="10dp"
+                    android:paddingLeft="3dp"/>
+            </LinearLayout>
+
+            <ImageView
+
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/northeast" />
+        </LinearLayout>
 
 
+    </LinearLayout>
 
-</LinearLayout>
+
+</ScrollView>
