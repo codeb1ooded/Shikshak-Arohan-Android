@@ -134,15 +134,22 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.home) {
-            // Handle the camera action
-        } else if (id == R.id.about_us) {
 
+            Intent i = new Intent();
+            i.setClass(MainActivity.this, MainActivity.class);
+            startActivity(i);
+        } else if (id == R.id.about_us) {
+            Intent i = new Intent();
+            i.setClass(MainActivity.this, AboutUs.class);
+            startActivity(i);
         } else if (id == R.id.faqs) {
 
         } else if (id == R.id.discussion_forum) {
 
-        } else if (id == R.id.feedback) {
-
+        } else if (id == R.id.privacy) {
+            Intent i = new Intent();
+            i.setClass(MainActivity.this, PrivacyPolicy.class);
+            startActivity(i);
         } else if (id == R.id.contact_us) {
 
         }

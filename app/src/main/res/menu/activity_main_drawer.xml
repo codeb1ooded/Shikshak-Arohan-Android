@@ -18,8 +18,8 @@
 
         android:title="Discussion Forum" />
     <item
-        android:id="@+id/feedback"
-        android:title="Feedback" />
+        android:id="@+id/privacy"
+        android:title="Privacy Policy" />
     <item
         android:id="@+id/contact_us"
         android:title="Contact Us" />
