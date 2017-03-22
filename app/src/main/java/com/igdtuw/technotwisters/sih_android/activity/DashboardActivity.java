@@ -43,14 +43,10 @@ import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_SettingFragment
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_ToDoFragment;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.CircleTransform;
 import com.igdtuw.technotwisters.sih_android.R;
+import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_TrackFragment;
 import com.igdtuw.technotwisters.sih_android.model.Result;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,18 +71,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     // index to identify current nav dashboard_toolbar_menu item
     public static int navItemIndex = 0;
 
-    // tags used to attach the fragments
-    private static final String TAG_HOME = "home";
-    private static final String TAG_TODO = "TODO";
-    private static final String TAG_NOTIFICATIONS = "notifications";
-    private static final String TAG_SETTINGS = "settings";
-    public static String CURRENT_TAG = TAG_HOME;
-
     Call<Result> logoutUser;
 
     String username, accessToken;
-    private ToggleButton toggleButton1;
-    private ArrayList mSelectedItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +81,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         setContentView(R.layout.dashboard_activity);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toggleButton1 = (ToggleButton) findViewById(R.id.toggleButton1);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
@@ -136,7 +122,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         if (savedInstanceState == null) {
             navItemIndex = 0;
-            CURRENT_TAG = TAG_HOME;
             Dashboard_HomeFragment homeFragment = new Dashboard_HomeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, homeFragment).commit();
         }
@@ -178,15 +163,11 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             Dashboard_HomeFragment homeFragment = new Dashboard_HomeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, homeFragment).commit();
         } else if (id == R.id.nav_today_attendance) {
+            // TODO: first check if user is within the time period to mark attendance
             onCreateDialogSingleChoice().show();
-        } else if (id == R.id.nav_track_day) {
-
-        } else if (id == R.id.nav_track_week) {
-
-        } else if (id == R.id.nav_track_month) {
-
-        } else if (id == R.id.nav_track_year) {
-
+        } else if (id == R.id.nav_track_attendance) {
+            Dashboard_TrackFragment trackFragment = new Dashboard_TrackFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, trackFragment).commit();
         } else if (id == R.id.nav_to_do) {
             Dashboard_ToDoFragment toDoFragment = new Dashboard_ToDoFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, toDoFragment).commit();
@@ -375,23 +356,5 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         return builder.create();
     }
 }
-       /* Calendar calendar =  Calendar.getInstance();
-        //calendar.set(2014,Calendar.getInstance().get(Calendar.MONTH),Calendar.SUNDAY , 8, 00, 00);
-        calendar.set(2017,5,1,19,55,00);
-        long when = calendar.getTimeInMillis();         // notification time
-
-
-        Log.d("time", when+" ");
-
-        Intent intentAlarm = new Intent(DashboardActivity.this, NotificationReceiver.class);
-
-// create the object
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-
-        //set the alarm for particular time
-        alarmManager.set(AlarmManager.RTC_WAKEUP,when, PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
-        alarmManager.setRepeating(AlarmManager.RTC, when, AlarmManager.INTERVAL_DAY * 7, PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));}
-}*/
-// Set the alarm to start at approximately 2:00 p.m.
 
 

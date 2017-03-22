@@ -19,6 +19,15 @@ public interface URLs {
     String PARAM_ACCESS_TOKEN = "access_token";
     String PARAM_NAME = "name";
     String PARAM_EMAIL = "email";
+    String PARAM_AGE = "age";
+    String PARAM_CONTACT_NUMBER = "contact_num";
+    String PARAM_EXPERTISE = "area_of_expertise";
+    String PARAM_ADDRESS = "address";
+    String PARAM_CITY = "city";
+    String PARAM_STATE = "state";
+    String PARAM_PREFERRED_LOCATION = "preferred_location";
+    String PARAM_QUALIFICATION = "qualification";
+    String PARAM_TEACHING_EXPERIENCE = "teaching_experience";
 
     String PARAM_TEACHER_USERNAME = "teacher_username";
     String PARAM_DATE = "date";

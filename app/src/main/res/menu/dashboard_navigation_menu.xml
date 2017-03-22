@@ -10,21 +10,9 @@
             android:id="@+id/nav_today_attendance"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Mark Attendance" />
-        <item android:title="@string/nav_self_track">
-            <menu>
-                <item
-                    android:id="@+id/nav_track_day"
-                    android:title="@string/nav_self_track_day" />
-                <item
-                    android:id="@+id/nav_track_week"
-                    android:title="@string/nav_self_track_weekly" />
-                <item
-                    android:id="@+id/nav_track_month"
-                    android:title="@string/nav_self_track_monthly" />
-                <item
-                    android:id="@+id/nav_track_year"
-                    android:title="@string/nav_self_track_yearly" />
-            </menu>
+        <item
+            android:id="@+id/nav_track_attendance"
+            android:title="@string/nav_self_track">
         </item>
         <item
             android:id="@+id/nav_to_do"

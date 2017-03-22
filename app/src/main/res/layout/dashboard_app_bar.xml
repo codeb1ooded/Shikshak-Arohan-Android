@@ -27,20 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <ToggleButton
-            android:layout_gravity="right"
-            android:id="@+id/toggleButton1"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/toggle_selector"
-            android:checked="false"
-            android:textOff="Off"
-            android:textOn="On" />
     </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

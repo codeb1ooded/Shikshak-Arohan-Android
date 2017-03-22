@@ -15,7 +15,7 @@ import retrofit2.http.Query;
 public interface ApiInterface  {
 
     @GET(URLs.LOGIN_URL)
-    Call<AccountDetails> getAuthenticalToken(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_PASSWORD) String password);
+    Call<AccountDetails> getAuthenticationToken(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_PASSWORD) String password);
 
     @GET(URLs.LOGOUT_URL)
     Call<Result> logoutUser(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_ACCESS_TOKEN) String accessToken);
@@ -26,7 +26,18 @@ public interface ApiInterface  {
 
     @GET(URLs.MARK_ATTENDANCE_URL)
     Call<Result> markAttendance(@Query(URLs.PARAM_TEACHER_USERNAME) String teacherUsername, @Query(URLs.PARAM_DATE) String date,
-                                @Query(URLs.PARAM_LATITUDE) float latitude, @Query(URLs.PARAM_LONGITUDE) float longitude,
+                                @Query(URLs.PARAM_LATITUDE) float latitude1, @Query(URLs.PARAM_LONGITUDE) float longitude1,
+                                @Query(URLs.PARAM_LATITUDE) float latitude2, @Query(URLs.PARAM_LONGITUDE) float longitude2,
+                                @Query(URLs.PARAM_LATITUDE) float latitude3, @Query(URLs.PARAM_LONGITUDE) float longitude3,
+                                @Query(URLs.PARAM_LATITUDE) float latitude4, @Query(URLs.PARAM_LONGITUDE) float longitude4,
                                 @Query(URLs.PARAM_ACCURACY) float accuracy, @Query(URLs.PARAM_PRESENCE) int presence);
+
+    @GET(URLs.SIGN_UP_URL)
+    Call<AccountDetails> updateUserDetails(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_ACCESS_TOKEN) String accessToken,
+                                           @Query(URLs.PARAM_NAME) String name, @Query(URLs.PARAM_AGE) int age, @Query(URLs.PARAM_CONTACT_NUMBER) long contactNum,
+                                           @Query(URLs.PARAM_EMAIL) String email, @Query(URLs.PARAM_EXPERTISE) String expertise,
+                                           @Query(URLs.PARAM_ADDRESS) String address, @Query(URLs.PARAM_CITY) String city,
+                                           @Query(URLs.PARAM_STATE) String state, @Query(URLs.PARAM_PREFERRED_LOCATION) String preferredLoaction,
+                                           @Query(URLs.PARAM_QUALIFICATION) String qualification, @Query(URLs.PARAM_TEACHING_EXPERIENCE) int teachingExperience);
 
 }

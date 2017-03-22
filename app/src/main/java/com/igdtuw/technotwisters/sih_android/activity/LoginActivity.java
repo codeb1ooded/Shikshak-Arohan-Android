@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
         String username = _usernameText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        authenticateUser = ApiClient.getInterface().getAuthenticalToken(username, password);
+        authenticateUser = ApiClient.getInterface().getAuthenticationToken(username, password);
         authenticateUser.enqueue(new Callback<AccountDetails>() {
             @Override
             public void onResponse(Call<AccountDetails> call, Response<AccountDetails> response) {
