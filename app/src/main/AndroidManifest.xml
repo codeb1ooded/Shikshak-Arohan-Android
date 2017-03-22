@@ -75,6 +75,12 @@
             android:name=".activity.SeperateToDoActivity"
             android:label="@string/title_activity_to_do"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ProfileChangeActivity"
+            android:label="profile _change"
+            android:theme="@style/AppTheme.NoActionBar" >
+
+        </activity>
         <receiver
             android:name="com.igdtuw.technotwisters.sih_android.OtherFiles.NotificationReceiver"
             />
