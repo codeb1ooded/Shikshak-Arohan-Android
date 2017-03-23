@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.GPSService;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.GPSTracker;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.NotificationReceiver;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
@@ -46,7 +47,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferencesStrings {
- int mark;
+    int mark;
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private View navHeader;
@@ -103,19 +104,19 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         AlarmManager alarmMgr;
         PendingIntent alarmIntent;
 
-       alarmMgr = (AlarmManager) DashboardActivity.this.getSystemService(Context.ALARM_SERVICE);
-       Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
+        alarmMgr = (AlarmManager) DashboardActivity.this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(DashboardActivity.this, 0, intent, 0);
 
 // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY,20);
+        calendar.set(Calendar.HOUR_OF_DAY, 20);
         calendar.set(Calendar.MINUTE, 12);
-        calendar.set(Calendar.SECOND,00);
-      // Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
-       alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-        AlarmManager.INTERVAL_DAY, alarmIntent);
+        calendar.set(Calendar.SECOND, 00);
+        // Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmIntent);
         //*********END OF THE CODE************
 
        /* Intent intent1 = new Intent(DashboardActivity.this,NotificationReceiver.class);
@@ -166,11 +167,10 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             Dashboard_HomeFragment homeFragment = new Dashboard_HomeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, homeFragment).commit();
         } else if (id == R.id.nav_today_attendance) {
-            if(schoolAdded){
+            if (schoolAdded) {
                 // TODO: first check if user is within the time period to mark attendance
                 onCreateDialogSingleChoice().show();
-            }
-            else{
+            } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
                 builder.setTitle("You aren't allowed this action!");
                 builder.setMessage("Click ok to add school first");
@@ -193,11 +193,10 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 builder.create().show();
             }
         } else if (id == R.id.nav_track_attendance) {
-            if(schoolAdded){
+            if (schoolAdded) {
                 Dashboard_TrackFragment trackFragment = new Dashboard_TrackFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, trackFragment).commit();
-            }
-            else{
+            } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
                 builder.setTitle("You aren't allowed this action!");
                 builder.setMessage("Click ok to add school first");
@@ -314,7 +313,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     }
 
     public Dialog onCreateDialogSingleChoice() {
-        mark=1;
+        mark = 1;
         String present = "Present";
         String absent = "Absent";
         String holiday = "Holiday";
@@ -326,7 +325,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {     // present
-                    mark=0;
+                    mark = 0;
                     /*LocationManager locationManager = (LocationManager) DashboardActivity.this.getSystemService(Context.LOCATION_SERVICE);
 
                     LocationListener locationListener = new LocationListener() {
@@ -360,30 +359,25 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                         return;
                     }
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);*/
-                }
-                else if(which == 1){
+                } else if (which == 1) {
                     // absent
-                mark=1;
-                }
-                else{           // holiday
-                mark=2;
+                    mark = 1;
+                } else {           // holiday
+                    mark = 2;
                 }
             }
         });
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                if(mark==0)
-                {
+                if (mark == 0) {
 
                     GPSTracker gps = new GPSTracker(DashboardActivity.this);
-                    if(gps.canGetLocation())
-                    {
+                    if (gps.canGetLocation()) {
                         double latitude = gps.getLatitude();
                         double longitude = gps.getLongitude();
                         Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                    }
-                    else{
+                    } else {
                         // can't get location
                         // GPS or Network is not enabled
                         // Ask user to enable GPS/network in settings
@@ -405,6 +399,14 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         return builder.create();
     }
+
+    public void startService(View view) {
+        startService(new Intent(getBaseContext(), GPSService.class));
+    }
+
+    // Method to stop the service
+    public void stopService(View view) {
+        stopService(new Intent(getBaseContext(), GPSService.class));
+    }
+
 }
-
-

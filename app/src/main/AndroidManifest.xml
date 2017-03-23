@@ -6,8 +6,8 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <uses-feature android:name="android.hardware.location.gps" />
 
@@ -23,28 +23,23 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:noHistory="true"
             android:label="@string/app_name"
-            android:theme="@style/MyTheme"
-            />
+            android:noHistory="true"
+            android:theme="@style/MyTheme" />
         <activity
             android:name=".activity.DashboardActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/title_activity_dashboard"/>
+            android:label="@string/title_activity_dashboard"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.SignupActivity"
             android:label="@string/title_activity_signup"
@@ -83,10 +78,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.AddSchoolActivity"
-            android:noHistory="true"
-            android:label="@string/title_activity_add_school" />
-        <receiver
-            android:name="com.igdtuw.technotwisters.sih_android.OtherFiles.NotificationReceiver" />
+            android:label="@string/title_activity_add_school"
+            android:noHistory="true" />
+
+        <receiver android:name=".OtherFiles.NotificationReceiver" />
+
+        <service
+            android:name=".OtherFiles.GPSService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
