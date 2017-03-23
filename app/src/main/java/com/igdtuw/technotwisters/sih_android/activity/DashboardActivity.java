@@ -1,6 +1,5 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
-import android.Manifest;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -8,10 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -21,7 +16,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +23,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -62,6 +55,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     private Toolbar toolbar;
 
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     // urls to load navigation header background image
     // and profile image
@@ -74,6 +68,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     Call<Result> logoutUser;
 
     String username, accessToken;
+    boolean schoolAdded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +89,10 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         navigationView.setNavigationItemSelectedListener(this);
 
         sharedPreferences = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         username = sharedPreferences.getString(SP_USER_USERNAME, null);
         accessToken = sharedPreferences.getString(SP_USER_ACCESS_TOKEN, null);
+        schoolAdded = sharedPreferences.getBoolean(SP_SCHOOL_ADDED, false);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -163,11 +160,59 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             Dashboard_HomeFragment homeFragment = new Dashboard_HomeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, homeFragment).commit();
         } else if (id == R.id.nav_today_attendance) {
-            // TODO: first check if user is within the time period to mark attendance
-            onCreateDialogSingleChoice().show();
+            if(schoolAdded){
+                // TODO: first check if user is within the time period to mark attendance
+                onCreateDialogSingleChoice().show();
+            }
+            else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
+                builder.setTitle("You aren't allowed this action!");
+                builder.setMessage("Click ok to add school first");
+                LayoutInflater inflater = getLayoutInflater();
+                View v = inflater.inflate(R.layout.dialog_confirm_logout, null);
+                builder.setView(v);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.setClass(DashboardActivity.this, AddSchoolActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.create().show();
+            }
         } else if (id == R.id.nav_track_attendance) {
-            Dashboard_TrackFragment trackFragment = new Dashboard_TrackFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, trackFragment).commit();
+            if(schoolAdded){
+                Dashboard_TrackFragment trackFragment = new Dashboard_TrackFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, trackFragment).commit();
+            }
+            else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
+                builder.setTitle("You aren't allowed this action!");
+                builder.setMessage("Click ok to add school first");
+                LayoutInflater inflater = getLayoutInflater();
+                View v = inflater.inflate(R.layout.dialog_confirm_logout, null);
+                builder.setView(v);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.setClass(DashboardActivity.this, AddSchoolActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.create().show();
+            }
         } else if (id == R.id.nav_to_do) {
             Dashboard_ToDoFragment toDoFragment = new Dashboard_ToDoFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, toDoFragment).commit();
@@ -221,7 +266,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                         @Override
                         public void onResponse(Call<Result> call, Response<Result> response) {
                             if (response.isSuccessful()) {
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean(SP_USER_TOKEN_GRANTED, false);
                                 editor.commit();
                                 editor.putString(SP_USER_ACCESS_TOKEN, "N/A");

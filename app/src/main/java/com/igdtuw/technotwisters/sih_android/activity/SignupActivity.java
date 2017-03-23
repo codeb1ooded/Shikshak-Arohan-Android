@@ -64,7 +64,7 @@ public class SignupActivity extends AppCompatActivity {
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(SignupActivity.this,LoginActivity.class);
+                Intent intent = new Intent(SignupActivity.this,LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -96,6 +96,11 @@ public class SignupActivity extends AppCompatActivity {
             public void onResponse(Call<AccountDetails> call, Response<AccountDetails> response) {
                 if (response.isSuccessful()) {
                     onSignupSuccess(response.body());
+                    finish();
+                    // TODO: ask user to add school now?
+                    Intent i = new Intent();
+                    i.setClass(SignupActivity.this, DashboardActivity.class);
+                    startActivity(i);
                 } else {
                     Log.i(TAG, "Failed: "+response.errorBody());
                     onSignupFailed();
@@ -123,10 +128,6 @@ public class SignupActivity extends AppCompatActivity {
         editor.commit();
         Log.i("AccessToken: ", accountDetails.name);
         progressDialog.dismiss();
-        finish();
-        Intent i = new Intent();
-        i.setClass(SignupActivity.this, DashboardActivity.class);
-        startActivity(i);
     }
 
     public void onSignupFailed() {

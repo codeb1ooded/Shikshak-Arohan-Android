@@ -50,6 +50,7 @@
     <string name="title_activity_privacy_policy">Privacy Policy</string>
     <string name="title_activity_main">Shikshak Arohan</string>
     <string name="title_activity_to_do">To Do</string>
+    <string name="title_activity_add_school">Add School</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

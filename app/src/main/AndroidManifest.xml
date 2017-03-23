@@ -78,12 +78,13 @@
         <activity
             android:name=".activity.ProfileChangeActivity"
             android:label="profile _change"
-            android:theme="@style/AppTheme.NoActionBar" >
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.AddSchoolActivity"
+            android:noHistory="true"
+            android:label="@string/title_activity_add_school" />
         <receiver
-            android:name="com.igdtuw.technotwisters.sih_android.OtherFiles.NotificationReceiver"
-            />
+            android:name="com.igdtuw.technotwisters.sih_android.OtherFiles.NotificationReceiver" />
     </application>
 
 </manifest>

@@ -64,7 +64,6 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
         _signupLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Start the Signup activity
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivity(intent);
             }
@@ -131,6 +130,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
         Log.i("AccessToken: ", accountDetails.name);
         progressDialog.dismiss();
         _loginButton.setEnabled(true);
+        // TODO: check if school is added
         finish();
         Intent i = new Intent();
         i.setClass(LoginActivity.this, DashboardActivity.class);

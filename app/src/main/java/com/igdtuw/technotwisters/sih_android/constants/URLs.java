@@ -12,6 +12,9 @@ public interface URLs {
     String LOGOUT_URL = "/api/logout/";
     String SIGN_UP_URL = "/api/signup/";
 
+    String ADD_SCHOOL_URL = "/api/addschool/";
+    String GET_LAT_LONG = "/api/latlong/";
+
     String MARK_ATTENDANCE_URL = "/api/markattendance/";
 
     String PARAM_USERNAME = "username";
@@ -30,6 +33,8 @@ public interface URLs {
     String PARAM_TEACHING_EXPERIENCE = "teaching_experience";
 
     String PARAM_TEACHER_USERNAME = "teacher_username";
+
+    String PARAM_SCHOOL_USERNAME = "school_username";
     String PARAM_DATE = "date";
     String PARAM_LATITUDE = "latitude";
     String PARAM_LONGITUDE = "longitude";

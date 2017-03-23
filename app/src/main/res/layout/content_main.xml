@@ -13,229 +13,229 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-   <ImageView
-       android:layout_width="match_parent"
-       android:layout_height="60dp"
-       android:src="@drawable/ncpcr_header"
-       android:scaleType="fitXY"
-
-       />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:paddingTop="20dp">
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_weight="1"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
         <ImageView
-
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:src="@drawable/camera"
-             />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="Photo Gallery"
-        android:padding="3dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:gravity="center"
-        android:id="@+id/photo_gallery"/>
-</LinearLayout>
+            android:layout_height="60dp"
+            android:src="@drawable/ncpcr_header"
+            android:scaleType="fitXY"
+
+            />
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:paddingTop="20dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ImageView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:src="@drawable/camera"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="Photo Gallery"
+                    android:padding="3dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:id="@+id/photo_gallery"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ImageView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:src="@drawable/flag"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="RTI"
+                    android:padding="3dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:id="@+id/rti"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ImageView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:src="@drawable/feedback"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="FeedBack"
+                    android:padding="3dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:id="@+id/feedback"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ImageView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:src="@drawable/sitemap"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="Sitemap"
+                    android:padding="3dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:id="@+id/sitemap"/>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Welcome to National Commission for Protection of Child Rights"
+            android:layout_marginTop="7dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:background="@drawable/gradient1"
+            android:textSize="13dp"
+            android:textColor="@color/colorBlack"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="ACTIVITIES:"
+            android:textColor="@color/colorPrimaryDark"
+            android:padding="5dp"/>
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="120dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_background"
+            >
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="130dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:text="Child Education"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15dp"
+                    android:gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="150dp"
+                    android:layout_height="95dp"
+                    android:text="Education is and always will be very important in buuilding a strong foundation in one's life.As a community, we must provide them protection,security and knowledge."
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="10dp"
+                    android:paddingLeft="3dp"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/education" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="120dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_background"
+            >
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="130dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:text="Juvenile Justice"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15dp"
+                    android:gravity="center_horizontal"/>
+
+                <TextView
+
+                    android:layout_width="150dp"
+                    android:layout_height="95dp"
+                    android:text="The Juvenile Justice Act, which allows children aged 16 to 18 years and in conflict with law to be tried as adults in cases of heinous offences."
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="10dp"
+                    android:paddingLeft="3dp"/>
+            </LinearLayout>
+
             <ImageView
 
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:src="@drawable/flag"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:text="RTI"
-                android:padding="3dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:gravity="center"
-                android:id="@+id/rti"/>
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/juvenile" />
         </LinearLayout>
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_width="300dp"
+            android:layout_height="120dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_background"
+            >
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="130dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:text="Child Labour"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15dp"
+                    android:gravity="center_horizontal"/>
+
+                <TextView
+
+                    android:layout_width="150dp"
+                    android:layout_height="95dp"
+                    android:text="Child Labour is the practice of having children engage in economic activity, on a part- or full-time basis. The practice deprives children of their childhood, and is harmful to their physical and mental development. "
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="10dp"
+                    android:paddingLeft="3dp"/>
+            </LinearLayout>
+
             <ImageView
 
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:src="@drawable/feedback"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:text="FeedBack"
-                android:padding="3dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:gravity="center"
-                android:id="@+id/feedback"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <ImageView
-
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:src="@drawable/sitemap"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:text="Sitemap"
-                android:padding="3dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:gravity="center"
-                android:id="@+id/sitemap"/>
-        </LinearLayout>
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:text="Welcome to National Commission for Protection of Child Rights"
-        android:layout_marginTop="7dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:background="@drawable/gradient1"
-        android:textSize="13dp"
-        android:textColor="@color/colorBlack"
-         />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:text="ACTIVITIES:"
-        android:textColor="@color/colorPrimaryDark"
-        android:padding="5dp"/>
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="120dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:padding="5dp"
-        android:layout_margin="5dp"
-        android:background="@drawable/custom_background"
-        >
-        <LinearLayout
-            android:layout_width="150dp"
-            android:layout_height="130dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:text="Child Education"
-                android:textColor="@color/colorBlack"
-                android:textSize="15dp"
-                android:gravity="center_horizontal"/>
-
-            <TextView
-                android:id="@+id/textView"
                 android:layout_width="150dp"
-                android:layout_height="95dp"
-                android:text="Education is and always will be very important in buuilding a strong foundation in one's life.As a community, we must provide them protection,security and knowledge."
-                android:textColor="@color/colorPrimary"
-                android:textSize="10dp"
-                android:paddingLeft="3dp"/>
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/labour" />
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="150dp"
-            android:layout_height="120dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/education" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="120dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:padding="5dp"
-        android:layout_margin="5dp"
-        android:background="@drawable/custom_background"
-        >
-        <LinearLayout
-            android:layout_width="150dp"
-            android:layout_height="130dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:text="Juvenile Justice"
-                android:textColor="@color/colorBlack"
-                android:textSize="15dp"
-                android:gravity="center_horizontal"/>
-
-            <TextView
-
-                android:layout_width="150dp"
-                android:layout_height="95dp"
-                android:text="The Juvenile Justice Act, which allows children aged 16 to 18 years and in conflict with law to be tried as adults in cases of heinous offences."
-                android:textColor="@color/colorPrimary"
-                android:textSize="10dp"
-                android:paddingLeft="3dp"/>
-        </LinearLayout>
-
-        <ImageView
-
-            android:layout_width="150dp"
-            android:layout_height="120dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/juvenile" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="120dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:padding="5dp"
-        android:layout_margin="5dp"
-        android:background="@drawable/custom_background"
-        >
-        <LinearLayout
-            android:layout_width="150dp"
-            android:layout_height="130dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:text="Child Labour"
-                android:textColor="@color/colorBlack"
-                android:textSize="15dp"
-                android:gravity="center_horizontal"/>
-
-            <TextView
-
-                android:layout_width="150dp"
-                android:layout_height="95dp"
-                android:text="Child Labour is the practice of having children engage in economic activity, on a part- or full-time basis. The practice deprives children of their childhood, and is harmful to their physical and mental development. "
-                android:textColor="@color/colorPrimary"
-                android:textSize="10dp"
-                android:paddingLeft="3dp"/>
-        </LinearLayout>
-
-        <ImageView
-
-            android:layout_width="150dp"
-            android:layout_height="120dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/labour" />
-    </LinearLayout>
         <LinearLayout
             android:layout_width="300dp"
             android:layout_height="120dp"
