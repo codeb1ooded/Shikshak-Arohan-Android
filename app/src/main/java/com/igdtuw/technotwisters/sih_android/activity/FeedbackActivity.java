@@ -9,7 +9,7 @@ import com.igdtuw.technotwisters.sih_android.R;
  * Created by Admin on 20-03-2017.
  */
 
-public class Feedback_Activity extends AppCompatActivity {
+public class FeedbackActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

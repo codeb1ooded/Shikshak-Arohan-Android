@@ -48,19 +48,19 @@
             android:label="@string/title_activity_signup"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.PhotoGallery_Activity"
+            android:name=".activity.PhotoGalleryActivity"
             android:label="Photo Gallery"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.Rti_Activity"
+            android:name=".activity.RtiActivity"
             android:label="RTI"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.Feedback_Activity"
+            android:name=".activity.FeedbackActivity"
             android:label="Feedback"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.Sitemap_Activity"
+            android:name=".activity.SitemapActivity"
             android:label="Sitemap"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

@@ -10,6 +10,8 @@ import com.igdtuw.technotwisters.sih_android.api.ApiClient;
 import com.igdtuw.technotwisters.sih_android.constants.ActivityTitles;
 import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
 import com.igdtuw.technotwisters.sih_android.model.AccountDetails;
+import com.igdtuw.technotwisters.sih_android.model.CheckSchool;
+import com.igdtuw.technotwisters.sih_android.model.SchoolDetails;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -40,8 +42,13 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
     ProgressDialog progressDialog;
 
     Call<AccountDetails> authenticateUser;
+    Call<CheckSchool> isSchoolAdded;
+    Call<SchoolDetails> getSchoolDetailsCall;
+
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+
+    String username, accessToken;
 
     private static final String TAG = TITLE_LOGIN_ACTIVITY;
 
@@ -119,6 +126,8 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
     }
 
     public void onLoginSuccess(AccountDetails accountDetails) {
+        username = accountDetails.username;
+        accessToken = accountDetails.access_token;
         editor.putString(SharedPreferencesStrings.SP_USER_ACCESS_TOKEN, accountDetails.access_token);
         editor.commit();
         editor.putString(SharedPreferencesStrings.SP_USER_NAME, accountDetails.name);
@@ -128,13 +137,74 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
         editor.putBoolean(SharedPreferencesStrings.SP_USER_TOKEN_GRANTED, true);
         editor.commit();
         Log.i("AccessToken: ", accountDetails.name);
+        checkIsSchoolAdded();
         progressDialog.dismiss();
         _loginButton.setEnabled(true);
-        // TODO: check if school is added
         finish();
         Intent i = new Intent();
         i.setClass(LoginActivity.this, DashboardActivity.class);
         startActivity(i);
+    }
+
+    private void checkIsSchoolAdded() {
+        isSchoolAdded = ApiClient.getInterface().isSchoolAdded(username, accessToken);
+        isSchoolAdded.enqueue(new Callback<CheckSchool>() {
+            @Override
+            public void onResponse(Call<CheckSchool> call, Response<CheckSchool> response) {
+                CheckSchool school = response.body();
+                if (response.isSuccessful()) {
+                    if(school.getMessage().equals("school already added")){
+                        String schoolUsername = school.getSchoolUsername();
+                        editor.putBoolean(SharedPreferencesStrings.SP_SCHOOL_ADDED, true);
+                        editor.commit();
+                        editor.putString(SharedPreferencesStrings.SP_SCHOOL_USERNAME, schoolUsername);
+                        editor.commit();
+                        getSchoolLatLong(schoolUsername);
+                    }
+                } else {
+                    Toast.makeText(LoginActivity.this, response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CheckSchool> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.i("AccessToken: ", "not granted " + t);
+                onLoginFailed();
+            }
+        });
+    }
+
+    private void getSchoolLatLong(final String schoolUsername) {
+
+        getSchoolDetailsCall = ApiClient.getInterface().getLatLong(username, accessToken, schoolUsername);
+        getSchoolDetailsCall.enqueue(new Callback<SchoolDetails>() {
+            @Override
+            public void onResponse(Call<SchoolDetails> call, Response<SchoolDetails> response) {
+                SchoolDetails schoolDetails = response.body();
+                if (response.isSuccessful()) {
+                    editor.putBoolean(SharedPreferencesStrings.SP_SCHOOL_DETAILS_DONE, true);
+                    editor.commit();
+                    editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LATITUDE, (float) schoolDetails.getLatitude());
+                    editor.commit();
+                    editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LONGITUDE, (float) schoolDetails.getLongitude());
+                    editor.commit();
+                    editor.putString(SharedPreferencesStrings.SP_SCHOOL_NAME, schoolDetails.getSchoolName());
+                    editor.commit();
+                    progressDialog.dismiss();
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(LoginActivity.this, "Error: "+response.errorBody(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SchoolDetails> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(LoginActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 
     public void onLoginFailed() {

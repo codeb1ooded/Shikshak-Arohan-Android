@@ -1,10 +1,13 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.igdtuw.technotwisters.sih_android.R;
@@ -96,8 +99,8 @@ public class SignupActivity extends AppCompatActivity {
             public void onResponse(Call<AccountDetails> call, Response<AccountDetails> response) {
                 if (response.isSuccessful()) {
                     onSignupSuccess(response.body());
+                    askUserToAddSchool();
                     finish();
-                    // TODO: ask user to add school now?
                     Intent i = new Intent();
                     i.setClass(SignupActivity.this, DashboardActivity.class);
                     startActivity(i);
@@ -113,6 +116,29 @@ public class SignupActivity extends AppCompatActivity {
                 onSignupFailed();
             }
         });
+    }
+
+    private void askUserToAddSchool() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+        builder.setTitle("School Add");
+        builder.setMessage("CDo you want to add school now?");
+        LayoutInflater inflater = getLayoutInflater();
+        View v = inflater.inflate(R.layout.dialog_confirm_logout, null);
+        builder.setView(v);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent();
+                intent.setClass(SignupActivity.this, AddSchoolActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.create().show();
     }
 
 

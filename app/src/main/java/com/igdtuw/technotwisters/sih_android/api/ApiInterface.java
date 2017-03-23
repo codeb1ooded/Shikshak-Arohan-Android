@@ -2,6 +2,7 @@ package com.igdtuw.technotwisters.sih_android.api;
 
 import com.igdtuw.technotwisters.sih_android.constants.URLs;
 import com.igdtuw.technotwisters.sih_android.model.AccountDetails;
+import com.igdtuw.technotwisters.sih_android.model.CheckSchool;
 import com.igdtuw.technotwisters.sih_android.model.Result;
 import com.igdtuw.technotwisters.sih_android.model.SchoolDetails;
 
@@ -48,5 +49,8 @@ public interface ApiInterface  {
     @GET(URLs.GET_LAT_LONG)
     Call<SchoolDetails> getLatLong(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_ACCESS_TOKEN) String accessToken,
                                    @Query(URLs.PARAM_SCHOOL_USERNAME) String schoolUsername);
+
+    @GET(URLs.IS_SCHOOL_ADDED_URL)
+    Call<CheckSchool> isSchoolAdded(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_ACCESS_TOKEN) String accessToken);
 
 }

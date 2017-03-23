@@ -14,6 +14,7 @@ public interface URLs {
 
     String ADD_SCHOOL_URL = "/api/addschool/";
     String GET_LAT_LONG = "/api/latlong/";
+    String IS_SCHOOL_ADDED_URL = "isSchoolAdded";
 
     String MARK_ATTENDANCE_URL = "/api/markattendance/";
 

@@ -9,7 +9,7 @@ import com.igdtuw.technotwisters.sih_android.R;
  * Created by Admin on 20-03-2017.
  */
 
-public class PhotoGallery_Activity extends AppCompatActivity {
+public class PhotoGalleryActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

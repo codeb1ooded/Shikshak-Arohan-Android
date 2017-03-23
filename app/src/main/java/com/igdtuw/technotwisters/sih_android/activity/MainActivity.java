@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v){
                 Intent i=new Intent();
-                i.setClass(MainActivity.this,PhotoGallery_Activity.class);
+                i.setClass(MainActivity.this,PhotoGalleryActivity.class);
                 startActivity(i);
             }
         });
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v){
                 Intent i=new Intent();
-                i.setClass(MainActivity.this,Rti_Activity.class);
+                i.setClass(MainActivity.this,RtiActivity.class);
                 startActivity(i);
             }
         });
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v){
                 Intent i=new Intent();
-                i.setClass(MainActivity.this,Feedback_Activity.class);
+                i.setClass(MainActivity.this,FeedbackActivity.class);
                 startActivity(i);
             }
         });
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v){
                 Intent i=new Intent();
-                i.setClass(MainActivity.this,Sitemap_Activity.class);
+                i.setClass(MainActivity.this,SitemapActivity.class);
                 startActivity(i);
             }
         });

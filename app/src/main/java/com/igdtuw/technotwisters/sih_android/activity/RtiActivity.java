@@ -9,9 +9,10 @@ import com.igdtuw.technotwisters.sih_android.R;
  * Created by Admin on 20-03-2017.
  */
 
-public class Sitemap_Activity extends AppCompatActivity {
+public class RtiActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sitemap);}
+        setContentView(R.layout.activity_rti);
+    }
 }

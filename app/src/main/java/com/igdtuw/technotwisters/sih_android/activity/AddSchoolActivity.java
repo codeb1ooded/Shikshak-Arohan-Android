@@ -69,7 +69,6 @@ public class AddSchoolActivity extends AppCompatActivity implements SharedPrefer
                     addSchoolCall.enqueue(new Callback<Result>() {
                         @Override
                         public void onResponse(Call<Result> call, Response<Result> response) {
-                            Result result = response.body();
                             if (response.isSuccessful()) {
                                 editor.putBoolean(SharedPreferencesStrings.SP_SCHOOL_ADDED, true);
                                 editor.commit();
@@ -78,7 +77,7 @@ public class AddSchoolActivity extends AppCompatActivity implements SharedPrefer
                                 getSchoolLatLong(schoolUsername);
                             } else {
                                 progressDialog.dismiss();
-                                Toast.makeText(AddSchoolActivity.this, "Error: "+result.message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddSchoolActivity.this, "Error: "+response.errorBody(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
