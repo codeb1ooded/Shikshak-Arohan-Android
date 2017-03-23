@@ -15,6 +15,9 @@ import java.util.Calendar;
         import android.content.BroadcastReceiver;
         import android.content.Context;
         import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.support.v7.app.NotificationCompat;
 
 import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.activity.DashboardActivity;
@@ -23,7 +26,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Calendar now = GregorianCalendar.getInstance();
+
+      Calendar now = GregorianCalendar.getInstance();
         int dayOfWeek = now.get(Calendar.DATE);
         if(dayOfWeek != 5 && dayOfWeek != 7) {
             Notification.Builder mBuilder =

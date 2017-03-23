@@ -103,20 +103,26 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         AlarmManager alarmMgr;
         PendingIntent alarmIntent;
 
-        alarmMgr = (AlarmManager) DashboardActivity.this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
+       alarmMgr = (AlarmManager) DashboardActivity.this.getSystemService(Context.ALARM_SERVICE);
+       Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(DashboardActivity.this, 0, intent, 0);
 
 // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY,8);
-        calendar.set(Calendar.MINUTE, 30);
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, alarmIntent);
+        calendar.set(Calendar.HOUR_OF_DAY,20);
+        calendar.set(Calendar.MINUTE, 12);
+        calendar.set(Calendar.SECOND,00);
+      // Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
+       alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        AlarmManager.INTERVAL_DAY, alarmIntent);
         //*********END OF THE CODE************
 
-
+       /* Intent intent1 = new Intent(DashboardActivity.this,NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(DashboardActivity.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) DashboardActivity.this.getSystemService(DashboardActivity.this.ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+*/
         if (savedInstanceState == null) {
             navItemIndex = 0;
             Dashboard_HomeFragment homeFragment = new Dashboard_HomeFragment();
