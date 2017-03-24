@@ -20,13 +20,7 @@
         android:hint="Name"
         android:inputType="text"
         android:layout_margin="3dp"/>
-    <EditText
-        android:id="@+id/password_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:layout_margin="3dp"/>
+
         <EditText
             android:id="@+id/email_profile"
             android:layout_width="match_parent"
@@ -94,10 +88,10 @@
             android:hint="Preferred Location"
             android:layout_margin="3dp"/>
         <Button
-            android:id="@+id/btn_ok"
+            android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="OK"
+            android:text="SUBMIT"
             android:layout_margin="5dp"/>
 </LinearLayout>
 
