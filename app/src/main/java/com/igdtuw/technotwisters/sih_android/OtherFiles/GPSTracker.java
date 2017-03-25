@@ -16,6 +16,8 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import com.igdtuw.technotwisters.sih_android.model.GPSDatabase;
+
 public class GPSTracker extends Service implements LocationListener {
 
     private final Context mContext;
@@ -44,7 +46,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     public GPSTracker(Context context) {
         this.mContext = context;
-        getLocation();
+        location=getLocation();
     }
 
     public Location getLocation() {
@@ -61,11 +63,12 @@ public class GPSTracker extends Service implements LocationListener {
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
             } else {
-                this.canGetLocation = true;
+
                 // First get location from Network Provider
                 if (isNetworkEnabled) {
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         // TODO: Consider calling
+                        this.canGetLocation = true;
                         //    ActivityCompat#requestPermissions
                         // here to request the missing permissions, and then overriding
                         //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -107,6 +110,7 @@ public class GPSTracker extends Service implements LocationListener {
                             if (location != null) {
                                 latitude = location.getLatitude();
                                 longitude = location.getLongitude();
+                                updateDatabase();
                             }
                         }
                     }
@@ -161,6 +165,17 @@ public class GPSTracker extends Service implements LocationListener {
      * Function to check GPS/wifi enabled
      * @return boolean
      * */
+    private void updateDatabase() {
+
+        GPSDatabase myDatabase=new GPSDatabase(mContext);
+
+        myDatabase.open();
+
+        myDatabase.insertRows(Double.toString(latitude),Double.toString(longitude));
+
+        myDatabase.close();
+
+    }
 
     public boolean canGetLocation() {
         return this.canGetLocation;

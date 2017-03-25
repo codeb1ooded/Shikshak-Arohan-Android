@@ -41,6 +41,7 @@ import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_TrackFragment;
 import com.igdtuw.technotwisters.sih_android.model.Result;
 
 import java.util.Calendar;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -124,13 +125,67 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         AlarmManager am = (AlarmManager) DashboardActivity.this.getSystemService(DashboardActivity.this.ALARM_SERVICE);
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 */
+
+        //*************** For tracking location randomly
+        Thread myThread = null;
+
+        Runnable myRunnableThread = new CountDownRunner();
+        myThread= new Thread(myRunnableThread);
+        myThread.start();
+
         if (savedInstanceState == null) {
             navItemIndex = 0;
             Dashboard_HomeFragment homeFragment = new Dashboard_HomeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, homeFragment).commit();
         }
+
+
+    }
+    public void doWork() {
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                try{
+
+                    Calendar c = Calendar.getInstance();
+                    int seconds = c.get(Calendar.SECOND);
+                    int minutes = c.get(Calendar.MINUTE);
+                    int hours = c.get(Calendar.HOUR_OF_DAY);
+
+
+                    String curTime = hours + ":" + minutes + ":" + seconds;
+
+                    GPSTracker gps = new GPSTracker(DashboardActivity.this);
+
+
+
+                }catch (Exception e) {}
+            }
+
+        });
+
+
     }
 
+
+    class CountDownRunner implements Runnable{
+        // @Override
+        public void run() {
+            while(!Thread.currentThread().isInterrupted()){
+                try {
+                    doWork();
+                    long names[] = { 30 ,20 , 40, 60};
+                    Random Dice = new Random();
+                    int n = Dice.nextInt(names.length);
+
+                    Thread.sleep(n*60*1000); // Pause of random tme in  Second
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }catch(Exception e){
+                }
+            }
+        }
+    }
     /***
      * Load navigation dashboard_toolbar_menu header information
      * like background image, profile image
@@ -254,8 +309,13 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        if(id==R.id.action_profile){
+            Intent i = new Intent();
+            i.setClass(DashboardActivity.this, ProfileChangeActivity.class);
+            startActivity(i);
+        }
 
-        if (id == R.id.action_logout) {
+        else if (id == R.id.action_logout) {
             AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
             builder.setTitle("Confirm");
             builder.setMessage("Are you sure you want to logout?");
