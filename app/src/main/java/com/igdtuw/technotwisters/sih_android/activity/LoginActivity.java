@@ -123,6 +123,9 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
     public void onBackPressed() {
         // disable going back to the MainActivity
         moveTaskToBack(true);
+        Intent i = new Intent();
+        i.setClass(LoginActivity.this, MainActivity.class);
+        startActivity(i);
     }
 
     public void onLoginSuccess(AccountDetails accountDetails) {

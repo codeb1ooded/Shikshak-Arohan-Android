@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:text="The National Commission for Protection of Child Rights (NCPCR) emphasizes the principle of universality and inviolability of child rights and recognizes the tone of urgency in all the child related policies of the country.For the Commission, protection of all children in the 0 to 18 years age group is of equal importance."
+        android:textSize="15dp"
+        android:textColor="@color/colorPrimaryDark"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:background="#eeeeee"
+        android:textColor="@color/colorBlack"
+        android:text="For the Commission, all the rights of children are of equal importance."/>
+    <TextView
+        android:id="@+id/text_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:text="Organization Structure "
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorPrimary"/>
+    <TextView
+        android:id="@+id/text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:text="Constitution "
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorPrimary"/>
+    <TextView
+        android:id="@+id/text_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:text="Functions and Powers "
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorPrimary"/>
+    <TextView
+        android:id="@+id/text_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:text="Administration and Finance "
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorPrimary"/>
+    <TextView
+        android:id="@+id/text_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:text="Responsibilities under other Acts  "
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorPrimary"/>
+</LinearLayout>

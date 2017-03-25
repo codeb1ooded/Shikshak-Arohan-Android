@@ -5,23 +5,18 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.igdtuw.technotwisters.sih_android.R;
-import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_HomeFragment;
-import com.igdtuw.technotwisters.sih_android.fragments.Main_AboutUs_Fragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -98,6 +93,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
+
     }
 
     @Override
@@ -144,13 +140,12 @@ public class MainActivity extends AppCompatActivity
             i.setClass(MainActivity.this, MainActivity.class);
             startActivity(i);
         } else if (id == R.id.about_us) {
-            Main_AboutUs_Fragment aboutFragment = new Main_AboutUs_Fragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_main, aboutFragment).commit();
-
+            Intent i = new Intent();
+            i.setClass(MainActivity.this, AboutUs.class);
+            startActivity(i);
 
         } else if (id == R.id.faqs) {
-            Fragment aboutFragment = new Fragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_main, aboutFragment).commit();
+
 
         }  else if (id == R.id.privacy) {
             Intent i = new Intent();
