@@ -1,27 +1,39 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
+
 import android.content.Intent;
+
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.view.View;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_HomeFragment;
 import com.igdtuw.technotwisters.sih_android.fragments.Main_AboutUs_Fragment;
+import com.igdtuw.technotwisters.sih_android.fragments.Main_Faqs_Fragment;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -144,13 +156,12 @@ public class MainActivity extends AppCompatActivity
             i.setClass(MainActivity.this, MainActivity.class);
             startActivity(i);
         } else if (id == R.id.about_us) {
-            Main_AboutUs_Fragment aboutFragment = new Main_AboutUs_Fragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_main, aboutFragment).commit();
-
+            Dashboard_HomeFragment about1Fragment = new Dashboard_HomeFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_main, about1Fragment).commit();
 
         } else if (id == R.id.faqs) {
-            Fragment aboutFragment = new Fragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_main, aboutFragment).commit();
+            Main_Faqs_Fragment aboutFragment = new Main_Faqs_Fragment();
+             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_main, aboutFragment).commit();
 
         }  else if (id == R.id.privacy) {
             Intent i = new Intent();
