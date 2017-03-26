@@ -77,7 +77,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+       setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
@@ -85,8 +85,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
         txtWebsite = (TextView) navHeader.findViewById(R.id.website);
-        imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
-        imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
+       // imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
+        //imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
 
         navigationView.setNavigationItemSelectedListener(this);
 

@@ -69,6 +69,7 @@ public class Dashboard_TrackFragment extends Fragment {
                         4. present data in graph
                      */
                     Toast.makeText(getContext(), "Count: "+countDaysBetween(), Toast.LENGTH_SHORT).show();
+
                 }
                 else {
                     Toast.makeText(getContext(), "Invalid filters", Toast.LENGTH_SHORT).show();

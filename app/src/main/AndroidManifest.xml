@@ -49,27 +49,27 @@
         <activity
             android:name=".activity.SignupActivity"
             android:label="@string/title_activity_signup"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/MyTheme" />
         <activity
             android:name=".activity.PhotoGalleryActivity"
             android:label="Photo Gallery"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/MyTheme" />
         <activity
             android:name=".activity.RtiActivity"
             android:label="RTI"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/MyTheme" />
         <activity
             android:name=".activity.FeedbackActivity"
             android:label="Feedback"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/MyTheme" />
         <activity
             android:name=".activity.SitemapActivity"
             android:label="Sitemap"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/MyTheme" />
         <activity
             android:name=".activity.PrivacyPolicy"
             android:label="@string/title_activity_privacy_policy"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/MyTheme" />
         <activity
             android:name=".activity.SeperateToDoActivity"
             android:label="@string/title_activity_to_do"
@@ -81,6 +81,7 @@
         <activity
             android:name=".activity.AddSchoolActivity"
             android:label="@string/title_activity_add_school"
+            android:theme="@style/AppTheme.NoActionBar"
             android:noHistory="true" />
 
         <receiver android:name=".OtherFiles.NotificationReceiver" />
