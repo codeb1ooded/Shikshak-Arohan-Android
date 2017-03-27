@@ -10,27 +10,25 @@ import android.widget.Toast;
 
 import com.igdtuw.technotwisters.sih_android.activity.DashboardActivity;
 
-public class GPSService extends Service {
+public class GPSService {
     public GPSService() {
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
+
+  /*  public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
-        GPSTracker gps = new GPSTracker(GPSService.this);
+        GPSTracker gps = new GPSTracker(this);
         if (gps.canGetLocation()) {
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
             Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
         } else {
-            // can't get location
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
+
             AlarmManager alarmMgr;
             PendingIntent alarmIntent;
 
@@ -46,5 +44,5 @@ public class GPSService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-    }
+    }*/
 }

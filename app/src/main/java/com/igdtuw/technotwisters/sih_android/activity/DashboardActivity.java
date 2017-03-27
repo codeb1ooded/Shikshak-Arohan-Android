@@ -1,5 +1,6 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -7,15 +8,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +36,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.GPSService;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.GPSTracker;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.NotificationReceiver;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.TrackGPS;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
 import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_HomeFragment;
@@ -40,8 +48,12 @@ import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_TrackFragment;
 import com.igdtuw.technotwisters.sih_android.model.Result;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,13 +83,14 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
     String username, accessToken;
     boolean schoolAdded;
+    private Location location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-       setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
@@ -85,7 +98,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
         txtWebsite = (TextView) navHeader.findViewById(R.id.website);
-       // imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
+        // imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
         //imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -130,7 +143,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         Thread myThread = null;
 
         Runnable myRunnableThread = new CountDownRunner();
-        myThread= new Thread(myRunnableThread);
+        myThread = new Thread(myRunnableThread);
         myThread.start();
 
         if (savedInstanceState == null) {
@@ -141,11 +154,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
 
     }
+
     public void doWork() {
 
         runOnUiThread(new Runnable() {
             public void run() {
-                try{
+                try {
 
                     Calendar c = Calendar.getInstance();
                     int seconds = c.get(Calendar.SECOND);
@@ -158,8 +172,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                     GPSTracker gps = new GPSTracker(DashboardActivity.this);
 
 
-
-                }catch (Exception e) {}
+                } catch (Exception e) {
+                }
             }
 
         });
@@ -168,24 +182,25 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     }
 
 
-    class CountDownRunner implements Runnable{
+    class CountDownRunner implements Runnable {
         // @Override
         public void run() {
-            while(!Thread.currentThread().isInterrupted()){
+            while (!Thread.currentThread().isInterrupted()) {
                 try {
                     doWork();
-                    long names[] = { 30 ,20 , 40, 60};
+                    long names[] = {30, 20, 40, 60};
                     Random Dice = new Random();
                     int n = Dice.nextInt(names.length);
 
-                    Thread.sleep(n*60*1000); // Pause of random tme in  Second
+                    Thread.sleep(n * 60 * 1000); // Pause of random tme in  Second
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
-                }catch(Exception e){
+                } catch (Exception e) {
                 }
             }
         }
     }
+
     /***
      * Load navigation dashboard_toolbar_menu header information
      * like background image, profile image
@@ -309,13 +324,11 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id==R.id.action_profile){
+        if (id == R.id.action_profile) {
             Intent i = new Intent();
             i.setClass(DashboardActivity.this, ProfileChangeActivity.class);
             startActivity(i);
-        }
-
-        else if (id == R.id.action_logout) {
+        } else if (id == R.id.action_logout) {
             AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
             builder.setTitle("Confirm");
             builder.setMessage("Are you sure you want to logout?");
@@ -386,39 +399,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {     // present
                     mark = 0;
-                    /*LocationManager locationManager = (LocationManager) DashboardActivity.this.getSystemService(Context.LOCATION_SERVICE);
 
-                    LocationListener locationListener = new LocationListener() {
-                        public void onLocationChanged(Location location) {
-                            location.getLatitude();
-                            location.getLongitude();
-                            location.getAccuracy();
-                            DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
-                            Date date = new Date();
-                            Log.i("DashboardActivity", sdf.format(date));
-                        }
-
-                        public void onStatusChanged(String provider, int status, Bundle extras) {
-                        }
-
-                        public void onProviderEnabled(String provider) {
-                        }
-
-                        public void onProviderDisabled(String provider) {
-                        }
-                    };
-                    if (ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
-                        return;
-                    }
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);*/
                 } else if (which == 1) {
                     // absent
                     mark = 1;
@@ -432,23 +413,90 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             public void onClick(DialogInterface dialog, int id) {
                 if (mark == 0) {
 
-                    GPSTracker gps = new GPSTracker(DashboardActivity.this);
+/*
+                    LocationListener locationListener = new LocationListener() {
+                        public void onLocationChanged(Location location) {
+
+                        }
+
+                        public void onStatusChanged(String provider, int status, Bundle extras) {
+                        }
+
+                        public void onProviderEnabled(String provider) {
+                        }
+
+                        public void onProviderDisabled(String provider) {
+                        }
+                    };
+
+                    LocationManager locationManager;
+                    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                    }
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+
+                    if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                    {
+                       location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        if(location!=null)
+                        {
+                            double latitude,longitude;
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                            location.getAccuracy();
+                            DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+                            Date date = new Date();
+                            Log.i("DashboardActivity", sdf.format(date));
+                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"hello",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(intent);
+                    }
+
+
+
+
+*/
+                    TrackGPS gps = new TrackGPS(DashboardActivity.this);
+
+
                     if (gps.canGetLocation()) {
+
+
+                      double  longitude = gps.getLongitude();
                         double latitude = gps.getLatitude();
-                        double longitude = gps.getLongitude();
-                        Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                    } else {
+                        Toast.makeText(getApplicationContext(), "Longitude:" + Double.toString(longitude) + "\nLatitude:" + Double.toString(latitude), Toast.LENGTH_SHORT).show();
+                    /*GPSTracker gps = new GPSTracker(DashboardActivity.this);
+                    Location location = gps.getLocation();
+                    if (gps.canGetLocation()) {
+                       // double latitude = location.getLatitude();
+                        double longitude = location.getLongitude();
+                        Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "+ "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                 */   } else {
                         // can't get location
                         // GPS or Network is not enabled
                         // Ask user to enable GPS/network in settings
-                        gps.showSettingsAlert();
+                        // gps.showSettingsAlert();
                     }
 
 
                 }
-
-
             }
+
+
+
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
