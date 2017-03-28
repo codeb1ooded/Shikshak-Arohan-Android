@@ -35,12 +35,12 @@ public interface ApiInterface  {
                                 @Query(URLs.PARAM_ACCURACY) float accuracy, @Query(URLs.PARAM_PRESENCE) int presence);
 
     @GET(URLs.SIGN_UP_URL)
-    Call<Result> updateUserDetails(
-                                           @Query(URLs.PARAM_NAME) String name, @Query(URLs.PARAM_AGE) int age, @Query(URLs.PARAM_CONTACT_NUMBER) long contactNum,
-                                           @Query(URLs.PARAM_EMAIL) String email, @Query(URLs.PARAM_EXPERTISE) String expertise,
-                                           @Query(URLs.PARAM_ADDRESS) String address, @Query(URLs.PARAM_CITY) String city,
-                                           @Query(URLs.PARAM_STATE) String state, @Query(URLs.PARAM_PREFERRED_LOCATION) String preferredLoaction,
-                                           @Query(URLs.PARAM_QUALIFICATION) String qualification, @Query(URLs.PARAM_TEACHING_EXPERIENCE) int teachingExperience);
+    Call<Result> updateUserDetails(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_ACCESS_TOKEN) String accessToken,
+                                   @Query(URLs.PARAM_NAME) String name, @Query(URLs.PARAM_AGE) int age, @Query(URLs.PARAM_CONTACT_NUMBER) long contactNum,
+                                   @Query(URLs.PARAM_EMAIL) String email, @Query(URLs.PARAM_EXPERTISE) String expertise,
+                                   @Query(URLs.PARAM_ADDRESS) String address, @Query(URLs.PARAM_CITY) String city,
+                                   @Query(URLs.PARAM_STATE) String state, @Query(URLs.PARAM_PREFERRED_LOCATION) String preferredLoaction,
+                                   @Query(URLs.PARAM_QUALIFICATION) String qualification, @Query(URLs.PARAM_TEACHING_EXPERIENCE) int teachingExperience);
 
     @GET(URLs.ADD_SCHOOL_URL)
     Call<Result> addSchoolToUser(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_ACCESS_TOKEN) String accessToken,
