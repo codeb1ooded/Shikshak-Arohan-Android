@@ -13,6 +13,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -85,6 +86,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     boolean schoolAdded;
     private Location location;
 
+    private static final int REQUEST_CODE_LOCATION_FINE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,6 +155,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, homeFragment).commit();
         }
 
+        askLocationPermission();
 
     }
 
@@ -515,6 +519,29 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     // Method to stop the service
     public void stopService(View view) {
         stopService(new Intent(getBaseContext(), GPSService.class));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_LOCATION_FINE: {
+                //TODO : In Case of not accepting location permission
+                break;
+            }
+        }
+    }
+
+
+    /** Private Methods **/
+
+    /**
+     * Ask FINE Location Running Permission
+     */
+    private void askLocationPermission() {
+        //For Fine Location Permission in API Level 23 and above (Running Permission)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION_FINE);
+        }
     }
 
 }
