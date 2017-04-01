@@ -11,14 +11,15 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
- <!--   <uses-feature android:name="android.hardware.location.gps" />
--->
+
+    <!--    <uses-feature android:name="android.hardware.location.gps" /> -->
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -34,17 +35,14 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.AboutUs"
             android:label="About Us"
-
             android:theme="@style/MyTheme" />
-
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/app_name"
-
             android:theme="@style/MyTheme" />
         <activity
             android:name=".activity.DashboardActivity"
@@ -75,6 +73,10 @@
             android:label="@string/title_activity_privacy_policy"
             android:theme="@style/MyTheme" />
         <activity
+            android:name=".activity.ToDo"
+            android:label="To-Do"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".activity.SeperateToDoActivity"
             android:label="@string/title_activity_to_do"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -85,15 +87,12 @@
         <activity
             android:name=".activity.AddSchoolActivity"
             android:label="@string/title_activity_add_school"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:noHistory="true" />
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".OtherFiles.NotificationReceiver" />
 
-        <service
-            android:name=".OtherFiles.GPSService"
-            android:enabled="true"
-            android:exported="true"></service>
+
     </application>
 
 </manifest>

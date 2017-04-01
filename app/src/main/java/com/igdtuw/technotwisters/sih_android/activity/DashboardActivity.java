@@ -35,6 +35,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,11 +74,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferencesStrings {
+
     int mark;
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private View navHeader;
-    private ImageView imgNavHeaderBg, imgProfile;
+    private ImageView imgNavHeaderBg, imgProfile,text_mark,text_track,text_profile,text_todo;
     private TextView txtName, txtWebsite;
     private Toolbar toolbar;
 
@@ -109,12 +111,75 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
+
+
         // Navigation view header
         navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
         txtWebsite = (TextView) navHeader.findViewById(R.id.website);
         // imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
         //imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
+
+        text_mark = (ImageView) findViewById(R.id.text_mark);
+        text_mark.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (schoolAdded) {
+                    // TODO: first check if user is within the time period to mark attendance
+                    onCreateDialogSingleChoice().show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
+                    builder.setTitle("You aren't allowed this action!");
+                    builder.setMessage("Click ok to add school first");
+                    LayoutInflater inflater = getLayoutInflater();
+                     v = inflater.inflate(R.layout.dialog_confirm_logout, null);
+                    builder.setView(v);
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent();
+                            intent.setClass(DashboardActivity.this, AddSchoolActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    builder.create().show();
+                }
+            }
+        });
+        text_profile = (ImageView) findViewById(R.id.text_profile);
+        text_profile.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(DashboardActivity.this, ProfileChangeActivity.class);
+                startActivity(i);
+            }
+        });
+        text_track = (ImageView) findViewById(R.id.text_track);
+        text_track.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(DashboardActivity.this, ProfileChangeActivity.class);
+                startActivity(i);
+            }
+        });
+        text_todo = (ImageView) findViewById(R.id.text_rem);
+        text_todo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(DashboardActivity.this, ToDo.class);
+                startActivity(i);
+         /*       Dashboard_ToDoFragment toDoFragment = new Dashboard_ToDoFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, toDoFragment).commit();
+           */ }
+        });
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -137,7 +202,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(DashboardActivity.this, 0, intent, 0);
 
-// Set the alarm to start at 8:30 a.m.
+        // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 20);
@@ -146,13 +211,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         // Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, alarmIntent);
-        //*********END OF THE CODE************
 
-       /* Intent intent1 = new Intent(DashboardActivity.this,NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(DashboardActivity.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am = (AlarmManager) DashboardActivity.this.getSystemService(DashboardActivity.this.ALARM_SERVICE);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-*/
 
         //*************** For tracking location randomly
         Thread myThread = null;
@@ -183,13 +242,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                     int seconds = c.get(Calendar.SECOND);
                     int minutes = c.get(Calendar.MINUTE);
                     int hours = c.get(Calendar.HOUR_OF_DAY);
-
-
                     String curTime = hours + ":" + minutes + ":" + seconds;
-
                     GPSTracker gps = new GPSTracker(DashboardActivity.this);
-
-
                 } catch (Exception e) {
                 }
             }
@@ -201,7 +255,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
 
     class CountDownRunner implements Runnable {
-        // @Override
         public void run() {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
@@ -371,6 +424,10 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                                 editor.commit();
                                 editor.putString(SP_NAME, "N/A");
                                 editor.commit();
+                                editor.putBoolean(SP_USER_TOKEN_GRANTED, false);
+                                editor.commit();
+                                editor.putBoolean(SP_SCHOOL_DETAILS_DONE, false);
+                                editor.commit();
                                 Intent i = new Intent(DashboardActivity.this, LoginActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(i);
@@ -416,102 +473,30 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         builder.setSingleChoiceItems(array, 1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {     // present
+                if (which == 0)      // present
                     mark = 0;
-
-                } else if (which == 1) {
-                    // absent
+                else if (which == 1) // absent
                     mark = 1;
-                } else {           // holiday
+                else                // holiday
                     mark = 2;
-                }
             }
         });
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 if (mark == 0) {
-
-/*
-                    LocationListener locationListener = new LocationListener() {
-                        public void onLocationChanged(Location location) {
-
-                        }
-
-                        public void onStatusChanged(String provider, int status, Bundle extras) {
-                        }
-
-                        public void onProviderEnabled(String provider) {
-                        }
-
-                        public void onProviderDisabled(String provider) {
-                        }
-                    };
-
-                    LocationManager locationManager;
-                    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                    }
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
-
-                    if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-                    {
-                       location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        if(location!=null)
-                        {
-                            double latitude,longitude;
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                            location.getAccuracy();
-                            DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
-                            Date date = new Date();
-                            Log.i("DashboardActivity", sdf.format(date));
-                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-                            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(),"hello",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else
-                    {
-                        Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(intent);
-                    }
-
-
-
-
-*/
                     TrackGPS gps = new TrackGPS(DashboardActivity.this);
-
-
                     if (gps.canGetLocation()) {
 
-
-                        double longitude = gps.getLongitude();
+                        double  longitude = gps.getLongitude();
                         double latitude = gps.getLatitude();
                         Toast.makeText(getApplicationContext(), "Longitude:" + Double.toString(longitude) + "\nLatitude:" + Double.toString(latitude), Toast.LENGTH_SHORT).show();
-                    /*GPSTracker gps = new GPSTracker(DashboardActivity.this);
-                    Location location = gps.getLocation();
-                    if (gps.canGetLocation()) {
-                       // double latitude = location.getLatitude();
-                        double longitude = location.getLongitude();
-                        Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "+ "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                 */
                     } else {
                         // can't get location
                         // GPS or Network is not enabled
                         // Ask user to enable GPS/network in settings
                         // gps.showSettingsAlert();
                     }
-
-
                 }
             }
 
