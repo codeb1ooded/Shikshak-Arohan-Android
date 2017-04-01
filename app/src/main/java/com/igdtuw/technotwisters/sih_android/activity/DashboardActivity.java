@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,11 +62,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferencesStrings {
+
     int mark;
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private View navHeader;
-    private ImageView imgNavHeaderBg, imgProfile;
+    private ImageView imgNavHeaderBg, imgProfile,text_mark,text_track,text_profile,text_todo;
     private TextView txtName, txtWebsite;
     private Toolbar toolbar;
 
@@ -97,10 +99,76 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
+
+
         // Navigation view header
         navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
         txtWebsite = (TextView) navHeader.findViewById(R.id.website);
+        // imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
+        //imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
+
+        text_mark = (ImageView) findViewById(R.id.text_mark);
+        text_mark.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (schoolAdded) {
+                    // TODO: first check if user is within the time period to mark attendance
+                    onCreateDialogSingleChoice().show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
+                    builder.setTitle("You aren't allowed this action!");
+                    builder.setMessage("Click ok to add school first");
+                    LayoutInflater inflater = getLayoutInflater();
+                     v = inflater.inflate(R.layout.dialog_confirm_logout, null);
+                    builder.setView(v);
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent();
+                            intent.setClass(DashboardActivity.this, AddSchoolActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    builder.create().show();
+                }
+            }
+        });
+        text_profile = (ImageView) findViewById(R.id.text_profile);
+        text_profile.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(DashboardActivity.this, ProfileChangeActivity.class);
+                startActivity(i);
+            }
+        });
+        text_track = (ImageView) findViewById(R.id.text_track);
+        text_track.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(DashboardActivity.this, ProfileChangeActivity.class);
+                startActivity(i);
+            }
+        });
+        text_todo = (ImageView) findViewById(R.id.text_rem);
+        text_todo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(DashboardActivity.this, ToDo.class);
+                startActivity(i);
+         /*       Dashboard_ToDoFragment toDoFragment = new Dashboard_ToDoFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, toDoFragment).commit();
+           */ }
+        });
+
         navigationView.setNavigationItemSelectedListener(this);
 
         sharedPreferences = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
