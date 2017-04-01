@@ -141,12 +141,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
         editor.commit();
         Log.i("AccessToken: ", accountDetails.name);
         checkIsSchoolAdded();
-        progressDialog.dismiss();
-        _loginButton.setEnabled(true);
-        finish();
-        Intent i = new Intent();
-        i.setClass(LoginActivity.this, DashboardActivity.class);
-        startActivity(i);
+
     }
 
     private void checkIsSchoolAdded() {
@@ -162,10 +157,17 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
                         editor.commit();
                         editor.putString(SharedPreferencesStrings.SP_SCHOOL_USERNAME, schoolUsername);
                         editor.commit();
+                        editor.putString(SharedPreferencesStrings.SP_SCHOOL_NAME, school.getSchoolName());
+                        editor.commit();
                         getSchoolLatLong(schoolUsername);
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, response.errorBody().toString(), Toast.LENGTH_SHORT).show(); progressDialog.dismiss();
+                    _loginButton.setEnabled(true);
+                    finish();
+                    Intent i = new Intent();
+                    i.setClass(LoginActivity.this, DashboardActivity.class);
+                    startActivity(i);
                 }
             }
 
@@ -173,7 +175,12 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
             public void onFailure(Call<CheckSchool> call, Throwable t) {
                 progressDialog.dismiss();
                 Log.i("AccessToken: ", "not granted " + t);
-                onLoginFailed();
+                onLoginFailed(); progressDialog.dismiss();
+                _loginButton.setEnabled(true);
+                finish();
+                Intent i = new Intent();
+                i.setClass(LoginActivity.this, DashboardActivity.class);
+                startActivity(i);
             }
         });
     }
@@ -193,18 +200,30 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
                     editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LONGITUDE, (float) schoolDetails.getLongitude());
                     editor.commit();
                     editor.putString(SharedPreferencesStrings.SP_SCHOOL_NAME, schoolDetails.getSchoolName());
-                    editor.commit();
-                    progressDialog.dismiss();
+                    editor.commit(); progressDialog.dismiss();
+                    _loginButton.setEnabled(true);
+                    finish();
+                    Intent i = new Intent();
+                    i.setClass(LoginActivity.this, DashboardActivity.class);
+                    startActivity(i);
                 } else {
-                    progressDialog.dismiss();
-                    Toast.makeText(LoginActivity.this, "Error: "+response.errorBody(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Error: "+response.errorBody(), Toast.LENGTH_SHORT).show(); progressDialog.dismiss();
+                    _loginButton.setEnabled(true);
+                    finish();
+                    Intent i = new Intent();
+                    i.setClass(LoginActivity.this, DashboardActivity.class);
+                    startActivity(i);
                 }
             }
 
             @Override
             public void onFailure(Call<SchoolDetails> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(LoginActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, t.toString(), Toast.LENGTH_SHORT).show(); progressDialog.dismiss();
+                _loginButton.setEnabled(true);
+                finish();
+                Intent i = new Intent();
+                i.setClass(LoginActivity.this, DashboardActivity.class);
+                startActivity(i);
             }
 
         });

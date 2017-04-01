@@ -7,11 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by shobhit on 25/3/17.
- */
-
-
 public class GPSDatabase {
     private Context context;
     private DbHelper dbHelper;

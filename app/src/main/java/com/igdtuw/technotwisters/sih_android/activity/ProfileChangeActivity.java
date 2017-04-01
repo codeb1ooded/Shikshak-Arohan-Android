@@ -40,9 +40,10 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
     private EditText _pref_location;
     private Button _submit;
     ProgressDialog progressDialog;
-    Call<Result> authenticateUser;
-    String name, email, address, city, state, expertise, qualification, preferredlocation;
-    int age, teachingExperience;
+
+    Call<Result> updateDetails;
+    String name,email,address,city,state,expertise,qualification,preferredlocation;
+    int age,teachingExperience;
     long contactNum;
 
     SharedPreferences sharedPreferences;
@@ -75,13 +76,6 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
     }
 
     public void submit() {
-        // Log.d(TAG, "Login");
-
-            /*if (!validate()) {
-                onLoginFailed();
-                return;
-            }*/
-
         _submit.setEnabled(false);
 
         progressDialog = new ProgressDialog(ProfileChangeActivity.this);
@@ -89,8 +83,8 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
-        //String username = _usernameText.getText().toString();
-        //String password = _passwordText.getText().toString();
+        String username = sharedPreferences.getString(SP_USER_USERNAME, null);
+        String access_token = sharedPreferences.getString(SP_USER_ACCESS_TOKEN, null);
         String name = _name.getText().toString().trim();
         int age = Integer.parseInt(_name.getText().toString());
         long contactNum = Long.parseLong(_name.getText().toString().trim());
@@ -102,23 +96,21 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
         String expertise = _expertise.getText().toString().trim();
         int teachingExperience = Integer.parseInt(_experience.getText().toString().trim());
         String preferredLocation = _pref_location.getText().toString().trim();
-        String username = sharedPreferences.getString(SP_USER_USERNAME, null);
-        String accessToken = sharedPreferences.getString(SP_USER_ACCESS_TOKEN, null);
 
-        if (name == null || age == 0 || contactNum == 0 || email == null || address == null || city == null || state == null || qualification == null || expertise == null || teachingExperience == 0 || preferredLocation == null) {
+        if(name==null||age==0||contactNum==0||email==null||address==null||city==null||state==null||qualification==null||expertise==null||teachingExperience==0||preferredLocation==null){
             Toast.makeText(ProfileChangeActivity.this,
                     "All fields Mandatory", Toast.LENGTH_LONG).show();
         } else {
-
-            authenticateUser = ApiClient.getInterface().updateUserDetails(username, accessToken, name, age, contactNum, email, expertise, address, city, state, preferredLocation, qualification, teachingExperience);
-            authenticateUser.enqueue(new Callback<Result>() {
+            updateDetails = ApiClient.getInterface().updateUserDetails(username, access_token, name, age, contactNum, email,
+                                            expertise, address, city, state, preferredLocation, qualification, teachingExperience);
+            updateDetails.enqueue(new Callback<Result>() {
                 @Override
                 public void onResponse(Call<Result> call, Response<Result> response) {
                     if (response.isSuccessful()) {
                         onSubmitSuccess(response.body());
                     } else {
-                        Log.i("AccessToken: ", "not granted " + response.errorBody());
-                        onLoginFailed();
+                        Log.i("UpdateFailed: ", "not granted " + response.errorBody());
+                        onUpdateFailed();
                     }
                 }
 
@@ -126,7 +118,7 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
                 public void onFailure(Call<Result> call, Throwable t) {
                     progressDialog.dismiss();
                     Log.i("AccessToken: ", "not granted " + t);
-                    onLoginFailed();
+                    onUpdateFailed();
                 }
             });
         }
@@ -173,9 +165,6 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
         editor.commit();
         editor.putString(SharedPreferencesStrings.SP_USER_PREFERRED_LOCATION, result.pref_location);
         editor.commit();
-        editor.putBoolean(SharedPreferencesStrings.SP_USER_TOKEN_GRANTED, true);
-        editor.commit();
-        Log.i("AccessToken: ", result.name_);
 
         progressDialog.dismiss();
         _submit.setEnabled(true);
@@ -185,8 +174,8 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
         startActivity(i);
     }
 
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Submit failed", Toast.LENGTH_LONG).show();
+    public void onUpdateFailed() {
+        Toast.makeText(getBaseContext(), "Update failed", Toast.LENGTH_LONG).show();
         _submit.setEnabled(true);
     }
 

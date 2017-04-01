@@ -101,9 +101,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
         txtWebsite = (TextView) navHeader.findViewById(R.id.website);
-        // imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
-        //imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
-
         navigationView.setNavigationItemSelectedListener(this);
 
         sharedPreferences = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
@@ -125,7 +122,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(DashboardActivity.this, 0, intent, 0);
 
-// Set the alarm to start at 8:30 a.m.
+        // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 20);
@@ -134,13 +131,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         // Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, alarmIntent);
-        //*********END OF THE CODE************
 
-       /* Intent intent1 = new Intent(DashboardActivity.this,NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(DashboardActivity.this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am = (AlarmManager) DashboardActivity.this.getSystemService(DashboardActivity.this.ALARM_SERVICE);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-*/
 
         //*************** For tracking location randomly
         Thread myThread = null;
@@ -169,13 +160,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                     int seconds = c.get(Calendar.SECOND);
                     int minutes = c.get(Calendar.MINUTE);
                     int hours = c.get(Calendar.HOUR_OF_DAY);
-
-
                     String curTime = hours + ":" + minutes + ":" + seconds;
-
                     GPSTracker gps = new GPSTracker(DashboardActivity.this);
-
-
                 } catch (Exception e) {
                 }
             }
@@ -187,7 +173,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
 
     class CountDownRunner implements Runnable {
-        // @Override
         public void run() {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
@@ -356,6 +341,10 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                                 editor.commit();
                                 editor.putString(SP_NAME, "N/A");
                                 editor.commit();
+                                editor.putBoolean(SP_USER_TOKEN_GRANTED, false);
+                                editor.commit();
+                                editor.putBoolean(SP_SCHOOL_DETAILS_DONE, false);
+                                editor.commit();
                                 Intent i = new Intent(DashboardActivity.this, LoginActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(i);
@@ -401,101 +390,29 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         builder.setSingleChoiceItems(array, 1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {     // present
+                if (which == 0)      // present
                     mark = 0;
-
-                } else if (which == 1) {
-                    // absent
+                else if (which == 1) // absent
                     mark = 1;
-                } else {           // holiday
+                else                // holiday
                     mark = 2;
-                }
             }
         });
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 if (mark == 0) {
-
-/*
-                    LocationListener locationListener = new LocationListener() {
-                        public void onLocationChanged(Location location) {
-
-                        }
-
-                        public void onStatusChanged(String provider, int status, Bundle extras) {
-                        }
-
-                        public void onProviderEnabled(String provider) {
-                        }
-
-                        public void onProviderDisabled(String provider) {
-                        }
-                    };
-
-                    LocationManager locationManager;
-                    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                    }
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
-
-                    if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-                    {
-                       location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        if(location!=null)
-                        {
-                            double latitude,longitude;
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                            location.getAccuracy();
-                            DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
-                            Date date = new Date();
-                            Log.i("DashboardActivity", sdf.format(date));
-                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-                            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(),"hello",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else
-                    {
-                        Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(intent);
-                    }
-
-
-
-
-*/
                     TrackGPS gps = new TrackGPS(DashboardActivity.this);
-
-
                     if (gps.canGetLocation()) {
-
-
-                      double  longitude = gps.getLongitude();
+                        double  longitude = gps.getLongitude();
                         double latitude = gps.getLatitude();
                         Toast.makeText(getApplicationContext(), "Longitude:" + Double.toString(longitude) + "\nLatitude:" + Double.toString(latitude), Toast.LENGTH_SHORT).show();
-                    /*GPSTracker gps = new GPSTracker(DashboardActivity.this);
-                    Location location = gps.getLocation();
-                    if (gps.canGetLocation()) {
-                       // double latitude = location.getLatitude();
-                        double longitude = location.getLongitude();
-                        Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "+ "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                 */   } else {
+                    } else {
                         // can't get location
                         // GPS or Network is not enabled
                         // Ask user to enable GPS/network in settings
                         // gps.showSettingsAlert();
                     }
-
-
                 }
             }
 

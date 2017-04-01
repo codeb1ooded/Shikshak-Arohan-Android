@@ -9,6 +9,7 @@ public class CheckSchool {
     String status;
     String message;
     String school_username;
+    String school_name;
 
     public String getStatus() {
         return status;
@@ -20,5 +21,9 @@ public class CheckSchool {
 
     public String getSchoolUsername() {
         return school_username;
+    }
+
+    public String getSchoolName() {
+        return school_name;
     }
 }

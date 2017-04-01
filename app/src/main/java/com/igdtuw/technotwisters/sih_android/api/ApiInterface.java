@@ -43,7 +43,7 @@ public interface ApiInterface  {
                                    @Query(URLs.PARAM_QUALIFICATION) String qualification, @Query(URLs.PARAM_TEACHING_EXPERIENCE) int teachingExperience);
 
     @GET(URLs.ADD_SCHOOL_URL)
-    Call<Result> addSchoolToUser(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_ACCESS_TOKEN) String accessToken,
+    Call<CheckSchool> addSchoolToUser(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_ACCESS_TOKEN) String accessToken,
                                     @Query(URLs.PARAM_SCHOOL_USERNAME) String schoolUsername);
 
     @GET(URLs.GET_LAT_LONG)
@@ -54,4 +54,3 @@ public interface ApiInterface  {
     Call<CheckSchool> isSchoolAdded(@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_ACCESS_TOKEN) String accessToken);
 
 }
-    //@Query(URLs.PARAM_USERNAME) String username, @Query(URLs.PARAM_ACCESS_TOKEN) String accessToken,

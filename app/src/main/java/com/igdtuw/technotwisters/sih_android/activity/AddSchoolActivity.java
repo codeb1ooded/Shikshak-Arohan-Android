@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
 import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
+import com.igdtuw.technotwisters.sih_android.model.CheckSchool;
 import com.igdtuw.technotwisters.sih_android.model.Result;
 import com.igdtuw.technotwisters.sih_android.model.SchoolDetails;
 
@@ -34,7 +35,7 @@ public class AddSchoolActivity extends AppCompatActivity implements SharedPrefer
     SharedPreferences.Editor editor;
     ProgressDialog progressDialog;
     
-    Call<Result> addSchoolCall;
+    Call<CheckSchool> addSchoolCall;
     Call<SchoolDetails> getSchoolDetailsCall;
 
     String username, accessToken;
@@ -66,13 +67,16 @@ public class AddSchoolActivity extends AppCompatActivity implements SharedPrefer
                     progressDialog.show();
 
                     addSchoolCall = ApiClient.getInterface().addSchoolToUser(username, accessToken, schoolUsername);
-                    addSchoolCall.enqueue(new Callback<Result>() {
+                    addSchoolCall.enqueue(new Callback<CheckSchool>() {
                         @Override
-                        public void onResponse(Call<Result> call, Response<Result> response) {
+                        public void onResponse(Call<CheckSchool> call, Response<CheckSchool> response) {
                             if (response.isSuccessful()) {
+                                CheckSchool school = response.body();
                                 editor.putBoolean(SharedPreferencesStrings.SP_SCHOOL_ADDED, true);
                                 editor.commit();
                                 editor.putString(SharedPreferencesStrings.SP_SCHOOL_USERNAME, schoolUsername);
+                                editor.commit();
+                                editor.putString(SharedPreferencesStrings.SP_SCHOOL_NAME, school.getSchoolName());
                                 editor.commit();
                                 getSchoolLatLong(schoolUsername);
                             } else {
@@ -82,7 +86,7 @@ public class AddSchoolActivity extends AppCompatActivity implements SharedPrefer
                         }
 
                         @Override
-                        public void onFailure(Call<Result> call, Throwable t) {
+                        public void onFailure(Call<CheckSchool> call, Throwable t) {
                             progressDialog.dismiss();
                             Toast.makeText(AddSchoolActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
                         }
