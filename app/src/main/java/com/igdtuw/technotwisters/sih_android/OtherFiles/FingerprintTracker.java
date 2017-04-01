@@ -151,7 +151,7 @@ public class FingerprintTracker {
         @Override
         public void onAuthenticationSucceeded(AuthenticationResult result) {
             super.onAuthenticationSucceeded(result);
-            System.out.println(result.getCryptoObject().getSignature());
+            System.out.println(result.getCryptoObject().getCipher());
         }
 
         @Override

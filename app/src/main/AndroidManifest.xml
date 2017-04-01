@@ -82,7 +82,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ProfileChangeActivity"
-            android:label="profile _change"
+            android:label="Profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.AddSchoolActivity"

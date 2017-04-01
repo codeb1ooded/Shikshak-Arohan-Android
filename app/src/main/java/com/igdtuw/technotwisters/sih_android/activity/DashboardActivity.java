@@ -396,9 +396,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_profile) {
-            Intent i = new Intent();
-            //TODO : put intent in stack
-            i.setClass(DashboardActivity.this, ProfileChangeActivity.class);
+            Intent i = new Intent(this, ProfileChangeActivity.class);
             startActivity(i);
         } else if (id == R.id.action_logout) {
             AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
