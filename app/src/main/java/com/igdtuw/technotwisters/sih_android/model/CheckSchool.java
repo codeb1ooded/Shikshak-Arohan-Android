@@ -10,6 +10,8 @@ public class CheckSchool {
     String message;
     String school_username;
     String school_name;
+    double latitude;
+    double longitude;
 
     public String getStatus() {
         return status;
@@ -25,5 +27,13 @@ public class CheckSchool {
 
     public String getSchoolName() {
         return school_name;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 }
