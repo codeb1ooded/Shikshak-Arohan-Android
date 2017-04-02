@@ -157,12 +157,6 @@
                     android:paddingLeft="3dp"/>
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="150dp"
-                android:layout_height="120dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/education" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="300dp"
@@ -194,13 +188,6 @@
                     android:textSize="10dp"
                     android:paddingLeft="3dp"/>
             </LinearLayout>
-
-            <ImageView
-
-                android:layout_width="150dp"
-                android:layout_height="120dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/juvenile" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="300dp"
@@ -270,13 +257,6 @@
                     android:textSize="10dp"
                     android:paddingLeft="3dp"/>
             </LinearLayout>
-
-            <ImageView
-
-                android:layout_width="150dp"
-                android:layout_height="120dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/child_health" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="300dp"
@@ -308,13 +288,6 @@
                     android:textSize="10dp"
                     android:paddingLeft="3dp"/>
             </LinearLayout>
-
-            <ImageView
-
-                android:layout_width="150dp"
-                android:layout_height="120dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/northeast" />
         </LinearLayout>
 
 

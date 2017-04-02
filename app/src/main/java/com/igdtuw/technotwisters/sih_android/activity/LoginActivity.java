@@ -112,7 +112,6 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
 
             @Override
             public void onFailure(Call<AccountDetails> call, Throwable t) {
-                progressDialog.dismiss();
                 Log.i("AccessToken: ", "not granted " + t);
                 onLoginFailed();
             }
@@ -139,12 +138,14 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
         editor.commit();
         editor.putBoolean(SharedPreferencesStrings.SP_USER_TOKEN_GRANTED, true);
         editor.commit();
-        Log.i("AccessToken: ", accountDetails.name);
+        Log.i("AccessToken: ", accountDetails.access_token);
         checkIsSchoolAdded();
+
         finish();
         Intent i = new Intent();
         i.setClass(LoginActivity.this, DashboardActivity.class);
         startActivity(i);
+
 
     }
 
@@ -155,7 +156,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
             public void onResponse(Call<CheckSchool> call, Response<CheckSchool> response) {
                 CheckSchool school = response.body();
                 if (response.isSuccessful()) {
-                    if(school.getMessage().equals("school already added")){
+                    if(school.getMessage().equals("school present")){
                         String schoolUsername = school.getSchoolUsername();
                         editor.putBoolean(SharedPreferencesStrings.SP_SCHOOL_ADDED, true);
                         editor.commit();
@@ -163,79 +164,42 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
                         editor.commit();
                         editor.putString(SharedPreferencesStrings.SP_SCHOOL_NAME, school.getSchoolName());
                         editor.commit();
-                        getSchoolLatLong(schoolUsername);
+                        editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LATITUDE, (float) school.getLatitude());
+                        editor.commit();
+                        editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LONGITUDE, (float) school.getLongitude());
+                        editor.commit();
+                        editor.putBoolean(SharedPreferencesStrings.SP_SCHOOL_DETAILS_DONE, true);
+                        editor.commit();
+                        // getSchoolLatLong(schoolUsername);
                     }
-                } else {
-                    Toast.makeText(LoginActivity.this, response.errorBody().toString(), Toast.LENGTH_SHORT).show(); progressDialog.dismiss();
+                    progressDialog.dismiss();
                     _loginButton.setEnabled(true);
                     finish();
                     Intent i = new Intent();
                     i.setClass(LoginActivity.this, DashboardActivity.class);
                     startActivity(i);
+                } else {
+                    Toast.makeText(LoginActivity.this, response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+                    onLoginFailed();
                 }
             }
 
             @Override
             public void onFailure(Call<CheckSchool> call, Throwable t) {
-                progressDialog.dismiss();
                 Log.i("AccessToken: ", "not granted " + t);
-                onLoginFailed(); progressDialog.dismiss();
-                _loginButton.setEnabled(true);
-                finish();
-                Intent i = new Intent();
-                i.setClass(LoginActivity.this, DashboardActivity.class);
-                startActivity(i);
+                onLoginFailed();
             }
-        });
-    }
-
-    private void getSchoolLatLong(final String schoolUsername) {
-
-        getSchoolDetailsCall = ApiClient.getInterface().getLatLong(username, accessToken, schoolUsername);
-        getSchoolDetailsCall.enqueue(new Callback<SchoolDetails>() {
-            @Override
-            public void onResponse(Call<SchoolDetails> call, Response<SchoolDetails> response) {
-                SchoolDetails schoolDetails = response.body();
-                if (response.isSuccessful()) {
-                    editor.putBoolean(SharedPreferencesStrings.SP_SCHOOL_DETAILS_DONE, true);
-                    editor.commit();
-                    editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LATITUDE, (float) schoolDetails.getLatitude());
-                    editor.commit();
-                    editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LONGITUDE, (float) schoolDetails.getLongitude());
-                    editor.commit();
-                    editor.putString(SharedPreferencesStrings.SP_SCHOOL_NAME, schoolDetails.getSchoolName());
-                    editor.commit(); progressDialog.dismiss();
-                    _loginButton.setEnabled(true);
-                    finish();
-                    Intent i = new Intent();
-                    i.setClass(LoginActivity.this, DashboardActivity.class);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(LoginActivity.this, "Error: "+response.errorBody(), Toast.LENGTH_SHORT).show(); progressDialog.dismiss();
-                    _loginButton.setEnabled(true);
-                    finish();
-                    Intent i = new Intent();
-                    i.setClass(LoginActivity.this, DashboardActivity.class);
-                    startActivity(i);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SchoolDetails> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, t.toString(), Toast.LENGTH_SHORT).show(); progressDialog.dismiss();
-                _loginButton.setEnabled(true);
-                finish();
-                Intent i = new Intent();
-                i.setClass(LoginActivity.this, DashboardActivity.class);
-                startActivity(i);
-            }
-
         });
     }
 
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        progressDialog.dismiss();
         _loginButton.setEnabled(true);
+        finish();
+        Intent i = new Intent();
+        i.setClass(LoginActivity.this, DashboardActivity.class);
+        startActivity(i);
     }
 
     public boolean validate() {

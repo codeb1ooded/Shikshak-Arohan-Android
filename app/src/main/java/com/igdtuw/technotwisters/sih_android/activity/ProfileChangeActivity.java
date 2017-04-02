@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -73,6 +75,9 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
         });
         sharedPreferences = getSharedPreferences(SharedPreferencesStrings.SP_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
+        setupToolbar();
+
     }
 
     public void submit() {
@@ -124,6 +129,15 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // disable going back to the MainActivity
+//        moveTaskToBack(true);
+    }
+
+
     public void onSubmitSuccess(Result result) {
         name = result.name_;
         age = result.age_;
@@ -173,4 +187,22 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
         _submit.setEnabled(true);
     }
 
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

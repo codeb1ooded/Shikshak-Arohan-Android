@@ -1,9 +1,14 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
 import android.Manifest;
+import android.Manifest.permission;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,8 +17,12 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -35,9 +44,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.ajalt.reprint.core.AuthenticationFailureReason;
+import com.github.ajalt.reprint.core.AuthenticationListener;
+import com.github.ajalt.reprint.core.Reprint;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.FingerprintTracker;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.GPSService;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.GPSTracker;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.NotificationReceiver;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.P2PTracker;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.P2PTracker.Scanner;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.P2PTracker.ScannerValidation;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.TrackGPS;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
 import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
@@ -48,12 +64,15 @@ import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_ToDoFragment;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.CircleTransform;
 import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_TrackFragment;
+import com.igdtuw.technotwisters.sih_android.fragments.FingerprintAuthenticationDialogFragment;
 import com.igdtuw.technotwisters.sih_android.model.Result;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
 
@@ -294,15 +313,15 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             Dashboard_HomeFragment homeFragment = new Dashboard_HomeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, homeFragment).commit();
         } else if (id == R.id.nav_today_attendance) {
-            if (schoolAdded) {
+            /*if (schoolAdded) {
                 // TODO: first check if user is within the time period to mark attendance
                 onCreateDialogSingleChoice().show();
-            } else {
+            } else {*/
                 AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
                 builder.setTitle("You aren't allowed this action!");
                 builder.setMessage("Click ok to add school first");
                 LayoutInflater inflater = getLayoutInflater();
-                View v = inflater.inflate(R.layout.dialog_confirm_logout, null);
+                View v = inflater.inflate(R.layout.dialog_confirm_455555555555555555555555555555logout, null);
                 builder.setView(v);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -318,12 +337,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                     }
                 });
                 builder.create().show();
-            }
+
         } else if (id == R.id.nav_track_attendance) {
-            if (schoolAdded) {
+            /*if (schoolAdded) {
                 Dashboard_TrackFragment trackFragment = new Dashboard_TrackFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, trackFragment).commit();
-            } else {
+            } else {*/
                 AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
                 builder.setTitle("You aren't allowed this action!");
                 builder.setMessage("Click ok to add school first");
@@ -344,7 +363,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                     }
                 });
                 builder.create().show();
-            }
+
         } else if (id == R.id.nav_to_do) {
             Dashboard_ToDoFragment toDoFragment = new Dashboard_ToDoFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, toDoFragment).commit();
@@ -382,8 +401,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_profile) {
-            Intent i = new Intent();
-            i.setClass(DashboardActivity.this, ProfileChangeActivity.class);
+            Intent i = new Intent(this, ProfileChangeActivity.class);
             startActivity(i);
         } else if (id == R.id.action_logout) {
             AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
@@ -493,20 +511,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 if (mark == 0) {
-                    TrackGPS gps = new TrackGPS(DashboardActivity.this);
-                    if (gps.canGetLocation()) {
-                        double  longitude = gps.getLongitude();
-                        double latitude = gps.getLatitude();
-                        Toast.makeText(getApplicationContext(), "Longitude:" + Double.toString(longitude) + "\nLatitude:" + Double.toString(latitude), Toast.LENGTH_SHORT).show();
-                    } else {
-                        // can't get location
-                        // GPS or Network is not enabled
-                        // Ask user to enable GPS/network in settings
-                        // gps.showSettingsAlert();
-                    }
+                    getFingerPrint();
                 }
             }
-
 
 
         });
@@ -550,6 +557,83 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION_FINE);
         }
+    }
+
+    private void getListOfBluetoothDevices() {
+
+        List<String> addresses = new ArrayList<>();
+
+        addresses.add("72:9A:31:38:A9:3D");
+
+        final Context context = this;
+
+//        new P2PTracker().validateAddresses(getApplicationContext(), addresses, new ScannerValidation() {
+//            @Override
+//            public void validationComplete(boolean output) {
+//                Toast.makeText(context, "Address validated " + Boolean.toString(output), Toast.LENGTH_LONG).show();
+//                System.out.println("Address validated " + Boolean.toString(output));
+//            }
+//        });
+
+        new P2PTracker().startAllScan(context, new Scanner() {
+            @Override
+            public void scanningComplete(final List<String> listOfAddress) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println(listOfAddress.size());
+                        Toast.makeText(context, "Bluetooth Devices Fetching finished!!", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+
+    }
+
+    private void getFingerPrint() {
+        if (Build.VERSION_CODES.M > VERSION.SDK_INT) {
+            triggerAction();
+            return;
+        }
+
+        showFingerprintDialog();
+
+//        ActivityCompat.requestPermissions(this, new String[]{permission.USE_FINGERPRINT}, 0);
+//        new FingerprintTracker().getFingerPrintId(this);
+//        Reprint.authenticate(new AuthenticationListener() {
+//            @Override
+//            public void onSuccess(int moduleTag) {
+//                Toast.makeText(getApplicationContext(), "Fingerprint sucess", Toast.LENGTH_LONG).show();
+//                triggerAction();
+//            }
+//
+//            @Override
+//            public void onFailure(AuthenticationFailureReason failureReason, boolean fatal,
+//                                  CharSequence errorMessage, int moduleTag, int errorCode) {
+//                Toast.makeText(getApplicationContext(), "Fingerprint failure", Toast.LENGTH_LONG).show();
+//            }
+//        });
+    }
+
+    public void triggerAction() {
+        getListOfBluetoothDevices();
+        TrackGPS gps = new TrackGPS(DashboardActivity.this);
+        if (gps.canGetLocation()) {
+
+            double  longitude = gps.getLongitude();
+            double latitude = gps.getLatitude();
+            Toast.makeText(getApplicationContext(), "Longitude:" + Double.toString(longitude) + "\nLatitude:" + Double.toString(latitude), Toast.LENGTH_SHORT).show();
+        } else {
+            askLocationPermission();
+        }
+    }
+
+    private void showFingerprintDialog() {
+        FingerprintAuthenticationDialogFragment fragment
+                = new FingerprintAuthenticationDialogFragment();
+        fragment.setStage(
+                FingerprintAuthenticationDialogFragment.Stage.FINGERPRINT);
+        fragment.show(getFragmentManager(), "myFragment");
     }
 
 }

@@ -78,7 +78,10 @@ public class AddSchoolActivity extends AppCompatActivity implements SharedPrefer
                                 editor.commit();
                                 editor.putString(SharedPreferencesStrings.SP_SCHOOL_NAME, school.getSchoolName());
                                 editor.commit();
-                                getSchoolLatLong(schoolUsername);
+                                editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LATITUDE, (float) school.getLatitude());
+                                editor.commit();
+                                editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LONGITUDE, (float) school.getLongitude());
+                                editor.commit();
                             } else {
                                 progressDialog.dismiss();
                                 Toast.makeText(AddSchoolActivity.this, "Error: "+response.errorBody(), Toast.LENGTH_SHORT).show();
@@ -98,44 +101,6 @@ public class AddSchoolActivity extends AppCompatActivity implements SharedPrefer
                 }
             }
         });
-        
-    }
-
-    private void getSchoolLatLong(final String schoolUsername) {
-
-        getSchoolDetailsCall = ApiClient.getInterface().getLatLong(username, accessToken, schoolUsername);
-        getSchoolDetailsCall.enqueue(new Callback<SchoolDetails>() {
-            @Override
-            public void onResponse(Call<SchoolDetails> call, Response<SchoolDetails> response) {
-                SchoolDetails schoolDetails = response.body();
-                if (response.isSuccessful()) {
-                    editor.putBoolean(SharedPreferencesStrings.SP_SCHOOL_DETAILS_DONE, true);
-                    editor.commit();
-                    editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LATITUDE, (float) schoolDetails.getLatitude());
-                    editor.commit();
-                    editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LONGITUDE, (float) schoolDetails.getLongitude());
-                    editor.commit();
-                    editor.putString(SharedPreferencesStrings.SP_SCHOOL_NAME, schoolDetails.getSchoolName());
-                    editor.commit();
-                    progressDialog.dismiss();
-                    finish();
-                    Intent i = new Intent();
-                    i.setClass(AddSchoolActivity.this, DashboardActivity.class);
-                    startActivity(i);
-                } else {
-                    progressDialog.dismiss();
-                    Toast.makeText(AddSchoolActivity.this, "Error: "+schoolDetails.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SchoolDetails> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(AddSchoolActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
-            }
-
-        });
-
     }
 
 }

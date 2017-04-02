@@ -1,98 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="Profile"
-            android:gravity="center"
-            android:layout_margin="7dp"
-            android:textSize="15dp"/>
-    <EditText
-        android:id="@+id/name_profile"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.igdtuw.technotwisters.sih_android.activity.SignupActivity">
+
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name"
-        android:inputType="text"
-        android:layout_margin="3dp"/>
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <EditText
-            android:id="@+id/email_profile"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:layout_margin="3dp"/>
-        <EditText
-            android:id="@+id/age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Age"
-            android:inputType="number"
-            android:layout_margin="3dp"/>
-        <EditText
-            android:id="@+id/contact_no"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Contact Number"
-            android:inputType="number"
-            android:layout_margin="3dp"/>
-        <EditText
-            android:id="@+id/expertise"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Area of Expertise"
-            android:inputType="text"
-            android:layout_margin="3dp"/>
-        <EditText
-            android:id="@+id/qualif"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Qualification"
-            android:inputType="text"
-            android:layout_margin="3dp"/>
-        <EditText
-            android:id="@+id/experience"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Teaching Experience"
-            android:inputType="number"
-            android:layout_margin="3dp"/>
-        <EditText
-            android:id="@+id/address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Address"
-            android:layout_margin="3dp"/>
-        <EditText
-            android:id="@+id/city"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="City"
-            android:layout_margin="3dp"/>
-        <EditText
-            android:id="@+id/state"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="State"
-            android:layout_margin="3dp"/>
-        <EditText
-            android:id="@+id/pref_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Preferred Location"
-            android:layout_margin="3dp"/>
-        <Button
-            android:id="@+id/btn_submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SUBMIT"
-            android:layout_margin="5dp"/>
-</LinearLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
-</ScrollView>
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/name_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:hint="Name"
+                android:inputType="text"/>
+
+            <EditText
+                android:id="@+id/email_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"/>
+            <EditText
+                android:id="@+id/age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:hint="Age"
+                android:inputType="number"/>
+            <EditText
+                android:id="@+id/contact_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:hint="Contact Number"
+                android:inputType="number"/>
+            <EditText
+                android:id="@+id/expertise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:hint="Area of Expertise"
+                android:inputType="text"/>
+            <EditText
+                android:id="@+id/qualif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:hint="Qualification"
+                android:inputType="text"/>
+            <EditText
+                android:id="@+id/experience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:hint="Teaching Experience"
+                android:inputType="number"/>
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:hint="Address"/>
+            <EditText
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:hint="City"/>
+            <EditText
+                android:id="@+id/state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:hint="State"/>
+            <EditText
+                android:id="@+id/pref_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:hint="Preferred Location"/>
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="SUBMIT"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
