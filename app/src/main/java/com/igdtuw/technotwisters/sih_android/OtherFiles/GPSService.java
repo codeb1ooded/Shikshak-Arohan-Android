@@ -1,15 +1,5 @@
 package com.igdtuw.technotwisters.sih_android.OtherFiles;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
-import android.os.IBinder;
-import android.widget.Toast;
-
-import com.igdtuw.technotwisters.sih_android.activity.DashboardActivity;
-
 public class GPSService {
     public GPSService() {
     }

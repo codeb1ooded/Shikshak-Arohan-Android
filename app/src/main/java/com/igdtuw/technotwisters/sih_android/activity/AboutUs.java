@@ -2,11 +2,8 @@ package com.igdtuw.technotwisters.sih_android.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.igdtuw.technotwisters.sih_android.R;

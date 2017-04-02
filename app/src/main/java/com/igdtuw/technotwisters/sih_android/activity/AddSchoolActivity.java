@@ -2,7 +2,6 @@ package com.igdtuw.technotwisters.sih_android.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +14,6 @@ import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
 import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
 import com.igdtuw.technotwisters.sih_android.model.CheckSchool;
-import com.igdtuw.technotwisters.sih_android.model.Result;
 import com.igdtuw.technotwisters.sih_android.model.SchoolDetails;
 
 import retrofit2.Call;

@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
 import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
-import com.igdtuw.technotwisters.sih_android.model.AccountDetails;
 import com.igdtuw.technotwisters.sih_android.model.Result;
 
 import retrofit2.Call;
