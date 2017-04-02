@@ -321,7 +321,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 builder.setTitle("You aren't allowed this action!");
                 builder.setMessage("Click ok to add school first");
                 LayoutInflater inflater = getLayoutInflater();
-                View v = inflater.inflate(R.layout.dialog_confirm_455555555555555555555555555555logout, null);
+                View v = inflater.inflate(R.layout.dialog_confirm_logout, null);
                 builder.setView(v);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -482,11 +482,13 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                     int minutes = c.get(Calendar.MINUTE);
                     int hours = c.get(Calendar.HOUR_OF_DAY);
 
-                    if(hours>8&&minutes>30)
-                    mark = 0;
+                    if(hours>20&&minutes>30) {
+                        mark = -1;
+
+                        Toast.makeText(getApplicationContext(),"You cannot mark your attendance after 8:30 am",Toast.LENGTH_LONG).show();                    }
                     else
-                    {   Toast.makeText(getApplicationContext(),"You cannot mark your attendance after 8:30 am",Toast.LENGTH_LONG).show();
-                        mark=-1;
+                    {
+                        mark=0;
                     }
                 }
                 else if (which == 1) // absent

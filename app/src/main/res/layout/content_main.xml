@@ -156,6 +156,12 @@
                     android:textSize="10dp"
                     android:paddingLeft="3dp"/>
             </LinearLayout>
+            <ImageView
+
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/education" />
 
         </LinearLayout>
         <LinearLayout
@@ -188,6 +194,12 @@
                     android:textSize="10dp"
                     android:paddingLeft="3dp"/>
             </LinearLayout>
+            <ImageView
+
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/juvenile" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="300dp"
@@ -225,7 +237,7 @@
                 android:layout_width="150dp"
                 android:layout_height="120dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/labour" />
+                android:background="@drawable/labour" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="300dp"
@@ -257,6 +269,12 @@
                     android:textSize="10dp"
                     android:paddingLeft="3dp"/>
             </LinearLayout>
+            <ImageView
+
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/child_health" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="300dp"
@@ -288,6 +306,12 @@
                     android:textSize="10dp"
                     android:paddingLeft="3dp"/>
             </LinearLayout>
+            <ImageView
+
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:background="@drawable/northeast" />
         </LinearLayout>
 
 
