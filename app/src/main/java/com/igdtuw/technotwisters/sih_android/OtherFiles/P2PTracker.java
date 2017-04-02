@@ -2,9 +2,7 @@ package com.igdtuw.technotwisters.sih_android.OtherFiles;
 
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothAdapter.LeScanCallback;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.le.AdvertiseSettings;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
@@ -20,7 +18,6 @@ import android.widget.Toast;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 public class P2PTracker {

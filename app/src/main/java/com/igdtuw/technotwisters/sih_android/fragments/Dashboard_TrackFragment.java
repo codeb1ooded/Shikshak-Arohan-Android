@@ -1,11 +1,6 @@
 package com.igdtuw.technotwisters.sih_android.fragments;
 
 import android.app.DatePickerDialog;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +12,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.igdtuw.technotwisters.sih_android.R;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by megha on 22/03/17.

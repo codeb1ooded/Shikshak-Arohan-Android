@@ -95,6 +95,9 @@
         <activity android:name=".activity.Self_track"
             android:label="Self Track"
             android:theme="@style/MyTheme" />
+        <activity android:name=".activity.FpActivity"
+                  android:label="Fingerprint Authentication"
+                  android:theme="@style/MyTheme" />
         <activity android:name=".activity.GraphActivity"
             android:label="Graph Activity"
             android:theme="@style/MyTheme" />

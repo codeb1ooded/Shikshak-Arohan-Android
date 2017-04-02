@@ -5,22 +5,19 @@ package com.igdtuw.technotwisters.sih_android.OtherFiles;
  */
 
 
-import java.util.Calendar;
-        import java.util.GregorianCalendar;
-
-        import android.app.Notification;
-        import android.app.NotificationManager;
-        import android.app.PendingIntent;
-        import android.app.TaskStackBuilder;
-        import android.content.BroadcastReceiver;
-        import android.content.Context;
-        import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.support.v7.app.NotificationCompat;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 
 import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.activity.DashboardActivity;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class NotificationReceiver extends BroadcastReceiver {
 

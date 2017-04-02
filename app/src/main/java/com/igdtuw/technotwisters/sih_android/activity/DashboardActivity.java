@@ -1,28 +1,19 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
 import android.Manifest;
-import android.Manifest.permission;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.le.BluetoothLeScanner;
-import android.bluetooth.le.ScanCallback;
-import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -32,49 +23,37 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.github.ajalt.reprint.core.AuthenticationFailureReason;
-import com.github.ajalt.reprint.core.AuthenticationListener;
-import com.github.ajalt.reprint.core.Reprint;
-import com.igdtuw.technotwisters.sih_android.OtherFiles.FingerprintTracker;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.CircleTransform;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.GPSService;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.GPSTracker;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.NotificationReceiver;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.P2PTracker;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.P2PTracker.Scanner;
-import com.igdtuw.technotwisters.sih_android.OtherFiles.P2PTracker.ScannerValidation;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.TrackGPS;
+import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
 import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_HomeFragment;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_NotificationFragment;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_SettingFragment;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_ToDoFragment;
-import com.igdtuw.technotwisters.sih_android.OtherFiles.CircleTransform;
-import com.igdtuw.technotwisters.sih_android.R;
-import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_TrackFragment;
 import com.igdtuw.technotwisters.sih_android.fragments.FingerprintAuthenticationDialogFragment;
 import com.igdtuw.technotwisters.sih_android.model.Result;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -86,7 +65,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private View navHeader;
-    private ImageView imgNavHeaderBg, imgProfile,text_mark,text_track,text_profile,text_todo;
+    private ImageView imgNavHeaderBg, imgProfile, text_mark, text_track, text_profile, text_todo;
     private TextView txtName, txtWebsite;
     private Toolbar toolbar;
 
@@ -119,7 +98,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
 
-
         // Navigation view header
         navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
@@ -128,7 +106,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         //imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
 
         text_mark = (ImageView) findViewById(R.id.text_mark);
-        text_mark.setOnClickListener(new View.OnClickListener(){
+        text_mark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (schoolAdded) {
@@ -139,7 +117,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                     builder.setTitle("You aren't allowed this action!");
                     builder.setMessage("Click ok to add school first");
                     LayoutInflater inflater = getLayoutInflater();
-                     v = inflater.inflate(R.layout.dialog_confirm_logout, null);
+                    v = inflater.inflate(R.layout.dialog_confirm_logout, null);
                     builder.setView(v);
                     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -159,7 +137,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             }
         });
         text_profile = (ImageView) findViewById(R.id.text_profile);
-        text_profile.setOnClickListener(new View.OnClickListener(){
+        text_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent();
@@ -168,7 +146,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             }
         });
         text_track = (ImageView) findViewById(R.id.text_track);
-        text_track.setOnClickListener(new View.OnClickListener(){
+        text_track.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent();
@@ -177,7 +155,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             }
         });
         text_todo = (ImageView) findViewById(R.id.text_rem);
-        text_todo.setOnClickListener(new View.OnClickListener(){
+        text_todo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent();
@@ -185,7 +163,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 startActivity(i);
          /*       Dashboard_ToDoFragment toDoFragment = new Dashboard_ToDoFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, toDoFragment).commit();
-           */ }
+           */
+            }
         });
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -317,52 +296,52 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 // TODO: first check if user is within the time period to mark attendance
                 onCreateDialogSingleChoice().show();
             } else {*/
-                AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
-                builder.setTitle("You aren't allowed this action!");
-                builder.setMessage("Click ok to add school first");
-                LayoutInflater inflater = getLayoutInflater();
-                View v = inflater.inflate(R.layout.dialog_confirm_455555555555555555555555555555logout, null);
-                builder.setView(v);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.setClass(DashboardActivity.this, AddSchoolActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.create().show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
+            builder.setTitle("You aren't allowed this action!");
+            builder.setMessage("Click ok to add school first");
+            LayoutInflater inflater = getLayoutInflater();
+            View v = inflater.inflate(R.layout.dialog_confirm_logout, null);
+            builder.setView(v);
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent();
+                    intent.setClass(DashboardActivity.this, AddSchoolActivity.class);
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            builder.create().show();
 
         } else if (id == R.id.nav_track_attendance) {
             /*if (schoolAdded) {
                 Dashboard_TrackFragment trackFragment = new Dashboard_TrackFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, trackFragment).commit();
             } else {*/
-                AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
-                builder.setTitle("You aren't allowed this action!");
-                builder.setMessage("Click ok to add school first");
-                LayoutInflater inflater = getLayoutInflater();
-                View v = inflater.inflate(R.layout.dialog_confirm_logout, null);
-                builder.setView(v);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.setClass(DashboardActivity.this, AddSchoolActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.create().show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
+            builder.setTitle("You aren't allowed this action!");
+            builder.setMessage("Click ok to add school first");
+            LayoutInflater inflater = getLayoutInflater();
+            View v = inflater.inflate(R.layout.dialog_confirm_logout, null);
+            builder.setView(v);
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent();
+                    intent.setClass(DashboardActivity.this, AddSchoolActivity.class);
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            builder.create().show();
 
         } else if (id == R.id.nav_to_do) {
             Dashboard_ToDoFragment toDoFragment = new Dashboard_ToDoFragment();
@@ -373,6 +352,14 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         } else if (id == R.id.nav_settings) {
             Dashboard_SettingFragment settingFragment = new Dashboard_SettingFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, settingFragment).commit();
+        } else if (id == R.id.nav_fingerprint_record) {
+            if (Build.VERSION_CODES.M <= VERSION.SDK_INT) {
+                Intent intent = new Intent();
+                intent.setClass(DashboardActivity.this, FpActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), "Only works for Android M and above", Toast.LENGTH_LONG).show();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -470,7 +457,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         String absent = "Absent";
         String holiday = "Holiday";
         AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
-        CharSequence[] array = {present, absent};
+        CharSequence[] array = {present, absent, holiday};
         builder.setTitle("Mark your Attendance");
 
         builder.setSingleChoiceItems(array, 1, new DialogInterface.OnClickListener() {
@@ -482,18 +469,17 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                     int minutes = c.get(Calendar.MINUTE);
                     int hours = c.get(Calendar.HOUR_OF_DAY);
 
-                    if(hours>8&&minutes>30)
-                    mark = 0;
-                    else
-                    {   Toast.makeText(getApplicationContext(),"You cannot mark your attendance after 8:30 am",Toast.LENGTH_LONG).show();
-                        mark=-1;
+                    if (hours > 8 && minutes > 30)
+                        mark = 0;
+                    else {
+                        Toast.makeText(getApplicationContext(), "You cannot mark your attendance after 8:30 am", Toast.LENGTH_LONG).show();
+                        mark = -1;
                     }
-                }
-                else if (which == 1) // absent
+                } else if (which == 1) // absent
                 {
                     mark = 1;
                     AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
-                    CharSequence[] array = {"Casual Leave","Child Care Leave","Hospital Leave","Half Pay leaves","Others"};
+                    CharSequence[] array = {"Casual Leave", "Child Care Leave", "Hospital Leave", "Half Pay leaves", "Others"};
 
                     builder.setTitle("Reason for your absence");
                     builder.setSingleChoiceItems(array, 0, new DialogInterface.OnClickListener() {
@@ -502,8 +488,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
                         }
                     });
-                }
-                else                // holiday
+                } else                // holiday
                     mark = 2;
             }
         });
@@ -620,7 +605,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         TrackGPS gps = new TrackGPS(DashboardActivity.this);
         if (gps.canGetLocation()) {
 
-            double  longitude = gps.getLongitude();
+            double longitude = gps.getLongitude();
             double latitude = gps.getLatitude();
             Toast.makeText(getApplicationContext(), "Longitude:" + Double.toString(longitude) + "\nLatitude:" + Double.toString(latitude), Toast.LENGTH_SHORT).show();
         } else {
