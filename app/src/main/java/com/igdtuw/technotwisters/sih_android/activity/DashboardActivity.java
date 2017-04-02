@@ -153,7 +153,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             @Override
             public void onClick(View v) {
                 Intent i = new Intent();
-                i.setClass(DashboardActivity.this, ProfileChangeActivity.class);
+                i.setClass(DashboardActivity.this, Self_track.class);
                 startActivity(i);
             }
         });
@@ -193,8 +193,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 20);
-        calendar.set(Calendar.MINUTE, 12);
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 00);
         // Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
@@ -452,16 +452,39 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         String absent = "Absent";
         String holiday = "Holiday";
         AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
-        CharSequence[] array = {present, absent, holiday};
+        CharSequence[] array = {present, absent};
         builder.setTitle("Mark your Attendance");
 
         builder.setSingleChoiceItems(array, 1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (which == 0)      // present
+                if (which == 0) {
+                    Calendar c = Calendar.getInstance();
+                    int seconds = c.get(Calendar.SECOND);
+                    int minutes = c.get(Calendar.MINUTE);
+                    int hours = c.get(Calendar.HOUR_OF_DAY);
+
+                    if(hours>8&&minutes>30)
                     mark = 0;
+                    else
+                    {   Toast.makeText(getApplicationContext(),"You cannot mark your attendance after 8:30 am",Toast.LENGTH_LONG).show();
+                        mark=-1;
+                    }
+                }
                 else if (which == 1) // absent
+                {
                     mark = 1;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DashboardActivity.this);
+                    CharSequence[] array = {"Casual Leave","Child Care Leave","Hospital Leave","Half Pay leaves","Others"};
+
+                    builder.setTitle("Reason for your absence");
+                    builder.setSingleChoiceItems(array, 0, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                }
                 else                // holiday
                     mark = 2;
             }

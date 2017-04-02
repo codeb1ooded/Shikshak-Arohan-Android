@@ -124,12 +124,6 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        // disable going back to the MainActivity
-        moveTaskToBack(true);
-    }
-
     public void onSubmitSuccess(Result result) {
         name = result.name_;
         age = result.age_;

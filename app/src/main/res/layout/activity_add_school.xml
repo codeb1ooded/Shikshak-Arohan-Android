@@ -4,20 +4,25 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
+        android:paddingLeft="35px"
         android:layout_height="wrap_content"
-        android:text="Working on being able to add your school from a list"/>
+        android:text="Working on being able to add your school from a list" />
 
     <EditText
         android:id="@+id/edit_text_add_school"
         android:hint="Enter school username"
+        android:paddingTop="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/button_add_school"
-        android:layout_width="wrap_content"
+        android:layout_width="139dp"
         android:layout_height="wrap_content"
-        android:text="ADD"/>
+        android:padding="30px"
+        android:layout_marginRight="100px"
+        android:text="ADD" />
 
 </LinearLayout>

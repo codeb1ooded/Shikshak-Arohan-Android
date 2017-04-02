@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,9 +21,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 import com.igdtuw.technotwisters.sih_android.R;
 import com.igdtuw.technotwisters.sih_android.adapters.ToDoListAdapter;
 import com.igdtuw.technotwisters.sih_android.constants.Constants;
@@ -36,13 +38,10 @@ public class ToDo extends AppCompatActivity {
     ToDoListAdapter adapter;
     final static int REQUEST_CODE = 1;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dashboard_fragment_todo);
+        setContentView(R.layout.activity_to_do);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         listToDos = getToDos();
@@ -68,9 +67,13 @@ public class ToDo extends AppCompatActivity {
                 builder.setTitle("Confirm");
                 final ToDoListContents toDo = listToDos.get(position);
                 builder.setMessage("Do you really want to delete \'" + toDo.getTitle() + "\' item");
-                LayoutInflater inflater =ToDo.this.getLayoutInflater();
-                View v = inflater.inflate(R.layout.dialog_confirm_all_deletion, null);
-                builder.setView(v);
+                //LayoutInflater inflater = getLayoutInflater();
+                RelativeLayout inflater = (RelativeLayout)ToDo.this.getLayoutInflater().inflate(R.layout.activity_to_do, null);
+          /*  View v = inflater.inflate(R.layout.dialog_confirm_all_deletion, null);
+            builder.setView(v);*/
+              //  LayoutInflater inflater =ToDo.this.getLayoutInflater();
+              //  View v = inflater.inflate(R.layout.dialog_confirm_all_deletion, null);
+              //  builder.setView(v);
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -110,9 +113,11 @@ public class ToDo extends AppCompatActivity {
         return list_to_dos;
     }
 
-
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.dashboard_to_do_menu, menu);
+        return true;
     }
 
     @Override
@@ -127,9 +132,10 @@ public class ToDo extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(ToDo.this);
             builder.setTitle("Confirm");
             builder.setMessage("Do you really want to delete all items");
-            LayoutInflater inflater = ToDo.this.getLayoutInflater();
-            View v = inflater.inflate(R.layout.dialog_confirm_all_deletion, null);
-            builder.setView(v);
+            //LayoutInflater inflater = getLayoutInflater();
+            RelativeLayout inflater = (RelativeLayout)ToDo.this.getLayoutInflater().inflate(R.layout.activity_to_do, null);
+          /*  View v = inflater.inflate(R.layout.dialog_confirm_all_deletion, null);
+            builder.setView(v);*/
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

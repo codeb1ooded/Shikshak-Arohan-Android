@@ -141,6 +141,10 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
         editor.commit();
         Log.i("AccessToken: ", accountDetails.name);
         checkIsSchoolAdded();
+        finish();
+        Intent i = new Intent();
+        i.setClass(LoginActivity.this, DashboardActivity.class);
+        startActivity(i);
 
     }
 

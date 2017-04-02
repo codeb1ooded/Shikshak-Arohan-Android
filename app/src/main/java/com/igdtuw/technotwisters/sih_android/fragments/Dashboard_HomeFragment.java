@@ -71,7 +71,7 @@ public class Dashboard_HomeFragment extends Fragment implements SharedPreference
         schoolName = sharedPreferences.getString(SP_SCHOOL_NAME, null);
 
         if(schoolDetailsAdded)
-            displaySchoolTextView.setText("School: "+schoolName);
+            displaySchoolTextView.setText("School: admin ");
         else
             displaySchoolTextView.setText("Add your school first!!!");
 
