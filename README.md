@@ -1,6 +1,6 @@
 # Android Teacher Attendance Application
 
-This application is aimed at solving the problem 'Unavailability of Teachers in Government Schools' which is a part of Smart India Hackathon, 2017.
+This application is aimed at solving the problem 'Unavailability of Teachers in Government Schools'.
 
 ## Permissions:
 
