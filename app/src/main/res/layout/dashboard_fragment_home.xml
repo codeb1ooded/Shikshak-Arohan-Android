@@ -18,7 +18,7 @@
             android:layout_margin="10dp"
             android:padding="5dp"
             android:textColor="@color/colorBlack"
-            android:text="15dp"
+            android:text="School Name"
             android:background="@color/colorPrimary"/>
 
 

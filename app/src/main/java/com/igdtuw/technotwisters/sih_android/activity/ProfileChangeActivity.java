@@ -1,9 +1,7 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,8 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.igdtuw.technotwisters.sih_android.R;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.SharedPreferencesUtils;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
-import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
 import com.igdtuw.technotwisters.sih_android.model.Result;
 
 import retrofit2.Call;
@@ -27,7 +25,7 @@ import retrofit2.Response;
  * Created by Admin on 22-03-2017.
  */
 
-public class ProfileChangeActivity extends AppCompatActivity implements SharedPreferencesStrings {
+public class ProfileChangeActivity extends AppCompatActivity {
     private EditText _name;
     private EditText _age;
     private EditText _email;
@@ -47,8 +45,7 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
     int age,teachingExperience;
     long contactNum;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    SharedPreferencesUtils spUtils;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,11 +69,8 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
                 submit();
             }
         });
-        sharedPreferences = getSharedPreferences(SharedPreferencesStrings.SP_NAME, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-
+        spUtils = new SharedPreferencesUtils(ProfileChangeActivity.this);
         setupToolbar();
-
     }
 
     public void submit() {
@@ -87,8 +81,6 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
-        String username = sharedPreferences.getString(SP_USER_USERNAME, null);
-        String access_token = sharedPreferences.getString(SP_USER_ACCESS_TOKEN, null);
         String name = _name.getText().toString().trim();
         int age = Integer.parseInt(_name.getText().toString());
         long contactNum = Long.parseLong(_name.getText().toString().trim());
@@ -105,8 +97,8 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
             Toast.makeText(ProfileChangeActivity.this,
                     "All fields Mandatory", Toast.LENGTH_LONG).show();
         } else {
-            updateDetails = ApiClient.getInterface().updateUserDetails(username, access_token, name, age, contactNum, email,
-                                            expertise, address, city, state, preferredLocation, qualification, teachingExperience);
+            updateDetails = ApiClient.getInterface().updateUserDetails(spUtils.getUsername(), spUtils.getAccessToken(), name, age,
+                    contactNum, email, expertise, address, city, state, preferredLocation, qualification, teachingExperience);
             updateDetails.enqueue(new Callback<Result>() {
                 @Override
                 public void onResponse(Call<Result> call, Response<Result> response) {
@@ -150,28 +142,8 @@ public class ProfileChangeActivity extends AppCompatActivity implements SharedPr
         qualification = result.qualification_;
         preferredlocation = result.pref_location;
 
-        editor.putString(SharedPreferencesStrings.SP_USER_NAME, result.name_);
-        editor.commit();
-        editor.putInt(SharedPreferencesStrings.SP_USER_AGE, result.age_);
-        editor.commit();
-        editor.putString(SharedPreferencesStrings.SP_USER_EMAIL, result.email_);
-        editor.commit();
-        editor.putLong(SharedPreferencesStrings.SP_USER_CONTACT_NUMBER, result.contact);
-        editor.commit();
-        editor.putString(SharedPreferencesStrings.SP_USER_ADDRESS, result.address_);
-        editor.commit();
-        editor.putString(SharedPreferencesStrings.SP_USER_CITY, result.city_);
-        editor.commit();
-        editor.putString(SharedPreferencesStrings.SP_USER_STATE, result.state_);
-        editor.commit();
-        editor.putString(SharedPreferencesStrings.SP_USER_EXPERTISE, result.expertise_);
-        editor.commit();
-        editor.putInt(SharedPreferencesStrings.SP_USER_TEACHING_EXPERIENCE, result.experience);
-        editor.commit();
-        editor.putString(SharedPreferencesStrings.SP_USER_QUALIFICATION, result.qualification_);
-        editor.commit();
-        editor.putString(SharedPreferencesStrings.SP_USER_PREFERRED_LOCATION, result.pref_location);
-        editor.commit();
+        spUtils.addProfileDetails(result.name_, result.age_, result.email_, result.contact, result.address_, result.city_,
+                result.state_, result.expertise_, result.experience, result.qualification_, result.pref_location);
 
         progressDialog.dismiss();
         _submit.setEnabled(true);

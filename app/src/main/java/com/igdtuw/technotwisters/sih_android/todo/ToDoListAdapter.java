@@ -1,4 +1,4 @@
-package com.igdtuw.technotwisters.sih_android.adapters;
+package com.igdtuw.technotwisters.sih_android.todo;
 
 import android.content.Context;
 import android.view.View;

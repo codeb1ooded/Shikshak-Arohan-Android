@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.igdtuw.technotwisters.sih_android.activity.ToDo"
+    tools:context="com.igdtuw.technotwisters.sih_android.todo.ToDo"
     tools:showIn="@layout/activity_to_do">
 
 

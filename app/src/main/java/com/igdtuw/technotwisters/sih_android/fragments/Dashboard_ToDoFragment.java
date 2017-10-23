@@ -21,8 +21,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.igdtuw.technotwisters.sih_android.R;
-import com.igdtuw.technotwisters.sih_android.activity.SeperateToDoActivity;
-import com.igdtuw.technotwisters.sih_android.adapters.ToDoListAdapter;
+import com.igdtuw.technotwisters.sih_android.todo.SeperateToDoActivity;
+import com.igdtuw.technotwisters.sih_android.todo.ToDoListAdapter;
 import com.igdtuw.technotwisters.sih_android.constants.Constants;
 import com.igdtuw.technotwisters.sih_android.database.SQLHelper;
 import com.igdtuw.technotwisters.sih_android.model.ToDoListContents;

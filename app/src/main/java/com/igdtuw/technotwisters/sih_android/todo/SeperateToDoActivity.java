@@ -1,4 +1,4 @@
-package com.igdtuw.technotwisters.sih_android.activity;
+package com.igdtuw.technotwisters.sih_android.todo;
 
 import android.app.Activity;
 import android.content.Intent;

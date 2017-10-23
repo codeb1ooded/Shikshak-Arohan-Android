@@ -40,7 +40,7 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.AboutUs"
+            android:name=".activity.static_activities.AboutUs"
             android:label="About Us"
             android:theme="@style/MyTheme" />
         <activity
@@ -56,31 +56,31 @@
             android:label="@string/title_activity_signup"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".activity.PhotoGalleryActivity"
+            android:name=".activity.static_activities.PhotoGalleryActivity"
             android:label="Photo Gallery"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".activity.RtiActivity"
+            android:name=".activity.static_activities.RtiActivity"
             android:label="RTI"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".activity.FeedbackActivity"
+            android:name=".activity.static_activities.FeedbackActivity"
             android:label="Feedback"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".activity.SitemapActivity"
+            android:name=".activity.static_activities.SitemapActivity"
             android:label="Sitemap"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".activity.PrivacyPolicy"
+            android:name=".activity.static_activities.PrivacyPolicy"
             android:label="@string/title_activity_privacy_policy"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".activity.ToDo"
+            android:name=".todo.ToDo"
             android:label="To-Do"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".activity.SeperateToDoActivity"
+            android:name=".todo.SeperateToDoActivity"
             android:label="@string/title_activity_to_do"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

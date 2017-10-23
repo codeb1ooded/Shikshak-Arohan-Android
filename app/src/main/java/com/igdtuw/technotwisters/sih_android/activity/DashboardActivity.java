@@ -7,9 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Bundle;
@@ -41,14 +39,15 @@ import com.igdtuw.technotwisters.sih_android.OtherFiles.P2PTracker;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.P2PTracker.Scanner;
 import com.igdtuw.technotwisters.sih_android.OtherFiles.TrackGPS;
 import com.igdtuw.technotwisters.sih_android.R;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.SharedPreferencesUtils;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
-import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_HomeFragment;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_NotificationFragment;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_SettingFragment;
 import com.igdtuw.technotwisters.sih_android.fragments.Dashboard_ToDoFragment;
 import com.igdtuw.technotwisters.sih_android.fragments.FingerprintAuthenticationDialogFragment;
 import com.igdtuw.technotwisters.sih_android.model.Result;
+import com.igdtuw.technotwisters.sih_android.todo.ToDo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,7 +58,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferencesStrings {
+public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     int mark;
     private NavigationView navigationView;
@@ -69,8 +68,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     private TextView txtName, txtWebsite;
     private Toolbar toolbar;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    SharedPreferencesUtils spUtils;
 
     // urls to load navigation header background image
     // and profile image
@@ -81,10 +79,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     public static int navItemIndex = 0;
 
     Call<Result> logoutUser;
-
-    String username, accessToken;
-    boolean schoolAdded;
-    private Location location;
 
     private static final int REQUEST_CODE_LOCATION_FINE = 1;
 
@@ -102,14 +96,65 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
         txtWebsite = (TextView) navHeader.findViewById(R.id.website);
-        // imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
-        //imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
 
+        initView();
+        initClickListener();
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        //***********NOTIFICATION GENERATOR************
+        AlarmManager alarmMgr;
+        PendingIntent alarmIntent;
+
+        alarmMgr = (AlarmManager) DashboardActivity.this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(DashboardActivity.this, 0, intent, 0);
+
+        // Set the alarm to start at 8:30 a.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.SECOND, 00);
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmIntent);
+
+
+        //*************** For tracking location randomly
+        Thread myThread = null;
+
+        Runnable myRunnableThread = new CountDownRunner();
+        myThread = new Thread(myRunnableThread);
+        myThread.start();
+
+        if (savedInstanceState == null) {
+            navItemIndex = 0;
+            Dashboard_HomeFragment homeFragment = new Dashboard_HomeFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, homeFragment).commit();
+        }
+
+        askLocationPermission();
+
+    }
+
+    private void initView(){
         text_mark = (ImageView) findViewById(R.id.text_mark);
+        text_profile = (ImageView) findViewById(R.id.text_profile);
+        text_track = (ImageView) findViewById(R.id.text_track);
+        text_todo = (ImageView) findViewById(R.id.text_rem);
+        spUtils = new SharedPreferencesUtils(DashboardActivity.this);
+    }
+
+    private void initClickListener(){
         text_mark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (schoolAdded) {
+                if (spUtils.isSchoolAdded()) {
                     // TODO: first check if user is within the time period to mark attendance
                     onCreateDialogSingleChoice().show();
                 } else {
@@ -136,84 +181,27 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 }
             }
         });
-        text_profile = (ImageView) findViewById(R.id.text_profile);
         text_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent();
-                i.setClass(DashboardActivity.this, ProfileChangeActivity.class);
+                Intent i = new Intent(DashboardActivity.this, ProfileChangeActivity.class);
                 startActivity(i);
             }
         });
-        text_track = (ImageView) findViewById(R.id.text_track);
         text_track.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent();
-                i.setClass(DashboardActivity.this, Self_track.class);
+                Intent i = new Intent(DashboardActivity.this, Self_track.class);
                 startActivity(i);
             }
         });
-        text_todo = (ImageView) findViewById(R.id.text_rem);
         text_todo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent();
-                i.setClass(DashboardActivity.this, ToDo.class);
+                Intent i = new Intent(DashboardActivity.this, ToDo.class);
                 startActivity(i);
-         /*       Dashboard_ToDoFragment toDoFragment = new Dashboard_ToDoFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, toDoFragment).commit();
-           */
             }
         });
-
-        navigationView.setNavigationItemSelectedListener(this);
-
-        sharedPreferences = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        username = sharedPreferences.getString(SP_USER_USERNAME, null);
-        accessToken = sharedPreferences.getString(SP_USER_ACCESS_TOKEN, null);
-        schoolAdded = sharedPreferences.getBoolean(SP_SCHOOL_ADDED, false);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        //***********NOTIFICATION GENERATOR************
-        AlarmManager alarmMgr;
-        PendingIntent alarmIntent;
-
-        alarmMgr = (AlarmManager) DashboardActivity.this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
-        alarmIntent = PendingIntent.getBroadcast(DashboardActivity.this, 0, intent, 0);
-
-        // Set the alarm to start at 8:30 a.m.
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 8);
-        calendar.set(Calendar.MINUTE, 00);
-        calendar.set(Calendar.SECOND, 00);
-        // Intent intent = new Intent(DashboardActivity.this, NotificationReceiver.class);
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, alarmIntent);
-
-
-        //*************** For tracking location randomly
-        Thread myThread = null;
-
-        Runnable myRunnableThread = new CountDownRunner();
-        myThread = new Thread(myRunnableThread);
-        myThread.start();
-
-        if (savedInstanceState == null) {
-            navItemIndex = 0;
-            Dashboard_HomeFragment homeFragment = new Dashboard_HomeFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_dashboard, homeFragment).commit();
-        }
-
-        askLocationPermission();
-
     }
 
     public void doWork() {
@@ -401,23 +389,11 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
-                    logoutUser = ApiClient.getInterface().logoutUser(username, accessToken);
+                    logoutUser = ApiClient.getInterface().logoutUser(spUtils.getUsername(), spUtils.getAccessToken());
                     logoutUser.enqueue(new Callback<Result>() {
                         @Override
                         public void onResponse(Call<Result> call, Response<Result> response) {
                             if (response.isSuccessful()) {
-                                editor.putBoolean(SP_USER_TOKEN_GRANTED, false);
-                                editor.commit();
-                                editor.putString(SP_USER_ACCESS_TOKEN, "N/A");
-                                editor.commit();
-                                editor.putString(SP_USER_USERNAME, "N/A");
-                                editor.commit();
-                                editor.putString(SP_NAME, "N/A");
-                                editor.commit();
-                                editor.putBoolean(SP_USER_TOKEN_GRANTED, false);
-                                editor.commit();
-                                editor.putBoolean(SP_SCHOOL_DETAILS_DONE, false);
-                                editor.commit();
                                 Intent i = new Intent(DashboardActivity.this, LoginActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(i);
@@ -587,22 +563,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         }
 
         showFingerprintDialog();
-
-//        ActivityCompat.requestPermissions(this, new String[]{permission.USE_FINGERPRINT}, 0);
-//        new FingerprintTracker().getFingerPrintId(this);
-//        Reprint.authenticate(new AuthenticationListener() {
-//            @Override
-//            public void onSuccess(int moduleTag) {
-//                Toast.makeText(getApplicationContext(), "Fingerprint sucess", Toast.LENGTH_LONG).show();
-//                triggerAction();
-//            }
-//
-//            @Override
-//            public void onFailure(AuthenticationFailureReason failureReason, boolean fatal,
-//                                  CharSequence errorMessage, int moduleTag, int errorCode) {
-//                Toast.makeText(getApplicationContext(), "Fingerprint failure", Toast.LENGTH_LONG).show();
-//            }
-//        });
     }
 
     public void triggerAction() {

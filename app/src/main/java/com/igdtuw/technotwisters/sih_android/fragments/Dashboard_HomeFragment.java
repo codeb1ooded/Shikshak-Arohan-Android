@@ -1,9 +1,7 @@
 package com.igdtuw.technotwisters.sih_android.fragments;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,19 +12,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.igdtuw.technotwisters.sih_android.R;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.SharedPreferencesUtils;
 import com.igdtuw.technotwisters.sih_android.activity.AddSchoolActivity;
-import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
 
-public class Dashboard_HomeFragment extends Fragment implements SharedPreferencesStrings{
+public class Dashboard_HomeFragment extends Fragment{
 
     View view;
     TextView displaySchoolTextView;
-
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-
-    String username, accessToken, schoolName;
-    boolean schoolDetailsAdded;
+    SharedPreferencesUtils spUtils;
 
     @Nullable
     @Override
@@ -34,6 +27,7 @@ public class Dashboard_HomeFragment extends Fragment implements SharedPreference
         view = inflater.inflate(R.layout.dashboard_fragment_home, container, false);
 
         displaySchoolTextView = (TextView) view.findViewById(R.id.display_school_text_view);
+        spUtils = new SharedPreferencesUtils(getContext());
 
         displaySchoolTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,16 +56,8 @@ public class Dashboard_HomeFragment extends Fragment implements SharedPreference
             }
         });
 
-        sharedPreferences = getActivity().getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        username = sharedPreferences.getString(SP_USER_USERNAME, null);
-        accessToken = sharedPreferences.getString(SP_USER_ACCESS_TOKEN, null);
-        schoolDetailsAdded = sharedPreferences.getBoolean(SP_SCHOOL_DETAILS_DONE, false);
-        schoolName = sharedPreferences.getString(SP_SCHOOL_NAME, null);
-
-        if(schoolDetailsAdded)
-            displaySchoolTextView.setText("School: admin ");
+        if(spUtils.isSchoolAdded())
+            displaySchoolTextView.setText("School: " + spUtils.getSchoolName());
         else
             displaySchoolTextView.setText("Add your school first!!!");
 

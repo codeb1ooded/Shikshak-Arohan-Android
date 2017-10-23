@@ -2,9 +2,7 @@ package com.igdtuw.technotwisters.sih_android.activity;
 
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,12 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.igdtuw.technotwisters.sih_android.R;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.SharedPreferencesUtils;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
 import com.igdtuw.technotwisters.sih_android.constants.ActivityTitles;
-import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
 import com.igdtuw.technotwisters.sih_android.model.AccountDetails;
 import com.igdtuw.technotwisters.sih_android.model.CheckSchool;
-import com.igdtuw.technotwisters.sih_android.model.SchoolDetails;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +26,7 @@ import retrofit2.Response;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements ActivityTitles{
+public class LoginActivity extends AppCompatActivity implements ActivityTitles, View.OnClickListener {
 
     private EditText _usernameText;
     private EditText _passwordText;
@@ -39,11 +36,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
 
     Call<AccountDetails> authenticateUser;
     Call<CheckSchool> isSchoolAdded;
-    Call<SchoolDetails> getSchoolDetailsCall;
-
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-
+    SharedPreferencesUtils spUtils;
     String username, accessToken;
 
     private static final String TAG = TITLE_LOGIN_ACTIVITY;
@@ -52,37 +45,36 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        initViews();
+    }
+
+    private void initViews(){
         _usernameText = (EditText)findViewById(R.id.input_username);
-        _passwordText=(EditText)findViewById(R.id.input_password);
-        _loginButton=(Button)findViewById(R.id.btn_login) ;
-        _signupLink=(TextView)findViewById(R.id.link_signup);
+        _passwordText = (EditText)findViewById(R.id.input_password);
+        _loginButton = (Button)findViewById(R.id.btn_login) ;
+        _signupLink = (TextView)findViewById(R.id.link_signup);
 
-        _loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
+        spUtils = new SharedPreferencesUtils(LoginActivity.this);
 
+        _loginButton.setOnClickListener(this);
         _signupLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(intent);
             }
         });
-
-        sharedPreferences = getSharedPreferences(SharedPreferencesStrings.SP_NAME, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
     }
 
-    public void login() {
+
+    @Override
+    public void onClick(View v) {
         Log.d(TAG, "Login");
 
-            /*if (!validate()) {
-                onLoginFailed();
-                return;
-            }*/
+        if (!validate()) {
+            onLoginFailed();
+            return;
+        }
 
         _loginButton.setEnabled(false);
 
@@ -118,31 +110,20 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
     public void onBackPressed() {
         // disable going back to the MainActivity
         moveTaskToBack(true);
-        Intent i = new Intent();
-        i.setClass(LoginActivity.this, MainActivity.class);
+        Intent i = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(i);
     }
 
     public void onLoginSuccess(AccountDetails accountDetails) {
         username = accountDetails.username;
         accessToken = accountDetails.access_token;
-        editor.putString(SharedPreferencesStrings.SP_USER_ACCESS_TOKEN, accountDetails.access_token);
-        editor.commit();
-        editor.putString(SharedPreferencesStrings.SP_USER_NAME, accountDetails.name);
-        editor.commit();
-        editor.putString(SharedPreferencesStrings.SP_USER_USERNAME, accountDetails.username);
-        editor.commit();
-        editor.putBoolean(SharedPreferencesStrings.SP_USER_TOKEN_GRANTED, true);
-        editor.commit();
+        spUtils.loginUser(accountDetails.name, accountDetails.username, accountDetails.access_token);
         Log.i("AccessToken: ", accountDetails.access_token);
         checkIsSchoolAdded();
 
         finish();
-        Intent i = new Intent();
-        i.setClass(LoginActivity.this, DashboardActivity.class);
+        Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
         startActivity(i);
-
-
     }
 
     private void checkIsSchoolAdded() {
@@ -153,20 +134,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
                 CheckSchool school = response.body();
                 if (response.isSuccessful()) {
                     if(school.getMessage().equals("school present")){
-                        String schoolUsername = school.getSchoolUsername();
-                        editor.putBoolean(SharedPreferencesStrings.SP_SCHOOL_ADDED, true);
-                        editor.commit();
-                        editor.putString(SharedPreferencesStrings.SP_SCHOOL_USERNAME, schoolUsername);
-                        editor.commit();
-                        editor.putString(SharedPreferencesStrings.SP_SCHOOL_NAME, school.getSchoolName());
-                        editor.commit();
-                        editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LATITUDE, (float) school.getLatitude());
-                        editor.commit();
-                        editor.putFloat(SharedPreferencesStrings.SP_SCHOOL_LONGITUDE, (float) school.getLongitude());
-                        editor.commit();
-                        editor.putBoolean(SharedPreferencesStrings.SP_SCHOOL_DETAILS_DONE, true);
-                        editor.commit();
-                        // getSchoolLatLong(schoolUsername);
+                        spUtils.addSchool(school.getSchoolName(), school.getSchoolUsername(), (float) school.getLatitude(), (float) school.getLongitude());
                     }
                     progressDialog.dismiss();
                     _loginButton.setEnabled(true);
@@ -205,14 +173,14 @@ public class LoginActivity extends AppCompatActivity implements ActivityTitles{
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _usernameText.setError("enter a valid email address");
+            _usernameText.setError("Enter a valid email address");
             valid = false;
         } else {
             _usernameText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError("Between 4 and 10 alphanumeric characters");
             valid = false;
         } else {
             _passwordText.setError(null);

@@ -1,10 +1,8 @@
 package com.igdtuw.technotwisters.sih_android.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.igdtuw.technotwisters.sih_android.R;
+import com.igdtuw.technotwisters.sih_android.OtherFiles.SharedPreferencesUtils;
 import com.igdtuw.technotwisters.sih_android.api.ApiClient;
-import com.igdtuw.technotwisters.sih_android.constants.SharedPreferencesStrings;
 import com.igdtuw.technotwisters.sih_android.model.AccountDetails;
 
 import retrofit2.Call;
@@ -36,8 +34,7 @@ public class SignupActivity extends AppCompatActivity {
     TextView _loginLink;
 
     ProgressDialog progressDialog;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    SharedPreferencesUtils spUtils;
     
     Call<AccountDetails> signUp;
 
@@ -53,8 +50,7 @@ public class SignupActivity extends AppCompatActivity {
         _signupButton=(Button)findViewById(R.id.btn_signup) ;
         _loginLink=(TextView)findViewById(R.id.link_login);
 
-        sharedPreferences = getSharedPreferences(SharedPreferencesStrings.SP_NAME, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        spUtils = new SharedPreferencesUtils(SignupActivity.this);
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,20 +139,11 @@ public class SignupActivity extends AppCompatActivity {
 
     public void onSignupSuccess(AccountDetails accountDetails) {
         _signupButton.setEnabled(true);
-        editor.putString(SharedPreferencesStrings.SP_USER_ACCESS_TOKEN, accountDetails.access_token);
-        editor.commit();
-        editor.putString(SharedPreferencesStrings.SP_USER_NAME, accountDetails.name);
-        editor.commit();
-        editor.putString(SharedPreferencesStrings.SP_USER_USERNAME, accountDetails.username);
-        editor.commit();
-        editor.putBoolean(SharedPreferencesStrings.SP_USER_TOKEN_GRANTED, true);
-        editor.commit();
-        Log.i("AccessToken: ", accountDetails.name);
+        spUtils.loginUser(accountDetails.name, accountDetails.username, accountDetails.access_token);
         progressDialog.dismiss();
     }
 
     public void onSignupFailed() {
-       // progressDialog.dismiss();
         Toast.makeText(getBaseContext(), "Signup failed", Toast.LENGTH_LONG).show();
         _signupButton.setEnabled(true);
     }

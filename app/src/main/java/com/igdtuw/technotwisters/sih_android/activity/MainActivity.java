@@ -17,11 +17,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.igdtuw.technotwisters.sih_android.R;
+import com.igdtuw.technotwisters.sih_android.activity.static_activities.AboutUs;
+import com.igdtuw.technotwisters.sih_android.activity.static_activities.FeedbackActivity;
+import com.igdtuw.technotwisters.sih_android.activity.static_activities.PhotoGalleryActivity;
+import com.igdtuw.technotwisters.sih_android.activity.static_activities.PrivacyPolicy;
+import com.igdtuw.technotwisters.sih_android.activity.static_activities.RtiActivity;
+import com.igdtuw.technotwisters.sih_android.activity.static_activities.SitemapActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
     Button login;
     TextView t_photo,t_rti,t_feedback,t_sitemap;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +38,27 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        initViews();
+        initClickListener();
+
+    }
+
+    private void initViews(){
         login = (Button)findViewById(R.id.login);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        t_photo=(TextView)findViewById(R.id.photo_gallery);
+        t_rti=(TextView)findViewById(R.id.rti);
+        t_feedback=(TextView)findViewById(R.id.feedback);
+        t_sitemap=(TextView)findViewById(R.id.sitemap);
+    }
+
+    private void initClickListener(){
         login.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -39,25 +67,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        t_photo=(TextView)findViewById(R.id.photo_gallery);
         t_photo.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -66,7 +75,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
-        t_rti=(TextView)findViewById(R.id.rti);
         t_rti.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -75,7 +83,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
-        t_feedback=(TextView)findViewById(R.id.feedback);
         t_feedback.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -84,7 +91,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
-        t_sitemap=(TextView)findViewById(R.id.sitemap);
         t_sitemap.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -93,7 +99,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
-
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -106,28 +112,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the dashboard_toolbar_menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }*/
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -135,20 +119,14 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.home) {
-
-            Intent i = new Intent();
+            /*Intent i = new Intent();
             i.setClass(MainActivity.this, MainActivity.class);
-            startActivity(i);
+            startActivity(i);*/
         } else if (id == R.id.about_us) {
-
             Intent i = new Intent();
             i.setClass(MainActivity.this, AboutUs.class);
             startActivity(i);
-
         } else if (id == R.id.faqs) {
-
-
-
 
         }  else if (id == R.id.privacy) {
             Intent i = new Intent();

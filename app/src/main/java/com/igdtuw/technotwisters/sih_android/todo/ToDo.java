@@ -1,4 +1,4 @@
-package com.igdtuw.technotwisters.sih_android.activity;
+package com.igdtuw.technotwisters.sih_android.todo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,7 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.igdtuw.technotwisters.sih_android.R;
-import com.igdtuw.technotwisters.sih_android.adapters.ToDoListAdapter;
 import com.igdtuw.technotwisters.sih_android.constants.Constants;
 import com.igdtuw.technotwisters.sih_android.database.SQLHelper;
 import com.igdtuw.technotwisters.sih_android.model.ToDoListContents;

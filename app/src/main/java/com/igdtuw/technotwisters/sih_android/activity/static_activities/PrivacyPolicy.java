@@ -1,4 +1,4 @@
-package com.igdtuw.technotwisters.sih_android.activity;
+package com.igdtuw.technotwisters.sih_android.activity.static_activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
