@@ -14,15 +14,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:scaleType="fitXY"
-
-                android:src="@drawable/ncpcr_header" />
-
+        <ImageView
+            android:id="@+id/imageView_ncpcr"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ncpcr_header" />
 
         <LinearLayout
             android:layout_width="match_parent"

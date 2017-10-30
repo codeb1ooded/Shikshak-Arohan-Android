@@ -21,96 +21,155 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <!-- copyrighted content owned by Android Arena (www.androidarena.co.in)-->
     <ScrollView
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize"
-        android:orientation="vertical">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <EditText
-                android:id="@+id/name_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:hint="Name"
-                android:inputType="text"/>
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#faa519"
+            android:orientation="vertical"
+            android:layout_marginTop="40dp">
 
-            <EditText
-                android:id="@+id/email_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:hint="Email"
-                android:inputType="textEmailAddress"/>
-            <EditText
-                android:id="@+id/age"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:hint="Age"
-                android:inputType="number"/>
-            <EditText
-                android:id="@+id/contact_no"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:hint="Contact Number"
-                android:inputType="number"/>
-            <EditText
-                android:id="@+id/expertise"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:hint="Area of Expertise"
-                android:inputType="text"/>
-            <EditText
-                android:id="@+id/qualif"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:hint="Qualification"
-                android:inputType="text"/>
-            <EditText
-                android:id="@+id/experience"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:hint="Teaching Experience"
-                android:inputType="number"/>
-            <EditText
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:hint="Address"/>
-            <EditText
-                android:id="@+id/city"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:hint="City"/>
-            <EditText
-                android:id="@+id/state"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:hint="State"/>
-            <EditText
-                android:id="@+id/pref_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:hint="Preferred Location"/>
-            <Button
-                android:id="@+id/btn_submit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="SUBMIT"/>
+            <LinearLayout android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical"
+                android:background="@drawable/greybackground">
+
+                <ImageView android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/logo"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center_horizontal"/>
+
+                <EditText
+                    android:id="@+id/name_profile"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="3dp"
+                    android:hint="Name"
+                    android:inputType="text"
+                    android:background="#f3f3f3"
+                    android:paddingLeft="5dp"
+                    android:layout_marginTop="30dp"/>
+
+                <EditText
+                    android:id="@+id/email_profile"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#f3f3f3"
+                    android:paddingLeft="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_margin="3dp"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"/>
+                <EditText
+                    android:id="@+id/age"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#f3f3f3"
+                    android:paddingLeft="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_margin="3dp"
+                    android:hint="Age"
+                    android:inputType="number"/>
+                <EditText
+                    android:id="@+id/contact_no"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#f3f3f3"
+                    android:paddingLeft="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_margin="3dp"
+                    android:hint="Contact Number"
+                    android:inputType="number"/>
+                <EditText
+                    android:id="@+id/expertise"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#f3f3f3"
+                    android:paddingLeft="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_margin="3dp"
+                    android:hint="Area of Expertise"
+                    android:inputType="text"/>
+                <EditText
+                    android:id="@+id/qualif"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#f3f3f3"
+                    android:paddingLeft="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_margin="3dp"
+                    android:hint="Qualification"
+                    android:inputType="text"/>
+                <EditText
+                    android:id="@+id/experience"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#f3f3f3"
+                    android:paddingLeft="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_margin="3dp"
+                    android:hint="Teaching Experience"
+                    android:inputType="number"/>
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#f3f3f3"
+                    android:paddingLeft="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_margin="3dp"
+                    android:hint="Address"/>
+                <EditText
+                    android:id="@+id/city"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#f3f3f3"
+                    android:paddingLeft="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_margin="3dp"
+                    android:hint="City"/>
+                <EditText
+                    android:id="@+id/state"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#f3f3f3"
+                    android:paddingLeft="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_margin="3dp"
+                    android:hint="State"/>
+                <EditText
+                    android:id="@+id/pref_location"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#f3f3f3"
+                    android:paddingLeft="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_margin="3dp"
+                    android:hint="Preferred Location"/>
+
+                <Button
+                    android:id="@+id/submit"
+                    android:layout_width="190dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:text="submit"
+                    android:textColor="#fff"
+                    android:background="@drawable/btn"/>
+
+            </LinearLayout>
         </LinearLayout>
-
     </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

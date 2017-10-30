@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent i = new Intent();
-                i.setClass(MainActivity.this, LoginActivity.class);
+                i.setClass(MainActivity.this, DashboardActivity.class);
                 startActivity(i);
             }
         });

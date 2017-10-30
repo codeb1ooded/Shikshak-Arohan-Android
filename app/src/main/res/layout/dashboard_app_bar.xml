@@ -16,17 +16,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorWhite"
+            android:background="@drawable/ncpcr_header"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <FrameLayout
-        android:id="@+id/frame_layout_dashboard"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </FrameLayout>
     <include layout="@layout/dashboard_content_main" />
+
 </android.support.design.widget.CoordinatorLayout>

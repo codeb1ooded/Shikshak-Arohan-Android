@@ -62,7 +62,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
         _qualif = (EditText) findViewById(R.id.qualif);
         _experience = (EditText) findViewById(R.id.experience);
         _pref_location = (EditText) findViewById(R.id.pref_location);
-        _submit = (Button) findViewById(R.id.btn_submit);
+        _submit = (Button) findViewById(R.id.submit);
         _submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
